@@ -1,8 +1,7 @@
 import { CityName } from '../../../const';
-import { CityNameType } from '../../../types/types';
 
 type LocationsListProps = {
-  activeLocation: CityNameType;
+  activeLocation: CityName;
 };
 
 function LocationsList({activeLocation}: LocationsListProps): JSX.Element {

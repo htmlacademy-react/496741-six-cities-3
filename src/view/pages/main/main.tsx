@@ -1,10 +1,11 @@
-import { CityNameType, OfferType } from '../../../types/types.ts';
+import { CityName } from '../../../const.ts';
+import { OfferType } from '../../../types/types.ts';
 import LocationsList from '../../components/locations-list/locations-list.tsx';
 import PlaceCard from '../../components/place-card/place-card.tsx';
 
 type MainProps = {
   offers: OfferType[];
-  activeLocation: CityNameType;
+  activeLocation: CityName;
 };
 
 function Main({offers, activeLocation}: MainProps): JSX.Element {
