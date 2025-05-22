@@ -1,5 +1,5 @@
-import { CityName } from '../../../../const';
-import { CityNameType } from '../../../../types/types';
+import { CityName } from '../../../const';
+import { CityNameType } from '../../../types/types';
 
 type LocationsListProps = {
   activeLocation: CityNameType;
