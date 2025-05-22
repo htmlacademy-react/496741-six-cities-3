@@ -1,3 +1,5 @@
+import { CityNameType } from './types/types';
+
 export enum Placement {
   Apartment = 'apartment',
   Room = 'room',
@@ -14,4 +16,4 @@ export enum CityName {
   Dusseldorf = 'Dusseldorf',
 }
 
-export const DEFAULT_ACTIVE_LOCATION = CityName.Amsterdam;
+export const DEFAULT_ACTIVE_LOCATION: CityNameType = CityName.Amsterdam;

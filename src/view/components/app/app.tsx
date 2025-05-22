@@ -1,10 +1,9 @@
-import { CityName } from '../../../const.ts';
-import { OfferType } from '../../../types/types.ts';
+import { CityNameType, OfferType } from '../../../types/types.ts';
 import Main from '../../pages/main/main.tsx';
 
 type AppProps = {
   offers: OfferType[];
-  activeLocation: CityName;
+  activeLocation: CityNameType;
 };
 
 function App({offers, activeLocation}: AppProps) : JSX.Element {

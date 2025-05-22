@@ -1,19 +1,21 @@
-import { CityName, Placement } from '../const';
+type HousingType = 'apartment' | 'room' | 'house' | 'hotel';
+export type CityNameType = 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf';
 
 type LocationType = {
   latitude: number;
   longitude: number;
   zoom: number;
 }
+
 type CityType = {
-  name: CityName;
+  name: CityNameType;
   location: LocationType;
 }
 
 export type OfferType = {
   id: string;
   title: string;
-  type: Placement;
+  type: HousingType;
   price: number;
   previewImage: string;
   city: CityType;
