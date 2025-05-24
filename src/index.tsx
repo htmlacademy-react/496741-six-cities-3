@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom/client';
 import App from './view/components/app/app';
 import { mockOffers } from './model/mock.ts';
 import { OfferType } from './types/types.ts';
-import { DEFAULT_ACTIVE_LOCATION } from './const.ts';
+import { CityName } from './const.ts';
+
+const DEFAULT_ACTIVE_LOCATION: CityName = CityName.Amsterdam;
 
 const offers: OfferType[] = mockOffers;
 
