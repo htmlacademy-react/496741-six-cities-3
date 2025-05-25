@@ -5,6 +5,11 @@ function NotFound(): JSX.Element {
     textDecoration: 'underline',
   };
 
+  const imgStyle = {
+    maxWidth: '100%',
+    height: 'auto',
+  };
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -38,15 +43,13 @@ function NotFound(): JSX.Element {
 
       <main
         className="page__main page__main--index"
-        style={{margin: 'auto'}}
+        style={{margin: 'auto', overflow: 'visible'}}
       >
         <h1>
-          404.
-          <br />
-          <small>Page not found</small>
+          404. Page not found
         </h1>
         <a href="/" style={linkStyile}>Go to main page</a>
-        <img src="img/not-found.jpg" alt="Not-found" />
+        <img src="img/not-found.jpg" alt="Not-found" style={imgStyle}/>
       </main>
     </div>
   );
