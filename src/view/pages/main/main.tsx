@@ -1,6 +1,7 @@
 import { CityName } from '../../../const.ts';
 import { OfferType } from '../../../types/types.ts';
 import LocationsList from '../../components/locations-list/locations-list.tsx';
+import Logo from '../../components/logo/logo.tsx';
 import PlaceCard from '../../components/place-card/place-card.tsx';
 
 type MainProps = {
@@ -15,9 +16,7 @@ function Main({offers, activeLocation}: MainProps): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link header__logo-link--active">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-              </a>
+              <Logo isActive />
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
