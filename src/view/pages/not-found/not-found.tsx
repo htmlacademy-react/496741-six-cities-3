@@ -6,6 +6,7 @@ function NotFound(): JSX.Element {
   };
 
   const imgStyle = {
+    marginBottom: '50px',
     maxWidth: '100%',
     height: 'auto',
   };

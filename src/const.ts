@@ -13,3 +13,10 @@ export enum CityName {
   Hamburg = 'Hamburg',
   Dusseldorf = 'Dusseldorf',
 }
+
+export enum AppRoute {
+  Main = '/',
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer/',
+}

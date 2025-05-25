@@ -1,6 +1,11 @@
-import { CityName } from '../../../const.ts';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { AppRoute, CityName } from '../../../const.ts';
 import { OfferType } from '../../../types/types.ts';
 import Main from '../../pages/main/main.tsx';
+import Favorites from '../../pages/favorites/favorites.tsx';
+import Login from '../../pages/login/login.tsx';
+import NotFound from '../../pages/not-found/not-found.tsx';
+import Offer from '../../pages/offer/offer.tsx';
 
 type AppProps = {
   offers: OfferType[];
@@ -10,7 +15,30 @@ type AppProps = {
 function App({offers, activeLocation}: AppProps) : JSX.Element {
 
   return (
-    <Main offers={offers} activeLocation={activeLocation}/>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path={AppRoute.Main}
+          element={<Main offers={offers} activeLocation={activeLocation}/>}
+        />
+        <Route
+          path={AppRoute.Favorites}
+          element={<Favorites />}
+        />
+        <Route
+          path={AppRoute.Login}
+          element={<Login />}
+        />
+        <Route
+          path={AppRoute.Offer}
+          element={<Offer />}
+        />
+        <Route
+          path='*'
+          element={<NotFound />}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
