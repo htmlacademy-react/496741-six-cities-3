@@ -10,14 +10,13 @@ import PrivateRoute from '../private-route/private-route.tsx';
 import Layout from '../layout/layout.tsx';
 import { getAuthorizationStatus } from '../../../model/mock.ts';
 
-const authorizationStatus = getAuthorizationStatus();
-
 type AppProps = {
   offers: OfferType[];
   activeLocation: CityName;
 };
 
 function App({offers, activeLocation}: AppProps) : JSX.Element {
+  const authorizationStatus = getAuthorizationStatus();
 
   return (
     <BrowserRouter>
@@ -33,16 +32,18 @@ function App({offers, activeLocation}: AppProps) : JSX.Element {
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute
-                authorionStatus={authorizationStatus}
-              >
+              <PrivateRoute authorionStatus={authorizationStatus}>
                 <Favorites />
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Login}
-            element={<Login />}
+            element={
+              <PrivateRoute authorionStatus={authorizationStatus} isReverse>
+                <Login />
+              </PrivateRoute>
+            }
           />
           <Route
             path={AppRoute.Offer}
