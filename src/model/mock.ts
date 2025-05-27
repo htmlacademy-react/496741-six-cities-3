@@ -1,4 +1,4 @@
-import { CityName, Placement } from '../const.ts';
+import { AuthorizationStatus, CityName, Placement } from '../const.ts';
 import { OfferType } from '../types/types.ts';
 
 
@@ -234,6 +234,10 @@ const mockOffers: OfferType[] = [
     rating: 2.1
   }
 ];
+
+const getAuthorizationStatus = () => AuthorizationStatus.NoAuth;
+
 export {
-  mockOffers
+  mockOffers,
+  getAuthorizationStatus,
 };
