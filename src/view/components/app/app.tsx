@@ -9,6 +9,7 @@ import Offer from '../../pages/offer/offer.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
 import Layout from '../layout/layout.tsx';
 import { getAuthorizationStatus } from '../../../model/mock.ts';
+import { HelmetProvider } from 'react-helmet-async';
 
 type AppProps = {
   offers: OfferType[];
@@ -19,43 +20,45 @@ function App({offers, activeLocation}: AppProps) : JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path={AppRoute.Root}
-          element={<Layout />}
-        >
+    <HelmetProvider>
+      <BrowserRouter>
+        <Routes>
           <Route
-            index
-            element={<Main offers={offers} activeLocation={activeLocation}/>}
-          />
-          <Route
-            path={AppRoute.Favorites}
-            element={
-              <PrivateRoute authorionStatus={authorizationStatus}>
-                <Favorites />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={AppRoute.Login}
-            element={
-              <PrivateRoute authorionStatus={authorizationStatus} isReverse>
-                <Login />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={AppRoute.Offer}
-            element={<Offer offer={offers[0]}/>}
-          />
-          <Route
-            path='*'
-            element={<NotFound />}
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+            path={AppRoute.Root}
+            element={<Layout />}
+          >
+            <Route
+              index
+              element={<Main offers={offers} activeLocation={activeLocation}/>}
+            />
+            <Route
+              path={AppRoute.Favorites}
+              element={
+                <PrivateRoute authorionStatus={authorizationStatus}>
+                  <Favorites />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path={AppRoute.Login}
+              element={
+                <PrivateRoute authorionStatus={authorizationStatus} isReverse>
+                  <Login />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path={AppRoute.Offer}
+              element={<Offer offer={offers[0]}/>}
+            />
+            <Route
+              path='*'
+              element={<NotFound />}
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
