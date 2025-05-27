@@ -7,6 +7,7 @@ import Login from '../../pages/login/login.tsx';
 import NotFound from '../../pages/not-found/not-found.tsx';
 import Offer from '../../pages/offer/offer.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
+import Layout from '../layout/layout.tsx';
 
 type AppProps = {
   offers: OfferType[];
@@ -19,31 +20,36 @@ function App({offers, activeLocation}: AppProps) : JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route
-          path={AppRoute.Main}
-          element={<Main offers={offers} activeLocation={activeLocation}/>}
-        />
-        <Route
-          path={AppRoute.Favorites}
-          element={
-            <PrivateRoute
-              authorionStatus={AuthorizationStatus.NoAuth}
-            >
-              <Favorites />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Login}
-          element={<Login />}
-        />
-        <Route
-          path={AppRoute.Offer}
-          element={<Offer />}
-        />
-        <Route
-          path='*'
-          element={<NotFound />}
-        />
+          path={AppRoute.Root}
+          element={<Layout />}
+        >
+          <Route
+            index
+            element={<Main offers={offers} activeLocation={activeLocation}/>}
+          />
+          <Route
+            path={AppRoute.Favorites}
+            element={
+              <PrivateRoute
+                authorionStatus={AuthorizationStatus.NoAuth}
+              >
+                <Favorites />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.Login}
+            element={<Login />}
+          />
+          <Route
+            path={AppRoute.Offer}
+            element={<Offer />}
+          />
+          <Route
+            path='*'
+            element={<NotFound />}
+          />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
