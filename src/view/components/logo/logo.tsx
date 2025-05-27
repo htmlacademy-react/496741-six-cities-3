@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { AppRoute } from '../../../const';
 
 type LogoProps = {
   isActive: boolean;
@@ -7,7 +8,7 @@ function Logo({isActive}: LogoProps): JSX.Element {
   const logoClass = isActive ?
     'header__logo-link header__logo-link--active' :
     'className="header__logo-link';
-  const logoLink = isActive ? '' : '/';
+  const logoLink = isActive ? '' : AppRoute.Root;
 
   return (
     <Link

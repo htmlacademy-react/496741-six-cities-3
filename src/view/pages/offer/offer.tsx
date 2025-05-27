@@ -1,4 +1,23 @@
-function Offer(): JSX.Element {
+import { OfferType } from '../../../types/types.tsx';
+
+type OfferProps = {
+  offer: OfferType;
+}
+
+function Offer({offer}: OfferProps): JSX.Element {
+  const {
+    // id,
+    // city,
+    // location,
+    rating,
+    title,
+    type,
+    price,
+    // previewImage,
+    isFavorite,
+    isPremium,
+  } = offer;
+
   return (
     <main className="page__main page__main--offer">
       <section className="offer">
@@ -26,14 +45,20 @@ function Offer(): JSX.Element {
         </div>
         <div className="offer__container container">
           <div className="offer__wrapper">
+            {isPremium &&
             <div className="offer__mark">
               <span>Premium</span>
-            </div>
+            </div>}
             <div className="offer__name-wrapper">
               <h1 className="offer__name">
-                Beautiful &amp; luxurious studio at great location
+                {title}
               </h1>
-              <button className="offer__bookmark-button button" type="button">
+              <button
+                className={isFavorite
+                  ? 'offer__bookmark-button offer__bookmark-button--active button'
+                  : 'offer__bookmark-button button'}
+                type="button"
+              >
                 <svg className="offer__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
@@ -45,11 +70,11 @@ function Offer(): JSX.Element {
                 <span style={{width: '80%'}}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
-              <span className="offer__rating-value rating__value">4.8</span>
+              <span className="offer__rating-value rating__value">{rating}</span>
             </div>
             <ul className="offer__features">
               <li className="offer__feature offer__feature--entire">
-                Apartment
+                {type}
               </li>
               <li className="offer__feature offer__feature--bedrooms">
                 3 Bedrooms
@@ -59,7 +84,7 @@ function Offer(): JSX.Element {
               </li>
             </ul>
             <div className="offer__price">
-              <b className="offer__price-value">&euro;120</b>
+              <b className="offer__price-value">&euro;{price}</b>
               <span className="offer__price-text">&nbsp;night</span>
             </div>
             <div className="offer__inside">
