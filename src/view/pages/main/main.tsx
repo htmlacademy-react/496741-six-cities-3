@@ -1,7 +1,7 @@
 import { CityName } from '../../../const.ts';
 import { OfferType } from '../../../types/types.ts';
 import LocationsList from '../../components/locations-list/locations-list.tsx';
-import PlaceCard from '../../components/place-card/place-card.tsx';
+import PlaceList from '../../components/place-list/place-list.tsx';
 
 type MainProps = {
   offers: OfferType[];
@@ -35,11 +35,7 @@ function Main({offers, activeLocation}: MainProps): JSX.Element {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <div className="cities__places-list places__list tabs__content">
-              {offers.map((offer) => (
-                <PlaceCard key={offer.id} offer={offer} />
-              ))}
-            </div>
+            <PlaceList offers={offers}/>
           </section>
           <div className="cities__right-section">
             <section className="cities__map map"></section>
