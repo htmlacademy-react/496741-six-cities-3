@@ -4,9 +4,10 @@ import { AppRoute } from '../../../const.ts';
 
 type PlaceCardProps = {
   offer: OfferType;
+  isFavoriteCard?: boolean;
 }
 
-function PlaceCard({offer}: PlaceCardProps): JSX.Element {
+function PlaceCard({offer, isFavoriteCard}: PlaceCardProps): JSX.Element {
   const {
     title,
     type,
@@ -15,15 +16,20 @@ function PlaceCard({offer}: PlaceCardProps): JSX.Element {
     isFavorite,
     isPremium,
   } = offer;
+
+  const cardName = isFavoriteCard ? 'favorites' : 'cities';
   return (
-    <article className="cities__card place-card">
+    <article className={`${cardName}__card place-card`}>
       {isPremium && <div className="place-card__mark"><span>Premium</span></div>}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${cardName}__image-wrapper place-card__image-wrapper`}>
         <Link to={AppRoute.Offer}>
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
+          <img className="place-card__image" src={previewImage}
+            width={isFavoriteCard ? '150' : '260'}
+            height={isFavoriteCard ? '110' : '200'} alt="Place image"
+          />
         </Link>
       </div>
-      <div className="place-card__info">
+      <div className={`${isFavoriteCard ? 'favorites__card-info' : ''}place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
