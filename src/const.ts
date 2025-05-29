@@ -1,3 +1,5 @@
+export const MAX_RATING = 5;
+
 export enum Placement {
   Apartment = 'apartment',
   Room = 'room',
