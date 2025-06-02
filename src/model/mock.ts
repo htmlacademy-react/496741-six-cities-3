@@ -283,7 +283,7 @@ const mockReviews: ReviewType[] = [
   },
 ];
 
-const getAuthorizationStatus = () => AuthorizationStatus.Auth;
+const getAuthorizationStatus = () => AuthorizationStatus.NoAuth;
 
 export {
   mockOffers,
