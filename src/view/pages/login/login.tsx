@@ -7,9 +7,7 @@ type LoginProps = {
 
 function Login({authorionStatus}: LoginProps): JSX.Element {
   if (authorionStatus === AuthorizationStatus.Auth) {
-    return (
-      <Navigate to={AppRoute.Root} />
-    );
+    return <Navigate to={AppRoute.Root} />;
   }
   return (
     <main className="page__main page__main--login">
