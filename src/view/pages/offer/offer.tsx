@@ -1,13 +1,20 @@
 import { ReviewType, OfferType } from '../../../types/types.tsx';
 import ReviewsItem from '../../components/reviews-item/reviews-item.tsx';
 import ReviewsForm from '../../components/reviews-form/reviews-form.tsx';
+import { Navigate, useParams } from 'react-router-dom';
 
 type OfferProps = {
-  offer: OfferType;
+  offers: OfferType[];
   reviews: ReviewType[];
 }
 
-function Offer({offer, reviews}: OfferProps): JSX.Element {
+function Offer({offers, reviews}: OfferProps): JSX.Element {
+  const { id } = useParams();
+  const currentOffer: OfferType | undefined = offers.find((offer) => offer.id === id);
+  console.log(id, currentOffer);
+  if (!currentOffer) {
+    return <Navigate to='*' />;
+  }
   const {
     // id,
     // city,
@@ -19,7 +26,7 @@ function Offer({offer, reviews}: OfferProps): JSX.Element {
     // previewImage,
     isFavorite,
     isPremium,
-  } = offer;
+  } = currentOffer;
 
   return (
     <main className="page__main page__main--offer">
