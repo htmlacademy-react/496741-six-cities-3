@@ -11,7 +11,7 @@ type OfferProps = {
 function Offer({offers, reviews}: OfferProps): JSX.Element {
   const { id } = useParams();
   const currentOffer: OfferType | undefined = offers.find((offer) => offer.id === id);
-  console.log(id, currentOffer);
+
   if (!currentOffer) {
     return <Navigate to='*' />;
   }
