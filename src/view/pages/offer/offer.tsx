@@ -149,7 +149,7 @@ function Offer({offers, reviews}: OfferProps): JSX.Element {
         </div>
         <section className="offer__map map"></section>
       </section>
-      {offers ? <NearPlaces offers={offers.slice(0, 3)} /> : ''}
+      {offers && <NearPlaces offers={offers.slice(0, 3)} />}
     </main>
   );
 }
