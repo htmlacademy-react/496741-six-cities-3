@@ -4,9 +4,25 @@ import { OfferType } from '../../../types/types.ts';
 type PlaceCardProps = {
   offer: OfferType;
   isFavoriteCard?: boolean;
+  isNearPlacesCard?: boolean;
 }
 
-function PlaceCard({offer, isFavoriteCard}: PlaceCardProps): JSX.Element {
+type CardNameType = {
+  isFavoriteCard: boolean | undefined;
+  isNearPlacesCard: boolean | undefined;
+}
+
+const getCardName = ({isFavoriteCard, isNearPlacesCard}: CardNameType): string => {
+  let cardName: string = 'cities';
+  if (isFavoriteCard) {
+    cardName = 'favorites';
+  } else if (isNearPlacesCard) {
+    cardName = 'near-places';
+  }
+  return cardName;
+};
+
+function PlaceCard({offer, isFavoriteCard, isNearPlacesCard}: PlaceCardProps): JSX.Element {
   const {
     id,
     title,
@@ -17,7 +33,11 @@ function PlaceCard({offer, isFavoriteCard}: PlaceCardProps): JSX.Element {
     isPremium,
   } = offer;
 
-  const cardName = isFavoriteCard ? 'favorites' : 'cities';
+
+  const cardName = getCardName({
+    isFavoriteCard,
+    isNearPlacesCard,
+  });
 
   return (
     <article className={`${cardName}__card place-card`}>
