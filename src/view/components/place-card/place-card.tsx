@@ -1,12 +1,6 @@
 import { Link } from 'react-router-dom';
 import { OfferType } from '../../../types/types.ts';
 
-type PlaceCardProps = {
-  offer: OfferType;
-  isFavoriteCard?: boolean;
-  isNearPlacesCard?: boolean;
-}
-
 type CardNameType = {
   isFavoriteCard: boolean | undefined;
   isNearPlacesCard: boolean | undefined;
@@ -22,7 +16,19 @@ const getCardName = ({isFavoriteCard, isNearPlacesCard}: CardNameType): string =
   return cardName;
 };
 
-function PlaceCard({offer, isFavoriteCard, isNearPlacesCard}: PlaceCardProps): JSX.Element {
+type PlaceCardProps = {
+  offer: OfferType;
+  handleHover: (offer?: OfferType) => void;
+  isFavoriteCard?: boolean;
+  isNearPlacesCard?: boolean;
+}
+
+function PlaceCard({
+  offer,
+  handleHover,
+  isFavoriteCard,
+  isNearPlacesCard,
+}: PlaceCardProps): JSX.Element {
   const {
     id,
     title,
@@ -33,14 +39,20 @@ function PlaceCard({offer, isFavoriteCard, isNearPlacesCard}: PlaceCardProps): J
     isPremium,
   } = offer;
 
-
   const cardName = getCardName({
     isFavoriteCard,
     isNearPlacesCard,
   });
 
+  const handleMouseOn = () => handleHover(offer);
+  const handleMouseOff = () => handleHover();
+
   return (
-    <article className={`${cardName}__card place-card`}>
+    <article
+      className={`${cardName}__card place-card`}
+      onMouseEnter={handleMouseOn}
+      onMouseLeave={handleMouseOff}
+    >
       {isPremium && <div className="place-card__mark"><span>Premium</span></div>}
       <div className={`${cardName}__image-wrapper place-card__image-wrapper`}>
         <Link to={`/offer/${id}`}>
