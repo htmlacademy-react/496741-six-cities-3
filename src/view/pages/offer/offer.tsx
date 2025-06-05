@@ -2,6 +2,28 @@ import { ReviewType, OfferType } from '../../../types/types.tsx';
 import ReviewsItem from '../../components/reviews-item/reviews-item.tsx';
 import ReviewsForm from '../../components/reviews-form/reviews-form.tsx';
 import { Navigate, useParams } from 'react-router-dom';
+import { nanoid } from '@reduxjs/toolkit';
+
+type ImageGalleryProps = {
+  images: string[];
+}
+
+function ImageGallery({images}: ImageGalleryProps): JSX.Element {
+  return (
+    <div className="offer__gallery-container container">
+      <div className="offer__gallery">
+        {images.map((image) => {
+          const id = nanoid();
+          return (
+            <div className="offer__image-wrapper" key={`${image}-${id}`}>
+              <img className="offer__image" src={image} alt="Photo studio" />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  )
+}
 
 type OfferProps = {
   offers: OfferType[];
@@ -26,33 +48,13 @@ function Offer({offers, reviews}: OfferProps): JSX.Element {
     // previewImage,
     isFavorite,
     isPremium,
+    images,
   } = currentOffer;
 
   return (
     <main className="page__main page__main--offer">
       <section className="offer">
-        <div className="offer__gallery-container container">
-          <div className="offer__gallery">
-            <div className="offer__image-wrapper">
-              <img className="offer__image" src="img/room.jpg" alt="Photo studio" />
-            </div>
-            <div className="offer__image-wrapper">
-              <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
-            </div>
-            <div className="offer__image-wrapper">
-              <img className="offer__image" src="img/apartment-02.jpg" alt="Photo studio" />
-            </div>
-            <div className="offer__image-wrapper">
-              <img className="offer__image" src="img/apartment-03.jpg" alt="Photo studio" />
-            </div>
-            <div className="offer__image-wrapper">
-              <img className="offer__image" src="img/studio-01.jpg" alt="Photo studio" />
-            </div>
-            <div className="offer__image-wrapper">
-              <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
-            </div>
-          </div>
-        </div>
+        {images.length > 0 ? <ImageGallery images={images} /> : ''}
         <div className="offer__container container">
           <div className="offer__wrapper">
             {isPremium &&
