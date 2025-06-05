@@ -50,7 +50,7 @@ function App({offers, reviews, activeLocation}: AppProps) : JSX.Element {
             />
             <Route
               path='*'
-              element={<NotFound />}
+              element={<NotFound type='NOT_FOUND' />}
             />
           </Route>
         </Routes>

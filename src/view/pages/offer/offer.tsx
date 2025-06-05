@@ -1,9 +1,10 @@
 import { ReviewType, OfferType } from '../../../types/types.tsx';
 import ReviewsItem from '../../components/reviews-item/reviews-item.tsx';
 import ReviewsForm from '../../components/reviews-form/reviews-form.tsx';
-import { Navigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ImageGallery from '../../components/image-gallery/image-gallery.tsx';
 import NearPlaces from '../../components/near-places/near-places.tsx';
+import NotFound from '../not-found/not-found.tsx';
 
 type OfferProps = {
   offers: OfferType[];
@@ -15,7 +16,7 @@ function Offer({offers, reviews}: OfferProps): JSX.Element {
   const currentOffer: OfferType | undefined = offers.find((offer) => offer.id === id);
 
   if (!currentOffer) {
-    return <Navigate to='*' />;
+    return <NotFound type='ID_IS_NOT_CORRECT' />;
   }
   const {
     // id,

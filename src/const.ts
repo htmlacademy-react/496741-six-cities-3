@@ -56,3 +56,8 @@ export const stars = [
   {value: 2, label: 'badly'},
   {value: 1, label: 'terribly'},
 ];
+
+export const TextNotFound = {
+  NOT_FOUND: '404. Page not found',
+  ID_IS_NOT_CORRECT: 'There is no offer with this id, try entering another id',
+};
