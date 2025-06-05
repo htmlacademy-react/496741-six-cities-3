@@ -22,7 +22,7 @@ function ImageGallery({images}: ImageGalleryProps): JSX.Element {
         })}
       </div>
     </div>
-  )
+  );
 }
 
 type OfferProps = {
