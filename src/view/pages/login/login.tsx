@@ -1,4 +1,14 @@
-function Login(): JSX.Element {
+import { Navigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../../const.ts';
+
+type LoginProps = {
+  authorionStatus: AuthorizationStatus;
+};
+
+function Login({authorionStatus}: LoginProps): JSX.Element {
+  if (authorionStatus === AuthorizationStatus.Auth) {
+    return <Navigate to={AppRoute.Root} />;
+  }
   return (
     <main className="page__main page__main--login">
       <div className="page__login-container container">

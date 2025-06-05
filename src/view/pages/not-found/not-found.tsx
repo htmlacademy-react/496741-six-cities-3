@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { TextNotFound } from '../../../const';
 
 const mainStyle = {
   alignItems: 'center'
@@ -15,14 +16,17 @@ const imgStyle = {
   height: 'auto',
 };
 
-function NotFound(): JSX.Element {
+type NotFoundProps = {
+  type: keyof typeof TextNotFound;
+}
+function NotFound({type}: NotFoundProps): JSX.Element {
   return (
     <main
       className="page__main page__main--index"
       style={mainStyle}
     >
       <h1>
-        404. Page not found
+        {TextNotFound[type]}
       </h1>
       <Link to="/" style={linkStyile}>Go to main page</Link>
       <img src="img/not-found.jpg" alt="Not-found" style={imgStyle}/>
