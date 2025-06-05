@@ -34,7 +34,7 @@ function Offer({offers, reviews}: OfferProps): JSX.Element {
   return (
     <main className="page__main page__main--offer">
       <section className="offer">
-        {images.length > 0 ? <ImageGallery images={images} /> : ''}
+        {images.length > 0 && <ImageGallery images={images} />}
         <div className="offer__container container">
           <div className="offer__wrapper">
             {isPremium &&

@@ -18,7 +18,7 @@ const getCardName = ({isFavoriteCard, isNearPlacesCard}: CardNameType): string =
 
 type PlaceCardProps = {
   offer: OfferType;
-  handleHover: (offer?: OfferType) => void;
+  handleHover?: (offer?: OfferType) => void;
   isFavoriteCard?: boolean;
   isNearPlacesCard?: boolean;
 }
@@ -44,8 +44,8 @@ function PlaceCard({
     isNearPlacesCard,
   });
 
-  const handleMouseOn = () => handleHover(offer);
-  const handleMouseOff = () => handleHover();
+  const handleMouseOn = () => handleHover && handleHover(offer);
+  const handleMouseOff = () => handleHover && handleHover();
 
   return (
     <article

@@ -1,5 +1,5 @@
-import { OfferType } from '../../../types/types';
-import PlaceCard from '../place-card/place-card';
+import { OfferType } from '../../../types/types.ts';
+import PlaceCard from '../place-card/place-card.tsx';
 
 type NearPlacesProps = {
   offers: OfferType[];
