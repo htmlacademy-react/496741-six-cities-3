@@ -1,12 +1,12 @@
 import { CityName, Placement } from '../const';
 
-type LocationType = {
+export type LocationType = {
   latitude: number;
   longitude: number;
   zoom: number;
 }
 
-type CityType = {
+export type CityType = {
   name: CityName;
   location: LocationType;
 }

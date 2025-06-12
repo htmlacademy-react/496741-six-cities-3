@@ -3,7 +3,7 @@ import { CityName } from '../../../const.ts';
 import { OfferType } from '../../../types/types.ts';
 import LocationsList from '../../components/locations-list/locations-list.tsx';
 import PlaceList from '../../components/place-list/place-list.tsx';
-import { Nullable } from 'vitest';
+import Map from '../../components/map/map.tsx';
 
 type MainProps = {
   offers: OfferType[];
@@ -11,9 +11,9 @@ type MainProps = {
 };
 
 function Main({offers, activeLocation}: MainProps): JSX.Element {
-  const [activeOffer, setActiveOffer] = useState<Nullable<OfferType>>(null);
-  const handleHover = (offer?: OfferType) => {
-    setActiveOffer(offer || null);
+  const [activeOffer, setActiveOffer] = useState<OfferType | undefined>(undefined);
+  const handleOfferHover = (offer?: OfferType) => {
+    setActiveOffer(offer || undefined);
   };
 
   return (
@@ -42,10 +42,14 @@ function Main({offers, activeLocation}: MainProps): JSX.Element {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <PlaceList offers={offers} handleHover={handleHover}/>
+            <PlaceList offers={offers} onOfferHover={handleOfferHover}/>
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"><p>{activeOffer?.id}</p></section>
+            <Map
+              city = {offers[0].city}
+              offers={offers}
+              activeOffer = {activeOffer}
+            />
           </div>
         </div>
       </div>

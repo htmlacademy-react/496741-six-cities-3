@@ -18,14 +18,14 @@ const getCardName = ({isFavoriteCard, isNearPlacesCard}: CardNameType): string =
 
 type PlaceCardProps = {
   offer: OfferType;
-  handleHover?: (offer?: OfferType) => void;
+  onOfferHover?: (offer?: OfferType) => void;
   isFavoriteCard?: boolean;
   isNearPlacesCard?: boolean;
 }
 
 function PlaceCard({
   offer,
-  handleHover,
+  onOfferHover,
   isFavoriteCard,
   isNearPlacesCard,
 }: PlaceCardProps): JSX.Element {
@@ -44,8 +44,8 @@ function PlaceCard({
     isNearPlacesCard,
   });
 
-  const handleMouseOn = () => handleHover && handleHover(offer);
-  const handleMouseOff = () => handleHover && handleHover();
+  const handleMouseOn = () => onOfferHover && onOfferHover(offer);
+  const handleMouseOff = () => onOfferHover && onOfferHover(undefined);
 
   return (
     <article

@@ -3,10 +3,14 @@ import PlaceCard from '../place-card/place-card.tsx';
 
 type PlaceListProps = {
   offers: OfferType[];
-  handleHover: (offer?: OfferType) => void;
+  onOfferHover: (offer?: OfferType) => void;
 }
 
-function PlaceList({offers, handleHover}: PlaceListProps): JSX.Element {
+function PlaceList({offers, onOfferHover}: PlaceListProps): JSX.Element {
+
+  const handleOfferHover = (offer?: OfferType) => {
+    onOfferHover(offer || undefined);
+  };
 
   return (
     <div className="cities__places-list places__list tabs__content">
@@ -14,7 +18,7 @@ function PlaceList({offers, handleHover}: PlaceListProps): JSX.Element {
         <PlaceCard
           key={offer.id}
           offer={offer}
-          handleHover={handleHover}
+          onOfferHover={handleOfferHover}
         />
       ))}
     </div>
