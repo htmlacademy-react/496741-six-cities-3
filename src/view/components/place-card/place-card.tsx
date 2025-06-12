@@ -1,14 +1,36 @@
 import { Link } from 'react-router-dom';
 import { OfferType } from '../../../types/types.ts';
-import { AppRoute } from '../../../const.ts';
+
+type CardNameType = {
+  isFavoriteCard: boolean | undefined;
+  isNearPlacesCard: boolean | undefined;
+}
+
+const getCardName = ({isFavoriteCard, isNearPlacesCard}: CardNameType): string => {
+  let cardName: string = 'cities';
+  if (isFavoriteCard) {
+    cardName = 'favorites';
+  } else if (isNearPlacesCard) {
+    cardName = 'near-places';
+  }
+  return cardName;
+};
 
 type PlaceCardProps = {
   offer: OfferType;
+  onOfferHover?: (offer?: OfferType) => void;
   isFavoriteCard?: boolean;
+  isNearPlacesCard?: boolean;
 }
 
-function PlaceCard({offer, isFavoriteCard}: PlaceCardProps): JSX.Element {
+function PlaceCard({
+  offer,
+  onOfferHover,
+  isFavoriteCard,
+  isNearPlacesCard,
+}: PlaceCardProps): JSX.Element {
   const {
+    id,
     title,
     type,
     price,
@@ -17,12 +39,23 @@ function PlaceCard({offer, isFavoriteCard}: PlaceCardProps): JSX.Element {
     isPremium,
   } = offer;
 
-  const cardName = isFavoriteCard ? 'favorites' : 'cities';
+  const cardName = getCardName({
+    isFavoriteCard,
+    isNearPlacesCard,
+  });
+
+  const handleMouseOn = () => onOfferHover && onOfferHover(offer);
+  const handleMouseOff = () => onOfferHover && onOfferHover(undefined);
+
   return (
-    <article className={`${cardName}__card place-card`}>
+    <article
+      className={`${cardName}__card place-card`}
+      onMouseEnter={handleMouseOn}
+      onMouseLeave={handleMouseOff}
+    >
       {isPremium && <div className="place-card__mark"><span>Premium</span></div>}
       <div className={`${cardName}__image-wrapper place-card__image-wrapper`}>
-        <Link to={AppRoute.Offer}>
+        <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage}
             width={isFavoriteCard ? '150' : '260'}
             height={isFavoriteCard ? '110' : '200'} alt="Place image"
@@ -53,7 +86,7 @@ function PlaceCard({offer, isFavoriteCard}: PlaceCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={AppRoute.Offer}>{title}</Link>
+          <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

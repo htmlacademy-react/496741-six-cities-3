@@ -25,7 +25,15 @@ const mockOffers: OfferType[] = [
     },
     isFavorite: false,
     isPremium: false,
-    rating: 1.1
+    rating: 1.1,
+    images: [
+      'img/room.jpg',
+      'img/apartment-01.jpg',
+      'img/apartment-02.jpg',
+      'img/apartment-03.jpg',
+      'img/studio-01.jpg',
+      'img/apartment-01.jpg',
+    ],
   },
   {
     id: '857881e6-89be-449d-b899-c5faf68fa6a4',
@@ -48,7 +56,13 @@ const mockOffers: OfferType[] = [
     },
     isFavorite: false,
     isPremium: false,
-    rating: 1.1
+    rating: 1.1,
+    images: [
+      'img/room.jpg',
+      'img/apartment-01.jpg',
+      'img/apartment-02.jpg',
+      'img/apartment-03.jpg',
+    ],
   },
   {
     id: '2611963b-a59f-40f6-b4f0-e754873fc1b1',
@@ -71,7 +85,12 @@ const mockOffers: OfferType[] = [
     },
     isFavorite: false,
     isPremium: false,
-    rating: 3
+    rating: 3,
+    images: [
+      'img/room.jpg',
+      'img/studio-01.jpg',
+      'img/apartment-01.jpg',
+    ],
   },
   {
     id: 'f5de0fc9-7d4c-4921-83db-c5a36acb5539',
@@ -94,7 +113,14 @@ const mockOffers: OfferType[] = [
     },
     isFavorite: false,
     isPremium: false,
-    rating: 4.2
+    rating: 4.2,
+    images: [
+      'img/room.jpg',
+      'img/apartment-01.jpg',
+      'img/apartment-02.jpg',
+      'img/apartment-03.jpg',
+      'img/apartment-01.jpg',
+    ],
   },
   {
     id: '8f910bc6-80c7-4c05-a6a0-082e2ea8ef8d',
@@ -117,7 +143,15 @@ const mockOffers: OfferType[] = [
     },
     isFavorite: false,
     isPremium: false,
-    rating: 4.5
+    rating: 4.5,
+    images: [
+      'img/room.jpg',
+      'img/apartment-01.jpg',
+      'img/room.jpg',
+      'img/apartment-01.jpg',
+      'img/room.jpg',
+      'img/apartment-01.jpg',
+    ],
   },
   {
     id: 'fa0bcfec-c348-43f8-952e-9f14148ad276',
@@ -140,7 +174,12 @@ const mockOffers: OfferType[] = [
     },
     isFavorite: false,
     isPremium: false,
-    rating: 2.7
+    rating: 2.7,
+    images: [
+      'img/apartment-01.jpg',
+      'img/apartment-02.jpg',
+      'img/apartment-03.jpg',
+    ],
   },
   {
     id: '7568111c-f470-4782-b0ed-fc9637d3c773',
@@ -163,7 +202,8 @@ const mockOffers: OfferType[] = [
     },
     isFavorite: false,
     isPremium: true,
-    rating: 2.3
+    rating: 2.3,
+    images: [],
   },
   {
     id: 'fa2ff465-84c2-4de8-8e62-f1568c81cb82',
@@ -186,7 +226,15 @@ const mockOffers: OfferType[] = [
     },
     isFavorite: false,
     isPremium: true,
-    rating: 4.2
+    rating: 4.2,
+    images: [
+      'img/room.jpg',
+      'img/apartment-01.jpg',
+      'img/apartment-02.jpg',
+      'img/apartment-03.jpg',
+      'img/studio-01.jpg',
+      'img/apartment-01.jpg',
+    ],
   },
   {
     id: '431d55b7-dff8-48c9-acbf-59503e633070',
@@ -209,7 +257,15 @@ const mockOffers: OfferType[] = [
     },
     isFavorite: false,
     isPremium: false,
-    rating: 1.8
+    rating: 1.8,
+    images: [
+      'img/room.jpg',
+      'img/room.jpg',
+      'img/room.jpg',
+      'img/room.jpg',
+      'img/room.jpg',
+      'img/room.jpg',
+    ],
   },
   {
     id: '8ec64adf-5b85-4124-825c-459096154eca',
@@ -232,7 +288,14 @@ const mockOffers: OfferType[] = [
     },
     isFavorite: false,
     isPremium: true,
-    rating: 2.1
+    rating: 2.1,
+    images: [
+      'img/room.jpg',
+      'img/room.jpg',
+      'img/room.jpg',
+      'img/room.jpg',
+      'img/room.jpg',
+    ],
   }
 ];
 
@@ -283,7 +346,7 @@ const mockReviews: ReviewType[] = [
   },
 ];
 
-const getAuthorizationStatus = () => AuthorizationStatus.Auth;
+const getAuthorizationStatus = () => AuthorizationStatus.NoAuth;
 
 export {
   mockOffers,

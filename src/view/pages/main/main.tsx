@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { CityName } from '../../../const.ts';
 import { OfferType } from '../../../types/types.ts';
 import LocationsList from '../../components/locations-list/locations-list.tsx';
 import PlaceList from '../../components/place-list/place-list.tsx';
+import Map from '../../components/map/map.tsx';
 
 type MainProps = {
   offers: OfferType[];
@@ -9,6 +11,11 @@ type MainProps = {
 };
 
 function Main({offers, activeLocation}: MainProps): JSX.Element {
+  const [activeOffer, setActiveOffer] = useState<OfferType | undefined>(undefined);
+  const handleOfferHover = (offer?: OfferType) => {
+    setActiveOffer(offer || undefined);
+  };
+
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -35,10 +42,14 @@ function Main({offers, activeLocation}: MainProps): JSX.Element {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <PlaceList offers={offers}/>
+            <PlaceList offers={offers} onOfferHover={handleOfferHover}/>
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <Map
+              city = {offers[0].city}
+              offers={offers}
+              activeOffer = {activeOffer}
+            />
           </div>
         </div>
       </div>
