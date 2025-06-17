@@ -9,6 +9,11 @@ function useMap(
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
 
+  const TILE_LAYER_URL_PATTERN =
+    'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+  const TILE_LAYER_ATTRIBUTION =
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = new Map(
@@ -23,17 +28,9 @@ function useMap(
       );
 
       const layer = new TileLayer(
-        'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+        TILE_LAYER_URL_PATTERN,
         {
-          attribution:
-          `&copy;
-          <a href="https://www.openstreetmap.org/copyright">
-            OpenStreetMap
-          </a>
-          contributors &copy;
-          <a href="https://carto.com/attributions">
-            CARTO
-          </a>`
+          attribution: TILE_LAYER_ATTRIBUTION,
         }
       );
 
