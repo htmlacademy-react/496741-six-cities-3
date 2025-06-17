@@ -49,6 +49,7 @@ function Main({offers, activeLocation}: MainProps): JSX.Element {
               city = {offers[0].city}
               offers={offers}
               activeOffer = {activeOffer}
+              mapName='CITIES'
             />
           </div>
         </div>

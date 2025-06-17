@@ -1,3 +1,5 @@
+export const DISPLAYED_NEARBY_OFFERS = 3;
+
 export enum Placement {
   Apartment = 'apartment',
   Room = 'room',
@@ -53,4 +55,9 @@ export const NamePlaceCard = {
   CITIES: 'cities',
   FAVORITES: 'favorites',
   NEAR_PLACES: 'near-places',
+};
+
+export const NameMap = {
+  CITIES: 'cities',
+  OFFER: 'offer',
 };

@@ -4,6 +4,8 @@ import ImageGallery from '../../components/image-gallery/image-gallery.tsx';
 import NearPlaces from '../../components/near-places/near-places.tsx';
 import NotFound from '../not-found/not-found.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
+import Map from '../../components/map/map.tsx';
+import { DISPLAYED_NEARBY_OFFERS } from '../../../const.ts';
 
 type OfferProps = {
   offers: OfferType[];
@@ -19,7 +21,7 @@ function Offer({offers, reviews}: OfferProps): JSX.Element {
   }
   const {
     // id,
-    // city,
+    city,
     // location,
     rating,
     title,
@@ -30,6 +32,8 @@ function Offer({offers, reviews}: OfferProps): JSX.Element {
     isPremium,
     images,
   } = currentOffer;
+
+  const displayedOffersNearby = offers.slice(0, DISPLAYED_NEARBY_OFFERS);
 
   return (
     <main className="page__main page__main--offer">
@@ -139,9 +143,14 @@ function Offer({offers, reviews}: OfferProps): JSX.Element {
             <ReviewsList reviews={reviews} />
           </div>
         </div>
-        <section className="offer__map map"></section>
+        <Map
+          city = {city}
+          offers={displayedOffersNearby}
+          activeOffer = {undefined}
+          mapName='OFFER'
+        />
       </section>
-      {offers && <NearPlaces offers={offers.slice(0, 3)} />}
+      {offers && <NearPlaces offers={displayedOffersNearby} />}
     </main>
   );
 }
