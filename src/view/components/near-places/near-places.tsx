@@ -11,7 +11,9 @@ function NearPlaces({offers}: NearPlacesProps): JSX.Element {
       <section className="near-places places">
         <h2 className="near-places__title">Other places in the neighbourhood</h2>
         <div className="near-places__list places__list">
-          {offers.map((offer) => <PlaceCard key={offer.id} offer={offer} isNearPlacesCard />)}
+          {offers.map((offer) =>
+            <PlaceCard key={offer.id} offer={offer} cardName='NEAR_PLACES' />
+          )}
         </div>
       </section>
     </div>

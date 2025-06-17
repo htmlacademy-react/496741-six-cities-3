@@ -19,6 +19,7 @@ function PlaceList({offers, onOfferHover}: PlaceListProps): JSX.Element {
           key={offer.id}
           offer={offer}
           onOfferHover={handleOfferHover}
+          cardName='CITIES'
         />
       ))}
     </div>

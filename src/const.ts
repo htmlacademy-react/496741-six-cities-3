@@ -61,3 +61,9 @@ export const TextNotFound = {
   NOT_FOUND: '404. Page not found',
   ID_IS_NOT_CORRECT: 'There is no offer with this id, try entering another id',
 };
+
+export const NamePlaceCard = {
+  CITIES: 'cities',
+  FAVORITES: 'favorites',
+  NEAR_PLACES: 'near-places',
+};

@@ -1,33 +1,18 @@
 import { Link } from 'react-router-dom';
 import { OfferType } from '../../../types/types.ts';
-
-type CardNameType = {
-  isFavoriteCard: boolean | undefined;
-  isNearPlacesCard: boolean | undefined;
-}
-
-const getCardName = ({isFavoriteCard, isNearPlacesCard}: CardNameType): string => {
-  let cardName: string = 'cities';
-  if (isFavoriteCard) {
-    cardName = 'favorites';
-  } else if (isNearPlacesCard) {
-    cardName = 'near-places';
-  }
-  return cardName;
-};
+import { NamePlaceCard } from '../../../const.ts';
+import { isFavoriteName } from './utils.ts';
 
 type PlaceCardProps = {
   offer: OfferType;
   onOfferHover?: (offer?: OfferType) => void;
-  isFavoriteCard?: boolean;
-  isNearPlacesCard?: boolean;
+  cardName: keyof typeof NamePlaceCard;
 }
 
 function PlaceCard({
   offer,
   onOfferHover,
-  isFavoriteCard,
-  isNearPlacesCard,
+  cardName,
 }: PlaceCardProps): JSX.Element {
   const {
     id,
@@ -39,22 +24,18 @@ function PlaceCard({
     isPremium,
   } = offer;
 
-  const cardName = getCardName({
-    isFavoriteCard,
-    isNearPlacesCard,
-  });
-
   const handleMouseOn = () => onOfferHover && onOfferHover(offer);
   const handleMouseOff = () => onOfferHover && onOfferHover(undefined);
+  const isFavoriteCard = isFavoriteName(cardName);
 
   return (
     <article
-      className={`${cardName}__card place-card`}
+      className={`${NamePlaceCard[cardName]}__card place-card`}
       onMouseEnter={handleMouseOn}
       onMouseLeave={handleMouseOff}
     >
       {isPremium && <div className="place-card__mark"><span>Premium</span></div>}
-      <div className={`${cardName}__image-wrapper place-card__image-wrapper`}>
+      <div className={`${NamePlaceCard[cardName]}__image-wrapper place-card__image-wrapper`}>
         <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage}
             width={isFavoriteCard ? '150' : '260'}
@@ -62,7 +43,9 @@ function PlaceCard({
           />
         </Link>
       </div>
-      <div className={`${isFavoriteCard ? 'favorites__card-info' : ''}place-card__info`}>
+      <div
+        className={`${isFavoriteCard && 'favorites__card-info'} place-card__info`}
+      >
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
