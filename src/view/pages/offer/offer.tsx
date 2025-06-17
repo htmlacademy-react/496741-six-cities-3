@@ -1,10 +1,9 @@
 import { ReviewType, OfferType } from '../../../types/types.tsx';
-import ReviewsItem from '../../components/reviews-item/reviews-item.tsx';
-import ReviewsForm from '../../components/reviews-form/reviews-form.tsx';
 import { useParams } from 'react-router-dom';
 import ImageGallery from '../../components/image-gallery/image-gallery.tsx';
 import NearPlaces from '../../components/near-places/near-places.tsx';
 import NotFound from '../not-found/not-found.tsx';
+import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 
 type OfferProps = {
   offers: OfferType[];
@@ -137,15 +136,7 @@ function Offer({offers, reviews}: OfferProps): JSX.Element {
                 </p>
               </div>
             </div>
-            <section className="offer__reviews reviews">
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-              <ul className="reviews__list">
-                {reviews.map((review) => (
-                  <ReviewsItem key={review.id} review={review} />
-                ))}
-              </ul>
-              <ReviewsForm />
-            </section>
+            <ReviewsList reviews={reviews} />
           </div>
         </div>
         <section className="offer__map map"></section>
