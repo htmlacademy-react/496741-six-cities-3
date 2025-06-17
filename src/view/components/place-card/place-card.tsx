@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { OfferType } from '../../../types/types.ts';
 import { NamePlaceCard } from '../../../const.ts';
 import { isFavoriteName } from './utils.ts';
+import cn from 'classnames';
 
 type PlaceCardProps = {
   offer: OfferType;
@@ -44,7 +45,10 @@ function PlaceCard({
         </Link>
       </div>
       <div
-        className={`${isFavoriteCard && 'favorites__card-info'} place-card__info`}
+        className={cn(
+          {'favorites__card-info': isFavoriteCard},
+          'place-card__info'
+        )}
       >
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
@@ -52,9 +56,11 @@ function PlaceCard({
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={isFavorite
-              ? 'place-card__bookmark-button place-card__bookmark-button--active button'
-              : 'place-card__bookmark-button button'} type="button"
+            className={cn(
+              'place-card__bookmark-button',
+              {'place-card__bookmark-button--active': isFavorite},
+              'button'
+            )} type="button"
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
