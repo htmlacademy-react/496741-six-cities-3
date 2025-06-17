@@ -1,7 +1,7 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo.tsx';
-import { AppRoute, AuthorizationStatus, getTitle } from '../../../const.ts';
+import { AppRoute, AuthorizationStatus, PageTitle } from '../../../const.ts';
 import Footer from '../footer/footer.tsx';
 import { getAuthorizationStatus } from '../../../model/mock.ts';
 
@@ -34,7 +34,7 @@ function Layout(): JSX.Element {
   } = getLayoutState(pathname as AppRoute);
 
   const authorizationStatus = getAuthorizationStatus();
-  const title = getTitle(pathname as AppRoute);
+  const title = PageTitle[pathname as AppRoute];
 
   return (
     <div className={layoutClassName}>

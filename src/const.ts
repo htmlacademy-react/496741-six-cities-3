@@ -19,6 +19,7 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer/:id',
+  NotFound = '*',
 }
 
 export enum AuthorizationStatus {
@@ -27,26 +28,12 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const getTitle = (pathname: AppRoute) => {
-  let title: string = '6 cities';
-
-  switch (pathname) {
-    case AppRoute.Root:
-      title = 'Главная страница';
-      break;
-    case AppRoute.Favorites:
-      title = 'Фавориты';
-      break;
-    case AppRoute.Login:
-      title = 'Страница регистрации';
-      break;
-    case AppRoute.Offer:
-      title = 'Наше предложение';
-      break;
-    default:
-      break;
-  }
-  return title;
+export const PageTitle = {
+  [AppRoute.Root]: 'Главная страница',
+  [AppRoute.Favorites]: 'Фавориты',
+  [AppRoute.Login]: 'Страница регистрации',
+  [AppRoute.Offer]: 'Наше предложение',
+  [AppRoute.NotFound]: '6 cities',
 };
 
 export const stars = [
