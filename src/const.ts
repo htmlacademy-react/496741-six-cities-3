@@ -1,3 +1,5 @@
+export const DISPLAYED_NEARBY_OFFERS = 3;
+
 export enum Placement {
   Apartment = 'apartment',
   Room = 'room',
@@ -19,6 +21,7 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer/:id',
+  NotFound = '*',
 }
 
 export enum AuthorizationStatus {
@@ -27,26 +30,12 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const getTitle = (pathname: AppRoute) => {
-  let title: string = '6 cities';
-
-  switch (pathname) {
-    case AppRoute.Root:
-      title = 'Главная страница';
-      break;
-    case AppRoute.Favorites:
-      title = 'Фавориты';
-      break;
-    case AppRoute.Login:
-      title = 'Страница регистрации';
-      break;
-    case AppRoute.Offer:
-      title = 'Наше предложение';
-      break;
-    default:
-      break;
-  }
-  return title;
+export const PageTitle = {
+  [AppRoute.Root]: 'Главная страница',
+  [AppRoute.Favorites]: 'Фавориты',
+  [AppRoute.Login]: 'Страница регистрации',
+  [AppRoute.Offer]: 'Наше предложение',
+  [AppRoute.NotFound]: '6 cities',
 };
 
 export const stars = [
@@ -60,4 +49,15 @@ export const stars = [
 export const TextNotFound = {
   NOT_FOUND: '404. Page not found',
   ID_IS_NOT_CORRECT: 'There is no offer with this id, try entering another id',
+};
+
+export const NamePlaceCard = {
+  CITIES: 'cities',
+  FAVORITES: 'favorites',
+  NEAR_PLACES: 'near-places',
+};
+
+export const NameMap = {
+  CITIES: 'cities',
+  OFFER: 'offer',
 };

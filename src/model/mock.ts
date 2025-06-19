@@ -23,7 +23,7 @@ const mockOffers: OfferType[] = [
       longitude: 2.342499,
       zoom: 16
     },
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     rating: 1.1,
     images: [
@@ -54,7 +54,7 @@ const mockOffers: OfferType[] = [
       longitude: 2.330499,
       zoom: 16
     },
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     rating: 1.1,
     images: [
