@@ -22,7 +22,7 @@ export type OfferType = {
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
-  images: string[];
+  images?: string[];
 };
 
 type UserType = {
