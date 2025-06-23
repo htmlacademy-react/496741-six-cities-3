@@ -20,7 +20,6 @@ function Offer({offers, reviews}: OfferProps): JSX.Element {
     return <NotFound type='ID_IS_NOT_CORRECT' />;
   }
   const {
-    // id,
     city,
     // location,
     rating,
@@ -33,8 +32,10 @@ function Offer({offers, reviews}: OfferProps): JSX.Element {
     images,
   } = currentOffer;
 
-  const displayedOffersNearby = offers.slice(0, DISPLAYED_NEARBY_OFFERS);
-
+  const filteredOffers = offers.filter((offer) =>
+    offer.city.name === city.name && offer.id !== id);
+  const displayedOffersNearby = filteredOffers.slice(0, DISPLAYED_NEARBY_OFFERS);
+  const displayedOffers = [...displayedOffersNearby, currentOffer];
   return (
     <main className="page__main page__main--offer">
       <section className="offer">
@@ -145,8 +146,8 @@ function Offer({offers, reviews}: OfferProps): JSX.Element {
         </div>
         <Map
           city = {city}
-          offers={displayedOffersNearby}
-          activeOffer = {undefined}
+          offers={displayedOffers}
+          activeOffer = {currentOffer}
           mapName='OFFER'
         />
       </section>
