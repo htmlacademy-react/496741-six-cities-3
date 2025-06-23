@@ -4,7 +4,7 @@ import { CityType, OfferType } from '../../../types/types.ts';
 import { useEffect, useRef } from 'react';
 import useMap from './use-map.ts';
 import { NameMap } from '../../../const.ts';
-import { URL_MARKER_ACTIVE, URL_MARKER_DAFAULT } from './const.ts';
+import { URL_MARKER_ACTIVE, URL_MARKER_DEFAULT } from './const.ts';
 
 type MapProps = {
   city: CityType;
@@ -20,7 +20,7 @@ const offerMapStyle = {
 };
 
 const defaultCustomIcon = new Icon({
-  iconUrl: URL_MARKER_DAFAULT,
+  iconUrl: URL_MARKER_DEFAULT,
   iconSize: [30, 40],
   iconAnchor: [20, 40]
 });

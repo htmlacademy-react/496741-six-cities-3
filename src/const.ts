@@ -1,3 +1,5 @@
+import { CityType } from './types/types.ts';
+
 export const DISPLAYED_NEARBY_OFFERS = 3;
 
 export enum Placement {
@@ -44,6 +46,57 @@ export const stars = [
   {value: 3, label: 'not bad'},
   {value: 2, label: 'badly'},
   {value: 1, label: 'terribly'},
+];
+
+export const cities: CityType[] = [
+  {
+    name: 'Paris' as CityName,
+    location: {
+      latitude: 48.85661,
+      longitude: 2.351499,
+      zoom: 13
+    }
+  },
+  {
+    name: 'Cologne' as CityName,
+    location: {
+      latitude: 50.938361,
+      longitude: 6.959974,
+      zoom: 13
+    }
+  },
+  {
+    name: 'Brussels' as CityName,
+    location: {
+      latitude: 50.846557,
+      longitude: 4.351697,
+      zoom: 13
+    }
+  },
+  {
+    name: 'Amsterdam' as CityName,
+    location: {
+      latitude: 52.37454,
+      longitude: 4.897976,
+      zoom: 13
+    }
+  },
+  {
+    name: 'Hamburg' as CityName,
+    location: {
+      latitude: 53.550341,
+      longitude: 10.000654,
+      zoom: 13
+    }
+  },
+  {
+    name: 'Dusseldorf' as CityName,
+    location: {
+      latitude: 51.225402,
+      longitude: 6.776314,
+      zoom: 13
+    }
+  },
 ];
 
 export const TextNotFound = {

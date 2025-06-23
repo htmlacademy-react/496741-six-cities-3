@@ -1,26 +1,37 @@
 import { useState } from 'react';
-import { CityName } from '../../../const.ts';
-import { OfferType } from '../../../types/types.ts';
+import { cities } from '../../../const.ts';
+import { CityType, OfferType } from '../../../types/types.ts';
 import LocationsList from '../../components/locations-list/locations-list.tsx';
 import PlaceList from '../../components/place-list/place-list.tsx';
 import Map from '../../components/map/map.tsx';
 
+const DEFAULT_ACTIVE_LOCATION: CityType = cities[0];
+
 type MainProps = {
   offers: OfferType[];
-  activeLocation: CityName;
 };
 
-function Main({offers, activeLocation}: MainProps): JSX.Element {
+function Main({offers}: MainProps): JSX.Element {
   const [activeOffer, setActiveOffer] = useState<OfferType | undefined>(undefined);
+  const [activeLocation, setActiveLocation] = useState<CityType>(DEFAULT_ACTIVE_LOCATION);
   const handleOfferHover = (offer?: OfferType) => {
     setActiveOffer(offer || undefined);
   };
+
+  const handleLocationClick = (city: CityType): void => {
+    setActiveLocation(city);
+  };
+
+  const filteredOffers = offers.filter((offer) => offer.city.name === activeLocation.name);
 
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
-        <LocationsList activeLocation={activeLocation} />
+        <LocationsList
+          activeLocation={activeLocation}
+          onLocationClick={handleLocationClick}
+        />
       </div>
       <div className="cities">
         <div className="cities__places-container container">
@@ -42,12 +53,15 @@ function Main({offers, activeLocation}: MainProps): JSX.Element {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <PlaceList offers={offers} onOfferHover={handleOfferHover}/>
+            <PlaceList
+              offers={filteredOffers}
+              onOfferHover={handleOfferHover}
+            />
           </section>
           <div className="cities__right-section">
             <Map
-              city = {offers[0].city}
-              offers={offers}
+              city = {activeLocation}
+              offers={filteredOffers}
               activeOffer = {activeOffer}
               mapName='CITIES'
             />

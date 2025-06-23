@@ -1,20 +1,32 @@
-import { CityName } from '../../../const';
+import { cities } from '../../../const.ts';
+import { CityType } from '../../../types/types.ts';
 
 type LocationsListProps = {
-  activeLocation: CityName;
+  activeLocation: CityType;
+  onLocationClick: (city: CityType) => void;
 };
 
-function LocationsList({activeLocation}: LocationsListProps): JSX.Element {
+function LocationsList({activeLocation, onLocationClick}: LocationsListProps): JSX.Element {
+  const handleLocationClick = (city: CityType) => {
+    onLocationClick(city);
+  };
+
   return (
     <section className="locations container">
-      <ul className="locations__list tabs__list">
-        {Object.values(CityName).map((city) => (
-          <li className="locations__item" key={city}>
+      <ul
+        className="locations__list tabs__list"
+      >
+        {cities.map((city) => (
+          <li
+            className="locations__item"
+            key={city.name}
+            onClick={() => handleLocationClick(city)}
+          >
             <a className={activeLocation === city ?
               'locations__item-link tabs__item tabs__item--active' :
               'locations__item-link tabs__item'} href="#"
             >
-              <span>{city}</span>
+              <span>{city.name}</span>
             </a>
           </li>
         ))}
