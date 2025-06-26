@@ -29,7 +29,7 @@ function App({offers, reviews}: AppProps) : JSX.Element {
           >
             <Route
               index
-              element={<Main offers={offers}/>}
+              element={<Main />}
             />
             <Route
               path={AppRoute.Favorites}
