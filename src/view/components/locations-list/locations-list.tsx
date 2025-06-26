@@ -1,20 +1,32 @@
-import { CityName } from '../../../const';
+import { cities } from '../../../const.ts';
+import { useAppDispatch } from '../../../hooks/index.ts';
+import { changeCity } from '../../../store/action.ts';
+import { CityType } from '../../../types/types.ts';
 
 type LocationsListProps = {
-  activeLocation: CityName;
+  city: CityType;
 };
 
-function LocationsList({activeLocation}: LocationsListProps): JSX.Element {
+function LocationsList({city}: LocationsListProps): JSX.Element {
+
+  const dispatch = useAppDispatch();
+
   return (
     <section className="locations container">
-      <ul className="locations__list tabs__list">
-        {Object.values(CityName).map((city) => (
-          <li className="locations__item" key={city}>
-            <a className={activeLocation === city ?
+      <ul
+        className="locations__list tabs__list"
+      >
+        {cities.map((cityItem) => (
+          <li
+            className="locations__item"
+            key={cityItem.name}
+            onClick={() => dispatch(changeCity(cityItem))}
+          >
+            <a className={city === cityItem ?
               'locations__item-link tabs__item tabs__item--active' :
               'locations__item-link tabs__item'} href="#"
             >
-              <span>{city}</span>
+              <span>{cityItem.name}</span>
             </a>
           </li>
         ))}

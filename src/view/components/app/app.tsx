@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { AppRoute, CityName } from '../../../const.ts';
+import { AppRoute } from '../../../const.ts';
 import { ReviewType, OfferType } from '../../../types/types.ts';
 import Main from '../../pages/main/main.tsx';
 import Favorites from '../../pages/favorites/favorites.tsx';
@@ -14,10 +14,9 @@ import { HelmetProvider } from 'react-helmet-async';
 type AppProps = {
   offers: OfferType[];
   reviews: ReviewType[];
-  activeLocation: CityName;
 };
 
-function App({offers, reviews, activeLocation}: AppProps) : JSX.Element {
+function App({offers, reviews}: AppProps) : JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
 
   return (
@@ -30,7 +29,7 @@ function App({offers, reviews, activeLocation}: AppProps) : JSX.Element {
           >
             <Route
               index
-              element={<Main offers={offers} activeLocation={activeLocation}/>}
+              element={<Main />}
             />
             <Route
               path={AppRoute.Favorites}
