@@ -121,3 +121,13 @@ export const NameMap = {
   CITIES: 'cities',
   OFFER: 'offer',
 };
+
+export enum APIRoute {
+  Offer = '/offers/',
+  Offers = '/offers',
+  OffersNearby = '/nearby',
+  Login = '/login',
+  Logout = '/logout',
+  Comments = '/comments/',
+  Favorite = '/favorite',
+}
