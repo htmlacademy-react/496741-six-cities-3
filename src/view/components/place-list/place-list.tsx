@@ -3,6 +3,7 @@ import { OfferType } from '../../../types/types.ts';
 import PlaceCard from '../place-card/place-card.tsx';
 import PlacesSorting from '../places-sorting/places-sorting.tsx';
 import { useAppSelector } from '../../../hooks/index.ts';
+import { selectCity } from '../../../store/selectors/offers.ts';
 
 type PlaceListProps = {
   onOfferHover: (offer?: OfferType) => void;
@@ -11,7 +12,7 @@ type PlaceListProps = {
 
 function PlaceList({offers, onOfferHover}: PlaceListProps): JSX.Element {
 
-  const city = useAppSelector((state) => state.city);
+  const city = useAppSelector(selectCity);
 
   const handleOfferHover = (offer?: OfferType) => {
     onOfferHover(offer || undefined);
@@ -28,7 +29,7 @@ function PlaceList({offers, onOfferHover}: PlaceListProps): JSX.Element {
     <section className="cities__places places" ref={scrollRef}>
       <h2 className="visually-hidden">Places</h2>
       <b className="places__found">
-        {`${offers.length} places to stay in ${city.name}`}
+        {offers.length} place{offers.length > 1 && 's'} to stay in {city.name}
       </b>
       <PlacesSorting />
       <div className="cities__places-list places__list tabs__content">
