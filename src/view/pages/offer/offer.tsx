@@ -145,7 +145,6 @@ function Offer({offers, reviews}: OfferProps): JSX.Element {
           </div>
         </div>
         <Map
-          city = {city}
           offers={displayedOffers}
           activeOffer = {currentOffer}
           mapName='OFFER'

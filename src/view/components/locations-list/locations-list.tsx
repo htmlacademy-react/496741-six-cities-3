@@ -1,14 +1,9 @@
 import { cities } from '../../../const.ts';
-import { useAppDispatch } from '../../../hooks/index.ts';
+import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
 import { changeCity } from '../../../store/action.ts';
-import { CityType } from '../../../types/types.ts';
 
-type LocationsListProps = {
-  city: CityType;
-};
-
-function LocationsList({city}: LocationsListProps): JSX.Element {
-
+function LocationsList(): JSX.Element {
+  const city = useAppSelector((state) => state.city);
   const dispatch = useAppDispatch();
 
   return (
