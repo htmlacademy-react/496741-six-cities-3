@@ -1,19 +1,20 @@
 import { layerGroup, Marker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { CityType, OfferType } from '../../../types/types.ts';
+import { OfferType } from '../../../types/types.ts';
 import { useEffect, useRef } from 'react';
 import useMap from './use-map.ts';
 import { NameMap } from '../../../const.ts';
 import { currentCustomIcon, defaultCustomIcon, offerMapStyle } from './const.ts';
+import { useAppSelector } from '../../../hooks/index.ts';
 
 type MapProps = {
-  city: CityType;
   offers: OfferType[];
   activeOffer: OfferType | undefined;
   mapName: keyof typeof NameMap;
 }
 
-function Map({city, offers, activeOffer, mapName}: MapProps): JSX.Element {
+function Map({offers, activeOffer, mapName}: MapProps): JSX.Element {
+  const city = useAppSelector((state) => state.city);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 

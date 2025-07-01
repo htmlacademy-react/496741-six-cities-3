@@ -1,15 +1,17 @@
 import { useEffect, useRef } from 'react';
-import { CityType, OfferType } from '../../../types/types.ts';
+import { OfferType } from '../../../types/types.ts';
 import PlaceCard from '../place-card/place-card.tsx';
 import PlacesSorting from '../places-sorting/places-sorting.tsx';
+import { useAppSelector } from '../../../hooks/index.ts';
 
 type PlaceListProps = {
   onOfferHover: (offer?: OfferType) => void;
-  city: CityType;
   offers: OfferType[];
 }
 
-function PlaceList({city, offers, onOfferHover}: PlaceListProps): JSX.Element {
+function PlaceList({offers, onOfferHover}: PlaceListProps): JSX.Element {
+
+  const city = useAppSelector((state) => state.city);
 
   const handleOfferHover = (offer?: OfferType) => {
     onOfferHover(offer || undefined);
