@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoute } from '../../../const.ts';
-import { ReviewType, OfferType } from '../../../types/types.ts';
+import { ReviewType } from '../../../types/types.ts';
 import Main from '../../pages/main/main.tsx';
 import Favorites from '../../pages/favorites/favorites.tsx';
 import Login from '../../pages/login/login.tsx';
@@ -8,16 +8,12 @@ import NotFound from '../../pages/not-found/not-found.tsx';
 import Offer from '../../pages/offer/offer.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
 import Layout from '../layout/layout.tsx';
-import { getAuthorizationStatus } from '../../../model/mock.ts';
+import { getAuthorizationStatus, mockReviews } from '../../../model/mock.ts';
 import { HelmetProvider } from 'react-helmet-async';
 
-type AppProps = {
-  offers: OfferType[];
-  reviews: ReviewType[];
-};
-
-function App({offers, reviews}: AppProps) : JSX.Element {
+function App() : JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
+  const reviews: ReviewType[] = mockReviews;
 
   return (
     <HelmetProvider>
@@ -35,7 +31,7 @@ function App({offers, reviews}: AppProps) : JSX.Element {
               path={AppRoute.Favorites}
               element={
                 <PrivateRoute authorionStatus={authorizationStatus}>
-                  <Favorites offers={offers} />
+                  <Favorites />
                 </PrivateRoute>
               }
             />
@@ -45,7 +41,7 @@ function App({offers, reviews}: AppProps) : JSX.Element {
             />
             <Route
               path={AppRoute.Offer}
-              element={<Offer offers={offers} reviews={reviews}/>}
+              element={<Offer reviews={reviews}/>}
             />
             <Route
               path={AppRoute.NotFound}

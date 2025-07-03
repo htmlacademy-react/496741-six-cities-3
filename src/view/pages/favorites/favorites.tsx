@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom';
-import { OfferType } from '../../../types/types';
 import PlaceCard from '../../components/place-card/place-card';
+import { useAppSelector } from '../../../hooks';
+import { selectOffers } from '../../../store/selectors/offers';
 
-type FavoritesProps = {
-  offers: OfferType[];
-};
-
-function Favorites({offers}: FavoritesProps): JSX.Element {
+function Favorites(): JSX.Element {
+  const offers = useAppSelector(selectOffers);
 
   return (
     <main className="page__main page__main--favorites">

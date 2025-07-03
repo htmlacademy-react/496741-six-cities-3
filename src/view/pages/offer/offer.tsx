@@ -6,13 +6,15 @@ import NotFound from '../not-found/not-found.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import Map from '../../components/map/map.tsx';
 import { DISPLAYED_NEARBY_OFFERS } from '../../../const.ts';
+import { useAppSelector } from '../../../hooks/index.ts';
+import { selectOffers } from '../../../store/selectors/offers.ts';
 
 type OfferProps = {
-  offers: OfferType[];
   reviews: ReviewType[];
 }
 
-function Offer({offers, reviews}: OfferProps): JSX.Element {
+function Offer({reviews}: OfferProps): JSX.Element {
+  const offers = useAppSelector(selectOffers);
   const { id } = useParams();
   const currentOffer: OfferType | undefined = offers.find((offer) => offer.id === id);
 
