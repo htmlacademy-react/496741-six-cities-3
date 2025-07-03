@@ -1,4 +1,4 @@
-import { AuthorizationStatus, CityName, Placement } from '../const.ts';
+import { CityName, Placement } from '../const.ts';
 import { ReviewType, OfferType } from '../types/types.ts';
 
 const AVATAR_URL = 'https://i.pravatar.cc/128';
@@ -1061,10 +1061,7 @@ const mockReviews: ReviewType[] = [
   },
 ];
 
-const getAuthorizationStatus = () => AuthorizationStatus.NoAuth;
-
 export {
   mockOffers,
   mockReviews,
-  getAuthorizationStatus,
 };
