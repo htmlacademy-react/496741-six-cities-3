@@ -1,10 +1,13 @@
 import { cities } from '../../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
 import { changeCity } from '../../../store/action.ts';
+import { selectCity } from '../../../store/selectors/offers.ts';
+import { CityType } from '../../../types/types.ts';
 
 function LocationsList(): JSX.Element {
-  const city = useAppSelector((state) => state.city);
+  const city = useAppSelector(selectCity);
   const dispatch = useAppDispatch();
+  const handleCityChange = (cityItem: CityType) => dispatch(changeCity(cityItem));
 
   return (
     <section className="locations container">
@@ -15,7 +18,7 @@ function LocationsList(): JSX.Element {
           <li
             className="locations__item"
             key={cityItem.name}
-            onClick={() => dispatch(changeCity(cityItem))}
+            onClick={() => handleCityChange(cityItem)}
           >
             <a className={city === cityItem ?
               'locations__item-link tabs__item tabs__item--active' :

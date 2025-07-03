@@ -6,6 +6,7 @@ import useMap from './use-map.ts';
 import { NameMap } from '../../../const.ts';
 import { currentCustomIcon, defaultCustomIcon, offerMapStyle } from './const.ts';
 import { useAppSelector } from '../../../hooks/index.ts';
+import { selectCity } from '../../../store/selectors/offers.ts';
 
 type MapProps = {
   offers: OfferType[];
@@ -14,7 +15,7 @@ type MapProps = {
 }
 
 function Map({offers, activeOffer, mapName}: MapProps): JSX.Element {
-  const city = useAppSelector((state) => state.city);
+  const city = useAppSelector(selectCity);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 

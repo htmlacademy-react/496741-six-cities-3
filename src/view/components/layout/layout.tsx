@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo.tsx';
 import { AppRoute, AuthorizationStatus, PageTitle } from '../../../const.ts';
 import Footer from '../footer/footer.tsx';
-import { getAuthorizationStatus } from '../../../model/mock.ts';
+import { useAppSelector } from '../../../hooks/index.ts';
 
 const getLayoutState = (pathname: AppRoute) => {
   let layoutClassName = 'page';
@@ -33,7 +33,8 @@ function Layout(): JSX.Element {
     shouldRenderFooter,
   } = getLayoutState(pathname as AppRoute);
 
-  const authorizationStatus = getAuthorizationStatus();
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
   const title = PageTitle[pathname as AppRoute];
 
   return (

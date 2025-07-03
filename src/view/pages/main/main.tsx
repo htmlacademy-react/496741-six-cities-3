@@ -5,10 +5,11 @@ import PlaceList from '../../components/place-list/place-list.tsx';
 import Map from '../../components/map/map.tsx';
 import { useAppSelector } from '../../../hooks/index.ts';
 import { getFilteredCityOffers } from '../../../utils.ts';
+import { selectCity, selectOffers } from '../../../store/selectors/offers.ts';
 
 function Main(): JSX.Element {
-  const city = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers);
+  const city = useAppSelector(selectCity);
+  const offers = useAppSelector(selectOffers);
   const filteredOffers = getFilteredCityOffers(offers, city);
 
   const [activeOffer, setActiveOffer] = useState<OfferType | undefined>(undefined);

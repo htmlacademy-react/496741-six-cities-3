@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './view/components/app/app';
-import { mockReviews, mockOffers } from './model/mock.ts';
-import { ReviewType, OfferType } from './types/types.ts';
 import { Provider } from 'react-redux';
 import { store } from './store/index.ts';
+import ErrorMessage from './view/components/error-message/error-message.tsx';
+import { checkAuthAction, fetchOffersAction } from './store/api-actions.ts';
 
-const offers: OfferType[] = mockOffers;
-const reviews: ReviewType[] = mockReviews;
+store.dispatch(fetchOffersAction());
+store.dispatch(checkAuthAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,10 +16,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App
-        offers={offers}
-        reviews={reviews}
-      />
+      <ErrorMessage />
+      <App />
     </Provider>
   </React.StrictMode>
 );
