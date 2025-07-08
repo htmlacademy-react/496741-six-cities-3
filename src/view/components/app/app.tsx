@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../../const.ts';
 import { ReviewType } from '../../../types/types.ts';
 import Main from '../../pages/main/main.tsx';
@@ -12,6 +12,8 @@ import { mockReviews } from '../../../model/mock.ts';
 import { HelmetProvider } from 'react-helmet-async';
 import { useAppSelector } from '../../../hooks/index.ts';
 import LoadingScreen from '../../pages/loading-screen/loading-screen.tsx';
+import HistoryRouter from '../history-router/history-router.tsx';
+import browserHistory from '../../../browser-history.ts';
 
 function App() : JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
@@ -26,7 +28,7 @@ function App() : JSX.Element {
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <Routes>
           <Route
             path={AppRoute.Root}
@@ -58,7 +60,7 @@ function App() : JSX.Element {
             />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }
