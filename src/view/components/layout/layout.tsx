@@ -3,7 +3,9 @@ import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo.tsx';
 import { AppRoute, AuthorizationStatus, PageTitle } from '../../../const.ts';
 import Footer from '../footer/footer.tsx';
-import { useAppSelector } from '../../../hooks/index.ts';
+import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
+import { MouseEvent } from 'react';
+import { logoutAction } from '../../../store/api-actions.ts';
 
 const getLayoutState = (pathname: AppRoute) => {
   let layoutClassName = 'page';
@@ -32,10 +34,15 @@ function Layout(): JSX.Element {
     shouldRenderUser,
     shouldRenderFooter,
   } = getLayoutState(pathname as AppRoute);
-
+  const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const title = PageTitle[pathname as AppRoute];
+
+  const handleLogout = (evt: MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+    dispatch(logoutAction());
+  };
 
   return (
     <div className={layoutClassName}>
@@ -65,9 +72,11 @@ function Layout(): JSX.Element {
                 </li>
                 {authorizationStatus === AuthorizationStatus.Auth &&
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
+                  <Link className="header__nav-link" onClick={handleLogout} to={AppRoute.Root}>
+                    <span className="header__signout">
+                      Sign out
+                    </span>
+                  </Link>
                 </li>}
               </ul>
             </nav>}
