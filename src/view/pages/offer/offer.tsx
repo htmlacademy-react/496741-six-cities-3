@@ -4,14 +4,26 @@ import NotFound from '../not-found/not-found.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import Map from '../../components/map/map.tsx';
 import { DISPLAYED_NEARBY_OFFERS } from '../../../const.ts';
-import { useAppSelector } from '../../../hooks/index.ts';
+import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
 import { selectComments, selectOffer, selectOffers, selectOffersNearby } from '../../../store/selectors/offers.ts';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { setOfferAction } from '../../../store/api-actions.ts';
 
 function Offer(): JSX.Element {
   const reviews = useAppSelector(selectComments);
   const offers = useAppSelector(selectOffers);
   const currentOffer = useAppSelector(selectOffer);
   const offersNearby = useAppSelector(selectOffersNearby);
+
+  const { id } = useParams();
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (id) {
+      dispatch(setOfferAction(id));
+    }
+  }, [dispatch, id]);
 
   if (!currentOffer) {
     return <NotFound type='ID_IS_NOT_CORRECT' />;
