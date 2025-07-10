@@ -6,7 +6,8 @@ import Footer from '../footer/footer.tsx';
 import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
 import { MouseEvent } from 'react';
 import { logoutAction } from '../../../store/api-actions.ts';
-import { selectAuthInfo } from '../../../store/selectors/user.ts';
+import { selectAuthInfo, selectFavorites } from '../../../store/selectors/user.ts';
+import { selectAuthorizationStatus } from '../../../store/selectors/auth.ts';
 
 const getLayoutState = (pathname: AppRoute) => {
   let layoutClassName = 'page';
@@ -29,10 +30,9 @@ const getLayoutState = (pathname: AppRoute) => {
 
 function Layout(): JSX.Element {
   const authInfo = useAppSelector(selectAuthInfo);
-  //const favorite = useAppSelector(selectFavorite);
+  const favorites = useAppSelector(selectFavorites);
   const {pathname} = useLocation();
 
-  //console.log(favorite);
   const {
     layoutClassName,
     isMainPage,
@@ -41,7 +41,7 @@ function Layout(): JSX.Element {
   } = getLayoutState(pathname as AppRoute);
 
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
 
   const title = PageTitle[pathname as AppRoute];
 
@@ -71,7 +71,7 @@ function Layout(): JSX.Element {
                     {authorizationStatus === AuthorizationStatus.Auth ?
                       <>
                         <span className="header__user-name user__name">{authInfo?.email}</span>
-                        <span className="header__favorite-count">3</span>
+                        <span className="header__favorite-count">{favorites.length}</span>
                       </> :
                       <span className="header__login">Sign in</span>}
                   </Link>

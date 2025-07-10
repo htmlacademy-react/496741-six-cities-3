@@ -12,10 +12,12 @@ import { useAppSelector } from '../../../hooks/index.ts';
 import LoadingScreen from '../../pages/loading-screen/loading-screen.tsx';
 import HistoryRouter from '../history-router/history-router.tsx';
 import browserHistory from '../../../browser-history.ts';
+import { selectAuthorizationStatus } from '../../../store/selectors/auth.ts';
+import { selectOffersLoadingStatus } from '../../../store/selectors/offers.ts';
 
 function App() : JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
+  const isOffersLoading = useAppSelector(selectOffersLoadingStatus);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isOffersLoading) {
     return (

@@ -1,6 +1,6 @@
 import { State } from '../../types/state';
 
 const selectAuthInfo = (state: State) => state.authInfo;
-const selectFavorite = (state: State) => state.favorite;
+const selectFavorites = (state: State) => state.favorites;
 
-export {selectAuthInfo, selectFavorite};
+export {selectAuthInfo, selectFavorites};
