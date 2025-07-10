@@ -18,6 +18,7 @@ import { AuthInfo } from '../types/auth.ts';
 import { dropToken, saveToken } from '../services/token.ts';
 import { AuthData } from '../types/auth.ts';
 import { store } from './index.ts';
+import { UserReviewType } from '../types/user.ts';
 
 export const setOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -86,6 +87,18 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
   },
+);
+
+export const postCommentAction = createAsyncThunk<void, [string, UserReviewType], {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/comment',
+  async ([offerId, {comment, rating}], {dispatch, extra: api}) => {
+    const {data} = await api.post<ReviewType[]>(APIRoute.Comments + offerId, {comment, rating});
+    dispatch(setComments(data));
+  }
 );
 
 export const loginAction = createAsyncThunk<void, AuthData, {
