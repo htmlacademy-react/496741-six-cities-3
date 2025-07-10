@@ -8,7 +8,8 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
 import { selectComments, selectOffer, selectOffers, selectOffersNearby } from '../../../store/selectors/offers.ts';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { setOfferAction } from '../../../store/api-actions.ts';
+import { fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction } from '../../../store/api-actions.ts';
+import { fetchComments, fetchOffer, fetchOffersNearby } from '../../../store/action.ts';
 
 function Offer(): JSX.Element {
   const reviews = useAppSelector(selectComments);
@@ -21,8 +22,16 @@ function Offer(): JSX.Element {
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (id) {
-      dispatch(setOfferAction(id));
+      dispatch(fetchOfferAction(id));
+      dispatch(fetchCommentsAction(id));
+      dispatch(fetchOffersNearbyAction(id));
     }
+
+    return () => {
+      dispatch(fetchOffer(null));
+      dispatch(fetchComments([]));
+      dispatch(fetchOffersNearby([]));
+    };
   }, [dispatch, id]);
 
   if (!currentOffer) {

@@ -1,3 +1,6 @@
+import { AuthorizationStatus } from '../../../const.ts';
+import { useAppSelector } from '../../../hooks/index.ts';
+import { selectAuthorizationStatus } from '../../../store/selectors/auth.ts';
 import { ReviewType } from '../../../types/types.ts';
 import ReviewsForm from '../reviews-form/reviews-form';
 import ReviewsItem from '../reviews-item/reviews-item';
@@ -7,6 +10,9 @@ type ReviewsListProps = {
 };
 
 function ReviewsList({reviews}: ReviewsListProps) {
+
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
+
   return (
     <section className="offer__reviews reviews">
       <h2 className="reviews__title">
@@ -17,7 +23,7 @@ function ReviewsList({reviews}: ReviewsListProps) {
           <ReviewsItem key={review.id} review={review} />
         ))}
       </ul>
-      <ReviewsForm />
+      {authorizationStatus === AuthorizationStatus.Auth && <ReviewsForm />}
     </section>
   );
 }
