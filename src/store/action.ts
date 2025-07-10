@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { CityType, OfferType } from '../types/types';
 import { AppRoute, AuthorizationStatus, SortTypeOptions } from '../const';
+import { AuthInfo } from '../types/auth';
 
 export const changeCity = createAction<CityType>('data/changeCity');
 export const getOffers = createAction<OfferType[]>('data/getOffers');
@@ -9,3 +10,5 @@ export const requireAuthorization = createAction<AuthorizationStatus>('user/requ
 export const setError = createAction<string | null>('setError');
 export const setOffersLoadingStatus = createAction<boolean>('setOffersLoadingStatus');
 export const redirectToRoute = createAction<AppRoute>('redirectToRoute');
+export const setAuthInfo = createAction<AuthInfo | null>('user/setAuthInfo');
+export const setFavorite = createAction<OfferType[]>('setFavorite');

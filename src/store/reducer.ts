@@ -1,7 +1,16 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus, cities, SortTypeOptions } from '../const.ts';
-import { changeCity, changeSortType, getOffers, requireAuthorization, setError, setOffersLoadingStatus } from './action';
 import { CityType, OfferType } from '../types/types.ts';
+import { AuthInfo } from '../types/auth.ts';
+import {
+  changeCity,
+  changeSortType,
+  getOffers,
+  requireAuthorization,
+  setAuthInfo,
+  setError,
+  setFavorite,
+  setOffersLoadingStatus } from './action';
 
 type StateType = {
   offers: OfferType[];
@@ -10,6 +19,8 @@ type StateType = {
   authorizationStatus: AuthorizationStatus;
   isOffersLoading: boolean;
   error: string | null;
+  authInfo: AuthInfo | null;
+  favorite: OfferType[];
 }
 
 const initialState: StateType = {
@@ -19,6 +30,8 @@ const initialState: StateType = {
   authorizationStatus: AuthorizationStatus.Unknown,
   isOffersLoading: false,
   error: null,
+  authInfo: null,
+  favorite: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -37,6 +50,12 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(setAuthInfo, (state, action) => {
+      state.authInfo = action.payload;
+    })
+    .addCase(setFavorite, (state, action) => {
+      state.favorite = action.payload;
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;
