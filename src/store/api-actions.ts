@@ -33,18 +33,17 @@ export const setOffersAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const setOfferAction = createAsyncThunk<void, string, {
+export const setCommentsAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/setOffer',
+  'data/setComments',
   async (offerId, { dispatch, extra: api }) => {
-    const { data } = await api.get<OfferType>(APIRoute.Offer + offerId);
-    dispatch(setOffer(data));
+    const { data } = await api.get<ReviewType[]>(APIRoute.Comments + offerId);
+    dispatch(setComments(data));
   },
 );
-
 
 export const setOffersNearbyAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch;
@@ -58,15 +57,17 @@ export const setOffersNearbyAction = createAsyncThunk<void, string, {
   },
 );
 
-export const setCommentsAction = createAsyncThunk<void, string, {
+export const setOfferAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/setComments',
+  'data/setOffer',
   async (offerId, { dispatch, extra: api }) => {
-    const { data } = await api.get<ReviewType[]>(APIRoute.Comments + offerId);
-    dispatch(setComments(data));
+    const { data } = await api.get<OfferType>(APIRoute.Offer + offerId);
+    dispatch(setOffer(data));
+    dispatch(setCommentsAction(offerId));
+    dispatch(setOffersNearbyAction(offerId));
   },
 );
 

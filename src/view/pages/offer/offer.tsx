@@ -1,28 +1,15 @@
-import { useParams } from 'react-router-dom';
 import ImageGallery from '../../components/image-gallery/image-gallery.tsx';
 import NearPlaces from '../../components/near-places/near-places.tsx';
 import NotFound from '../not-found/not-found.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import Map from '../../components/map/map.tsx';
 import { DISPLAYED_NEARBY_OFFERS } from '../../../const.ts';
-import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
+import { useAppSelector } from '../../../hooks/index.ts';
 import { selectComments, selectOffer, selectOffers, selectOffersNearby } from '../../../store/selectors/offers.ts';
-import { setCommentsAction, setOfferAction, setOffersNearbyAction } from '../../../store/api-actions.ts';
-import { useEffect } from 'react';
 
 function Offer(): JSX.Element {
   const reviews = useAppSelector(selectComments);
   const offers = useAppSelector(selectOffers);
-  const { id } = useParams();
-
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    if (id) {
-      dispatch(setOfferAction(id));
-      dispatch(setOffersNearbyAction(id));
-      dispatch(setCommentsAction(id));
-    }
-  }, [dispatch, id]);
   const currentOffer = useAppSelector(selectOffer);
   const offersNearby = useAppSelector(selectOffersNearby);
 
