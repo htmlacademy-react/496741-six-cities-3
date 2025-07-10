@@ -6,6 +6,7 @@ import Footer from '../footer/footer.tsx';
 import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
 import { MouseEvent } from 'react';
 import { logoutAction } from '../../../store/api-actions.ts';
+import { selectAuthInfo } from '../../../store/selectors/user.ts';
 
 const getLayoutState = (pathname: AppRoute) => {
   let layoutClassName = 'page';
@@ -27,13 +28,18 @@ const getLayoutState = (pathname: AppRoute) => {
 };
 
 function Layout(): JSX.Element {
+  const authInfo = useAppSelector(selectAuthInfo);
+  //const favorite = useAppSelector(selectFavorite);
   const {pathname} = useLocation();
+
+  //console.log(favorite);
   const {
     layoutClassName,
     isMainPage,
     shouldRenderUser,
     shouldRenderFooter,
   } = getLayoutState(pathname as AppRoute);
+
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
@@ -64,7 +70,7 @@ function Layout(): JSX.Element {
                     </div>
                     {authorizationStatus === AuthorizationStatus.Auth ?
                       <>
-                        <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                        <span className="header__user-name user__name">{authInfo?.email}</span>
                         <span className="header__favorite-count">3</span>
                       </> :
                       <span className="header__login">Sign in</span>}
