@@ -1,19 +1,25 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus, cities, SortTypeOptions } from '../const.ts';
-import { CityType, OfferType } from '../types/types.ts';
+import { CityType, OfferType, ReviewType } from '../types/types.ts';
 import { AuthInfo } from '../types/auth.ts';
 import {
   changeCity,
   changeSortType,
-  getOffers,
+  setOffer,
+  setOffers,
   requireAuthorization,
   setAuthInfo,
   setError,
   setFavorite,
-  setOffersLoadingStatus } from './action';
+  setOffersLoadingStatus,
+  setOffersNearby,
+  setComments} from './action';
 
 type StateType = {
   offers: OfferType[];
+  offer: OfferType | null;
+  offersNearby: OfferType[];
+  comments: ReviewType[];
   city: CityType;
   sortOption: SortTypeOptions;
   authorizationStatus: AuthorizationStatus;
@@ -25,6 +31,9 @@ type StateType = {
 
 const initialState: StateType = {
   offers: [],
+  offer: null,
+  offersNearby: [],
+  comments: [],
   city: cities[0],
   sortOption: SortTypeOptions.Popular,
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -39,7 +48,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(changeCity, (state, action) => {
       state.city = action.payload;
     })
-    .addCase(getOffers, (state, action) => {
+    .addCase(setOffers, (state, action) => {
       state.offers = action.payload;
     })
     .addCase(setOffersLoadingStatus, (state, action) => {
@@ -56,6 +65,15 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setFavorite, (state, action) => {
       state.favorite = action.payload;
+    })
+    .addCase(setOffer, (state, action) => {
+      state.offer = action.payload;
+    })
+    .addCase(setOffersNearby, (state, action) => {
+      state.offersNearby = action.payload;
+    })
+    .addCase(setComments, (state, action) => {
+      state.comments = action.payload;
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;

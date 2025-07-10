@@ -1,4 +1,3 @@
-import { ReviewType, OfferType } from '../../../types/types.tsx';
 import { useParams } from 'react-router-dom';
 import ImageGallery from '../../components/image-gallery/image-gallery.tsx';
 import NearPlaces from '../../components/near-places/near-places.tsx';
@@ -6,23 +5,32 @@ import NotFound from '../not-found/not-found.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import Map from '../../components/map/map.tsx';
 import { DISPLAYED_NEARBY_OFFERS } from '../../../const.ts';
-import { useAppSelector } from '../../../hooks/index.ts';
-import { selectOffers } from '../../../store/selectors/offers.ts';
+import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
+import { selectComments, selectOffer, selectOffers, selectOffersNearby } from '../../../store/selectors/offers.ts';
+import { setCommentsAction, setOfferAction, setOffersNearbyAction } from '../../../store/api-actions.ts';
+import { useEffect } from 'react';
 
-type OfferProps = {
-  reviews: ReviewType[];
-}
-
-function Offer({reviews}: OfferProps): JSX.Element {
+function Offer(): JSX.Element {
+  const reviews = useAppSelector(selectComments);
   const offers = useAppSelector(selectOffers);
   const { id } = useParams();
-  const currentOffer: OfferType | undefined = offers.find((offer) => offer.id === id);
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (id) {
+      dispatch(setOfferAction(id));
+      dispatch(setOffersNearbyAction(id));
+      dispatch(setCommentsAction(id));
+    }
+  }, [dispatch, id]);
+  const currentOffer = useAppSelector(selectOffer);
+  const offersNearby = useAppSelector(selectOffersNearby);
 
   if (!currentOffer) {
     return <NotFound type='ID_IS_NOT_CORRECT' />;
   }
   const {
-    city,
+    // city,
     // location,
     rating,
     title,
@@ -34,9 +42,7 @@ function Offer({reviews}: OfferProps): JSX.Element {
     images,
   } = currentOffer;
 
-  const filteredOffers = offers.filter((offer) =>
-    offer.city.name === city.name && offer.id !== id);
-  const displayedOffersNearby = filteredOffers.slice(0, DISPLAYED_NEARBY_OFFERS);
+  const displayedOffersNearby = offersNearby.slice(0, DISPLAYED_NEARBY_OFFERS);
   const displayedOffers = [...displayedOffersNearby, currentOffer];
   return (
     <main className="page__main page__main--offer">
