@@ -5,14 +5,13 @@ import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import Map from '../../components/map/map.tsx';
 import { DISPLAYED_NEARBY_OFFERS } from '../../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
-import { selectComments, selectOffer, selectOffers, selectOffersNearby } from '../../../store/selectors/offers.ts';
+import { selectOffer, selectOffers, selectOffersNearby } from '../../../store/selectors/offers.ts';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction } from '../../../store/api-actions.ts';
-import { fetchComments, fetchOffer, fetchOffersNearby } from '../../../store/action.ts';
+import { setComments, setOffer, setOffersNearby } from '../../../store/action.ts';
 
 function Offer(): JSX.Element {
-  const reviews = useAppSelector(selectComments);
   const offers = useAppSelector(selectOffers);
   const currentOffer = useAppSelector(selectOffer);
   const offersNearby = useAppSelector(selectOffersNearby);
@@ -28,9 +27,9 @@ function Offer(): JSX.Element {
     }
 
     return () => {
-      dispatch(fetchOffer(null));
-      dispatch(fetchComments([]));
-      dispatch(fetchOffersNearby([]));
+      dispatch(setOffer(null));
+      dispatch(setComments([]));
+      dispatch(setOffersNearby([]));
     };
   }, [dispatch, id]);
 
@@ -157,7 +156,7 @@ function Offer(): JSX.Element {
                 </p>
               </div>
             </div>
-            <ReviewsList reviews={reviews} />
+            <ReviewsList />
           </div>
         </div>
         <Map

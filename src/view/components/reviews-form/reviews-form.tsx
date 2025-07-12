@@ -1,9 +1,22 @@
 import { FormEvent, Fragment, useState } from 'react';
 import { stars } from '../../../const';
+import { useAppDispatch } from '../../../hooks';
+import { UserReviewType } from '../../../types/user';
+import { postCommentAction } from '../../../store/api-actions';
 
-function ReviewsForm(): JSX.Element {
+type ReviewsFormProps = {
+  offerId: string;
+};
+
+function ReviewsForm({offerId}: ReviewsFormProps): JSX.Element {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+
+  const dispatch = useAppDispatch();
+
+  const handleCommentSubmit = (review: UserReviewType) => {
+    dispatch(postCommentAction(review));
+  };
 
   const handleRatingChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setRating(parseInt(evt.target.value, 10));
@@ -13,6 +26,9 @@ function ReviewsForm(): JSX.Element {
   };
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+    handleCommentSubmit({offerId, rating, comment});
+    setRating(0);
+    setComment('');
   };
 
   return (
@@ -55,18 +71,15 @@ function ReviewsForm(): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
         onChange={handleCommentChange}
+        minLength={50}
+        maxLength={300}
       >
       </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set
-          <span className="reviews__star">
-            rating
-          </span>
-          and describe your stay with at least
-          <b className="reviews__text-amount">
-            50 characters
-          </b>.
+          To submit review please make sure to
+          set <span className="reviews__star">rating</span> and describe your stay with at
+          least <b className="reviews__text-amount">50 characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"

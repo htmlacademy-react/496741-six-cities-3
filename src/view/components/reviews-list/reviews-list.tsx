@@ -1,16 +1,15 @@
+import { useParams } from 'react-router-dom';
 import { AuthorizationStatus } from '../../../const.ts';
 import { useAppSelector } from '../../../hooks/index.ts';
 import { selectAuthorizationStatus } from '../../../store/selectors/auth.ts';
-import { ReviewType } from '../../../types/types.ts';
+import { selectComments } from '../../../store/selectors/offers.ts';
 import ReviewsForm from '../reviews-form/reviews-form';
 import ReviewsItem from '../reviews-item/reviews-item';
 
-type ReviewsListProps = {
-  reviews: ReviewType[];
-};
+function ReviewsList() {
 
-function ReviewsList({reviews}: ReviewsListProps) {
-
+  const { id } = useParams();
+  const reviews = useAppSelector(selectComments);
   const authorizationStatus = useAppSelector(selectAuthorizationStatus);
 
   return (
@@ -23,7 +22,7 @@ function ReviewsList({reviews}: ReviewsListProps) {
           <ReviewsItem key={review.id} review={review} />
         ))}
       </ul>
-      {authorizationStatus === AuthorizationStatus.Auth && <ReviewsForm />}
+      {authorizationStatus === AuthorizationStatus.Auth && id && <ReviewsForm offerId={id} />}
     </section>
   );
 }

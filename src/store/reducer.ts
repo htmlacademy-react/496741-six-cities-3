@@ -5,15 +5,16 @@ import { AuthInfo } from '../types/auth.ts';
 import {
   changeCity,
   changeSortType,
-  fetchOffer,
-  fetchOffers,
+  setOffer,
+  setOffers,
   requireAuthorization,
   setAuthInfo,
   setError,
   fetchFavorites,
   setOffersLoadingStatus,
-  fetchOffersNearby,
-  fetchComments} from './action';
+  setOffersNearby,
+  setComments,
+  addComment} from './action';
 
 type StateType = {
   offers: OfferType[];
@@ -48,7 +49,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(changeCity, (state, action) => {
       state.city = action.payload;
     })
-    .addCase(fetchOffers, (state, action) => {
+    .addCase(setOffers, (state, action) => {
       state.offers = action.payload;
     })
     .addCase(setOffersLoadingStatus, (state, action) => {
@@ -66,14 +67,17 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(fetchFavorites, (state, action) => {
       state.favorites = action.payload;
     })
-    .addCase(fetchOffer, (state, action) => {
+    .addCase(setOffer, (state, action) => {
       state.offer = action.payload;
     })
-    .addCase(fetchOffersNearby, (state, action) => {
+    .addCase(setOffersNearby, (state, action) => {
       state.offersNearby = action.payload;
     })
-    .addCase(fetchComments, (state, action) => {
+    .addCase(setComments, (state, action) => {
       state.comments = action.payload;
+    })
+    .addCase(addComment, (state, action) => {
+      state.comments = [...state.comments, action.payload];
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;

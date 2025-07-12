@@ -4,16 +4,17 @@ import { AxiosInstance } from 'axios';
 import { OfferType, ReviewType } from '../types/types';
 import { APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 import {
-  fetchOffer,
-  fetchOffers,
+  setOffer,
+  setOffers,
   redirectToRoute,
   requireAuthorization,
   setAuthInfo,
   setError,
   fetchFavorites,
   setOffersLoadingStatus,
-  fetchOffersNearby,
-  fetchComments} from './action';
+  setOffersNearby,
+  setComments,
+  addComment} from './action';
 import { AuthInfo } from '../types/auth.ts';
 import { dropToken, saveToken } from '../services/token.ts';
 import { AuthData } from '../types/auth.ts';
@@ -30,7 +31,7 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
     dispatch(setOffersLoadingStatus(true));
     const { data } = await api.get<OfferType[]>(APIRoute.Offers);
     dispatch(setOffersLoadingStatus(false));
-    dispatch(fetchOffers(data));
+    dispatch(setOffers(data));
   },
 );
 
@@ -42,7 +43,7 @@ export const fetchCommentsAction = createAsyncThunk<void, string, {
   'data/fetchComments',
   async (offerId, { dispatch, extra: api }) => {
     const { data } = await api.get<ReviewType[]>(APIRoute.Comments + offerId);
-    dispatch(fetchComments(data));
+    dispatch(setComments(data));
   },
 );
 
@@ -54,7 +55,7 @@ export const fetchOffersNearbyAction = createAsyncThunk<void, string, {
   'data/fetchOffersNearby',
   async (offerId, { dispatch, extra: api }) => {
     const { data } = await api.get<OfferType[]>(APIRoute.Offer + offerId + APIRoute.OffersNearby);
-    dispatch(fetchOffersNearby(data));
+    dispatch(setOffersNearby(data));
   },
 );
 
@@ -66,7 +67,7 @@ export const fetchOfferAction = createAsyncThunk<void, string, {
   'data/fetchOffer',
   async (offerId, { dispatch, extra: api }) => {
     const { data } = await api.get<OfferType>(APIRoute.Offer + offerId);
-    dispatch(fetchOffer(data));
+    dispatch(setOffer(data));
   },
 );
 
@@ -94,9 +95,9 @@ export const postCommentAction = createAsyncThunk<void, UserReviewType, {
 }>(
   'user/postComment',
   async ({offerId, comment, rating}, {dispatch, extra: api}) => {
-    const {data} = await api.post<ReviewType[]>(APIRoute.Comments + offerId, {comment, rating});
-    //console.log(data);
-    dispatch(fetchComments(data));
+    const {data} = await api.post<ReviewType>(APIRoute.Comments + offerId, {comment, rating});
+
+    dispatch(addComment(data));
   }
 );
 
