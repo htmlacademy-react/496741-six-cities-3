@@ -1,23 +1,21 @@
 import { Navigate } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../../const.ts';
+import { AppRoute } from '../../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
 import { selectCity } from '../../../store/selectors/offers.ts';
 import { FormEvent, useRef } from 'react';
 import { loginAction } from '../../../store/api-actions.ts';
+import { useAuth } from '../../../hooks/auth.ts';
 
-type LoginProps = {
-  authorionStatus: AuthorizationStatus;
-};
-
-function Login({authorionStatus}: LoginProps): JSX.Element {
+function Login(): JSX.Element {
 
   const city = useAppSelector(selectCity);
+  const userIsAuth = useAuth();
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordReff = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
 
-  if (authorionStatus === AuthorizationStatus.Auth) {
+  if (userIsAuth) {
     return <Navigate to={AppRoute.Root} />;
   }
 

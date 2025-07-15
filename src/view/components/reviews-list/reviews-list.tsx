@@ -1,16 +1,15 @@
 import { useParams } from 'react-router-dom';
-import { AuthorizationStatus } from '../../../const.ts';
 import { useAppSelector } from '../../../hooks/index.ts';
-import { selectAuthorizationStatus } from '../../../store/selectors/auth.ts';
 import { selectComments } from '../../../store/selectors/offers.ts';
 import ReviewsForm from '../reviews-form/reviews-form';
 import ReviewsItem from '../reviews-item/reviews-item';
+import { useAuth } from '../../../hooks/auth.ts';
 
 function ReviewsList() {
 
   const { id } = useParams();
+  const userIsAuth = useAuth();
   const reviews = useAppSelector(selectComments);
-  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
 
   return (
     <section className="offer__reviews reviews">
@@ -22,7 +21,7 @@ function ReviewsList() {
           <ReviewsItem key={review.id} review={review} />
         ))}
       </ul>
-      {authorizationStatus === AuthorizationStatus.Auth && id && <ReviewsForm offerId={id} />}
+      {userIsAuth && id && <ReviewsForm offerId={id} />}
     </section>
   );
 }
