@@ -31,10 +31,20 @@ function Main(): JSX.Element {
         >
           {hasError
             ? <MainEmpty city={city} />
-            : <PlaceList offers={filteredOffers} onOfferHover={handleOfferHover} />}
-          <div className="cities__right-section">
-            {!hasError && <Map offers={filteredOffers} activeOffer = {activeOffer} mapName='CITIES' />}
-          </div>
+            :
+            <>
+              <PlaceList
+                offers={filteredOffers}
+                onOfferHover={handleOfferHover}
+              />
+              <div className="cities__right-section">
+                <Map
+                  offers={filteredOffers}
+                  activeOffer = {activeOffer}
+                  mapName='CITIES'
+                />
+              </div>
+            </>}
         </div>
       </div>
     </main>
