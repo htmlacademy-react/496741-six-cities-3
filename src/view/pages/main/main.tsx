@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { OfferType } from '../../../types/offers.ts';
 import LocationsList from '../../components/locations-list/locations-list.tsx';
 import PlaceList from '../../components/place-list/place-list.tsx';
 import Map from '../../components/map/map.tsx';
 import { useAppSelector } from '../../../hooks/index.ts';
 import { getFilteredCityOffers } from '../../../utils.ts';
 import { selectCity, selectOffers } from '../../../store/selectors/offers.ts';
+import { OfferType } from '../../../types/offer.ts';
 
 function Main(): JSX.Element {
   const city = useAppSelector(selectCity);

@@ -17,5 +17,4 @@ export type OffersReducerType = {
   city: CityType;
   sortOption: SortTypeOptions;
   isOffersLoading: boolean;
-  error: string | null;
 }

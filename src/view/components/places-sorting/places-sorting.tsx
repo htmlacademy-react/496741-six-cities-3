@@ -1,11 +1,12 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { SortTypeOptions } from '../../../const';
 import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
-import { changeSortType } from '../../../store/action.ts';
 import { useState } from 'react';
+import { selectSortOption } from '../../../store/selectors/offers.ts';
+import { changeSortType } from '../../../store/offers/offers-reducer.ts';
 
 function PlacesSorting(): JSX.Element {
-  const sortingOption = useAppSelector((state) => state.sortOption);
+  const sortingOption = useAppSelector(selectSortOption);
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (

@@ -1,12 +1,12 @@
 import { layerGroup, Marker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { OfferType } from '../../../types/offers.ts';
 import { useEffect, useRef } from 'react';
 import useMap from './use-map.ts';
 import { NameMap } from '../../../const.ts';
 import { currentCustomIcon, defaultCustomIcon, offerMapStyle } from './const.ts';
 import { useAppSelector } from '../../../hooks/index.ts';
 import { selectCity } from '../../../store/selectors/offers.ts';
+import { OfferType } from '../../../types/offer.ts';
 
 type MapProps = {
   offers: OfferType[];

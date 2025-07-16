@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { OfferType } from '../../../types/offers.ts';
 import PlaceCard from '../place-card/place-card.tsx';
 import PlacesSorting from '../places-sorting/places-sorting.tsx';
 import { useAppSelector } from '../../../hooks/index.ts';
 import { selectCity } from '../../../store/selectors/offers.ts';
+import { OfferType } from '../../../types/offer.ts';
 
 type PlaceListProps = {
   onOfferHover: (offer?: OfferType) => void;

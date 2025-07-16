@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { cities, NameSpace, SortTypeOptions } from '../../const';
-import { OffersReducerType } from '../../types/offers.ts';
+import { CityType, OffersReducerType } from '../../types/offers.ts';
 import { fetchOffersAction } from '../api-actions.ts';
 
 const initialState: OffersReducerType = {
@@ -8,30 +8,29 @@ const initialState: OffersReducerType = {
   city: cities[0],
   sortOption: SortTypeOptions.Popular,
   isOffersLoading: false,
-  error: null,
 };
 
 export const offersReducer = createSlice({
   name: NameSpace.Offers,
   initialState,
-  reducers: {},
+  reducers: {
+    changeCity: (state, action: PayloadAction<CityType>) => {
+      state.city = action.payload;
+    },
+    changeSortType: (state, action: PayloadAction<SortTypeOptions>) => {
+      state.sortOption = action.payload;
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchOffersAction.pending, (state) => {
         state.isOffersLoading = true;
       })
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
-        state.isOffersLoading = false;
         state.offers = action.payload;
-      })
-      .addCase(changeCity, (state, action) => {
-        state.city = action.payload;
-      })
-      .addCase(changeSortType, (state, action) => {
-        state.sortOption = action.payload;
-      })
-      .addCase(setError, (state, action) => {
-        state.error = action.payload;
-      });;
+        state.isOffersLoading = false;
+      });
   }
 });
+
+export const { changeCity, changeSortType } = offersReducer.actions;

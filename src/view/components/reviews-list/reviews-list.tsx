@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../../hooks/index.ts';
-import { selectComments } from '../../../store/selectors/offers.ts';
 import ReviewsForm from '../reviews-form/reviews-form';
 import ReviewsItem from '../reviews-item/reviews-item';
 import { useAuth } from '../../../hooks/auth.ts';
+import { selectComments } from '../../../store/selectors/offer.ts';
 
 function ReviewsList() {
 

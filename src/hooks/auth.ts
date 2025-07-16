@@ -1,6 +1,6 @@
 import { useAppSelector } from './index.ts';
-import { selectAuthorizationStatus } from '../store/selectors/auth.ts';
 import { AuthorizationStatus } from '../const';
+import { selectAuthorizationStatus } from '../store/selectors/user.ts';
 
 const useAuth = () => useAppSelector(selectAuthorizationStatus) === AuthorizationStatus.Auth;
 

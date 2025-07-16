@@ -5,11 +5,12 @@ import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import Map from '../../components/map/map.tsx';
 import { DISPLAYED_NEARBY_OFFERS } from '../../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
-import { selectOffer, selectOffers, selectOffersNearby } from '../../../store/selectors/offers.ts';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction } from '../../../store/api-actions.ts';
-import { setComments, setOffer, setOffersNearby } from '../../../store/action.ts';
+import { selectOffers } from '../../../store/selectors/offers.ts';
+import { selectOffer, selectOffersNearby } from '../../../store/selectors/offer.ts';
+import { resetOfferData } from '../../../store/offer/offer-reducer.ts';
 
 function Offer(): JSX.Element {
   const offers = useAppSelector(selectOffers);
@@ -27,9 +28,7 @@ function Offer(): JSX.Element {
     }
 
     return () => {
-      dispatch(setOffer(null));
-      dispatch(setComments([]));
-      dispatch(setOffersNearby([]));
+      resetOfferData();
     };
   }, [dispatch, id]);
 

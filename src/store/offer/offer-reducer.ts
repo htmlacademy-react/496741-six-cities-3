@@ -16,7 +16,13 @@ const initialState: OfferRerucerType = {
 export const offerReducer = createSlice({
   name: NameSpace.Offer,
   initialState,
-  reducers: {},
+  reducers: {
+    resetOfferData: (state) => {
+      state.offer = null;
+      state.comments = [];
+      state.offersNearby = [];
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchOfferAction.fulfilled, (state, action) => {
@@ -33,3 +39,5 @@ export const offerReducer = createSlice({
       });
   }
 });
+
+export const { resetOfferData } = offerReducer.actions;

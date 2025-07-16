@@ -1,7 +1,6 @@
 import { CityType } from './types/offers.ts';
 
 export const DISPLAYED_NEARBY_OFFERS = 3;
-export const TIMEOUT_SHOW_ERROR = 2000;
 
 export enum Placement {
   Apartment = 'apartment',
