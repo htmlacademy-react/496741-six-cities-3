@@ -2,7 +2,7 @@ import { cities } from '../../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
 import { changeCity } from '../../../store/action.ts';
 import { selectCity } from '../../../store/selectors/offers.ts';
-import { CityType } from '../../../types/types.ts';
+import { CityType } from '../../../types/offers.ts';
 
 function LocationsList(): JSX.Element {
   const city = useAppSelector(selectCity);

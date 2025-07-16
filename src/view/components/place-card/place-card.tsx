@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { OfferType } from '../../../types/types.ts';
+import { OfferType } from '../../../types/offers.ts';
 import { NamePlaceCard } from '../../../const.ts';
 import { isFavoriteName } from './utils.ts';
 import cn from 'classnames';

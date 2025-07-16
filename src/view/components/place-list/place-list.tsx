@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { OfferType } from '../../../types/types.ts';
+import { OfferType } from '../../../types/offers.ts';
 import PlaceCard from '../place-card/place-card.tsx';
 import PlacesSorting from '../places-sorting/places-sorting.tsx';
 import { useAppSelector } from '../../../hooks/index.ts';

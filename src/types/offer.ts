@@ -1,15 +1,6 @@
-import { CityName, Placement } from '../const';
-
-export type LocationType = {
-  latitude: number;
-  longitude: number;
-  zoom: number;
-}
-
-export type CityType = {
-  name: CityName;
-  location: LocationType;
-}
+import { Placement } from '../const.ts';
+import { CityType, LocationType } from './offers.ts';
+import { UserType } from './user.ts';
 
 export type OfferType = {
   id: string;
@@ -25,16 +16,16 @@ export type OfferType = {
   images?: string[];
 };
 
-type UserType = {
-  name: string;
-  avatarUrl: string;
-  isPro: boolean;
-  }
-
 export type ReviewType = {
   id: string;
   date: string;
   user: UserType;
   comment: string;
   rating: number;
-  };
+};
+
+export type OfferRerucerType = {
+  offer: OfferType | null;
+  offersNearby: OfferType[];
+  comments: ReviewType[];
+};

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { OfferType } from '../../../types/types.ts';
+import { OfferType } from '../../../types/offers.ts';
 import LocationsList from '../../components/locations-list/locations-list.tsx';
 import PlaceList from '../../components/place-list/place-list.tsx';
 import Map from '../../components/map/map.tsx';

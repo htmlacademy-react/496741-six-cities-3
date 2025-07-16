@@ -1,4 +1,4 @@
-import { OfferType } from '../../../types/types.ts';
+import { OfferType } from '../../../types/offers.ts';
 import PlaceCard from '../place-card/place-card.tsx';
 
 type NearPlacesProps = {

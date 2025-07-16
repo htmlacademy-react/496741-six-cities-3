@@ -1,6 +1,6 @@
 import { layerGroup, Marker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { OfferType } from '../../../types/types.ts';
+import { OfferType } from '../../../types/offers.ts';
 import { useEffect, useRef } from 'react';
 import useMap from './use-map.ts';
 import { NameMap } from '../../../const.ts';
