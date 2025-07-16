@@ -8,6 +8,7 @@ const initialState: OffersReducerType = {
   city: cities[0],
   sortOption: SortTypeOptions.Popular,
   isOffersLoading: false,
+  hasError: false,
 };
 
 export const offersReducer = createSlice({
@@ -25,10 +26,15 @@ export const offersReducer = createSlice({
     builder
       .addCase(fetchOffersAction.pending, (state) => {
         state.isOffersLoading = true;
+        state.hasError = false;
       })
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.offers = action.payload;
         state.isOffersLoading = false;
+      })
+      .addCase(fetchOffersAction.rejected, (state) => {
+        state.isOffersLoading = false;
+        state.hasError = true;
       });
   }
 });
