@@ -11,6 +11,7 @@ const initialState: OfferRerucerType = {
   offer: null,
   offersNearby: [],
   comments: [],
+  isOfferPageLoading: false,
 };
 
 export const offerReducer = createSlice({
@@ -25,8 +26,15 @@ export const offerReducer = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(fetchOfferAction.pending, (state) => {
+        state.isOfferPageLoading = true;
+      })
       .addCase(fetchOfferAction.fulfilled, (state, action) => {
         state.offer = action.payload;
+        state.isOfferPageLoading = false;
+      })
+      .addCase(fetchOfferAction.rejected, (state) => {
+        state.isOfferPageLoading = false;
       })
       .addCase(fetchOffersNearbyAction.fulfilled, (state, action) => {
         state.offersNearby = action.payload;

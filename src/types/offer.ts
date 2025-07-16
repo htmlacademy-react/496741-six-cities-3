@@ -28,4 +28,5 @@ export type OfferRerucerType = {
   offer: OfferType | null;
   offersNearby: OfferType[];
   comments: ReviewType[];
+  isOfferPageLoading: boolean;
 };

@@ -9,13 +9,15 @@ import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction } from '../../../store/api-actions.ts';
 import { selectOffers } from '../../../store/selectors/offers.ts';
-import { selectOffer, selectOffersNearby } from '../../../store/selectors/offer.ts';
+import { selectOffer, selectOfferPageLoading, selectOffersNearby } from '../../../store/selectors/offer.ts';
 import { resetOfferData } from '../../../store/offer/offer-reducer.ts';
+import LoadingScreen from '../loading-screen/loading-screen.tsx';
 
 function Offer(): JSX.Element {
   const offers = useAppSelector(selectOffers);
   const currentOffer = useAppSelector(selectOffer);
   const offersNearby = useAppSelector(selectOffersNearby);
+  const offerPageIsLoading = useAppSelector(selectOfferPageLoading);
 
   const { id } = useParams();
 
@@ -28,13 +30,18 @@ function Offer(): JSX.Element {
     }
 
     return () => {
-      resetOfferData();
+      dispatch(resetOfferData());
     };
   }, [dispatch, id]);
+
+  if (offerPageIsLoading) {
+    return <LoadingScreen />;
+  }
 
   if (!currentOffer) {
     return <NotFound type='ID_IS_NOT_CORRECT' />;
   }
+
   const {
     // city,
     // location,
