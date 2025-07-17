@@ -1,5 +1,5 @@
-import { Link, Navigate } from 'react-router-dom';
-import { AppRoute, NamePlaceCard } from '../../../const.ts';
+import { Link } from 'react-router-dom';
+import { NamePlaceCard } from '../../../const.ts';
 import { isFavoriteName } from './utils.ts';
 import cn from 'classnames';
 import { OfferType } from '../../../types/offer.ts';
@@ -34,10 +34,7 @@ function PlaceCard({
   const userIsAuth = useAuth();
   const handleFavoriteClick = React.useCallback(
     () => {
-      if (!userIsAuth) {
-        <Navigate to={AppRoute.Login} />;
-      }
-      dispatch(postFavoriteAction(offer));
+      dispatch(postFavoriteAction({offer, userIsAuth}));
     },
     [offer, dispatch, userIsAuth],
   );

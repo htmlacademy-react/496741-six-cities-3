@@ -27,6 +27,11 @@ export type UserReviewType = {
   rating: number;
 };
 
+export type UserFvoritesType = {
+  offer: OfferType;
+  userIsAuth: boolean;
+}
+
 export type UserReducerType = {
   authorizationStatus: AuthorizationStatus;
   authInfo: AuthInfo | null;

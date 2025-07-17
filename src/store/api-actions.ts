@@ -4,7 +4,7 @@ import { AxiosInstance } from 'axios';
 import { APIRoute, AppRoute } from '../const';
 import { redirectToRoute } from './action';
 import { dropToken, saveToken } from '../services/token.ts';
-import { AuthData, AuthInfo, UserReviewType } from '../types/user.ts';
+import { AuthData, AuthInfo, UserFvoritesType, UserReviewType } from '../types/user.ts';
 import { OfferType, ReviewType } from '../types/offer.ts';
 import { updateOffer } from './offers/offers-reducer.ts';
 
@@ -115,13 +115,17 @@ export const loginAction = createAsyncThunk<AuthInfo, AuthData, {
   },
 );
 
-export const postFavoriteAction = createAsyncThunk<OfferType, OfferType, {
+export const postFavoriteAction = createAsyncThunk<OfferType, UserFvoritesType, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/postFavorite',
-  async (offer, {dispatch, extra: api}) => {
+  async ({offer, userIsAuth}, {dispatch, extra: api}) => {
+    if (!userIsAuth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+      return offer;
+    }
     const newStatus = Number(!offer.isFavorite);
     const {data} = await api.post<OfferType>(`${APIRoute.Favorite}/${offer.id}/${newStatus}`);
 
