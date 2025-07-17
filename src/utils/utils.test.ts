@@ -17,7 +17,7 @@ describe('Functions: getFilteredCityOffers & getSortedOffers', () => {
 
       expect(result).toHaveLength(2);
       result.forEach((offer) => {
-        expect(offer.city.name).toBe(city);
+        expect(offer.city.name).toBe(city.name);
       });
     });
   });
