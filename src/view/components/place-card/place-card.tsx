@@ -1,12 +1,12 @@
 import { Link, Navigate } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus, NamePlaceCard } from '../../../const.ts';
+import { AppRoute, NamePlaceCard } from '../../../const.ts';
 import { isFavoriteName } from './utils.ts';
 import cn from 'classnames';
 import { OfferType } from '../../../types/offer.ts';
 import React from 'react';
 import { postFavoriteAction } from '../../../store/api-actions.ts';
-import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
-import { selectAuthorizationStatus } from '../../../store/selectors/user.ts';
+import { useAppDispatch } from '../../../hooks/index.ts';
+import { useAuth } from '../../../hooks/auth.ts';
 
 type PlaceCardProps = {
   offer: OfferType;
@@ -30,15 +30,16 @@ function PlaceCard({
   } = offer;
 
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
+
+  const userIsAuth = useAuth();
   const handleFavoriteClick = React.useCallback(
     () => {
-      if (authorizationStatus !== AuthorizationStatus.Auth) {
+      if (!userIsAuth) {
         <Navigate to={AppRoute.Login} />;
       }
-      dispatch(postFavoriteAction({offer, authorizationStatus}));
+      dispatch(postFavoriteAction(offer));
     },
-    [offer, dispatch, authorizationStatus],
+    [offer, dispatch, userIsAuth],
   );
   const handleMouseOn = () => onOfferHover && onOfferHover(offer);
   const handleMouseOff = () => onOfferHover && onOfferHover(undefined);
