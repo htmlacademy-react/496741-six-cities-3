@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { cities, NameSpace, SortTypeOptions } from '../../const';
 import { CityType, OffersReducerType } from '../../types/offers.ts';
 import { fetchOffersAction } from '../api-actions.ts';
+import { OfferType } from '../../types/offer.ts';
 
 const initialState: OffersReducerType = {
   offers: [],
@@ -20,6 +21,11 @@ export const offersReducer = createSlice({
     },
     changeSortType: (state, action: PayloadAction<SortTypeOptions>) => {
       state.sortOption = action.payload;
+    },
+    updateOffer: (state, action: PayloadAction<OfferType>) => {
+      state.offers = state.offers.map((offer) =>
+        offer.id === action.payload.id ? action.payload : offer
+      );
     }
   },
   extraReducers(builder) {
@@ -39,4 +45,4 @@ export const offersReducer = createSlice({
   }
 });
 
-export const { changeCity, changeSortType } = offersReducer.actions;
+export const { changeCity, changeSortType, updateOffer } = offersReducer.actions;

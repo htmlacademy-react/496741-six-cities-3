@@ -1,11 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
+import { APIRoute, AppRoute } from '../const';
 import { redirectToRoute } from './action';
 import { dropToken, saveToken } from '../services/token.ts';
 import { AuthData, AuthInfo, PostFavoriteType, UserReviewType } from '../types/user.ts';
 import { OfferType, ReviewType } from '../types/offer.ts';
+import { updateOffer } from './offers/offers-reducer.ts';
 
 export const fetchOffersAction = createAsyncThunk<OfferType[], undefined, {
   dispatch: AppDispatch;
@@ -113,20 +114,17 @@ export const fetchFavoritesAction = createAsyncThunk<OfferType[], undefined, {
   },
 );
 
-export const postFavoriteAction = createAsyncThunk<OfferType | void, PostFavoriteType, {
+export const postFavoriteAction = createAsyncThunk<OfferType, PostFavoriteType, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/postFavorite',
-  async ({offer, authorizationStatus}, {dispatch, extra: api}) => {
-    if (authorizationStatus !== AuthorizationStatus.Auth) {
-      dispatch(redirectToRoute(AppRoute.Login));
-      return;
-    }
+  async ({offer}, {dispatch, extra: api}) => {
     const newStatus = Number(!offer.isFavorite);
     const {data} = await api.post<OfferType>(`${APIRoute.Favorite}/${offer.id}/${newStatus}`);
 
+    dispatch(updateOffer(data));
     return data;
   }
 );

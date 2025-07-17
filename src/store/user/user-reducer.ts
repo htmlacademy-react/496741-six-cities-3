@@ -42,8 +42,10 @@ export const userReducer = createSlice({
         state.favorites = action.payload;
       })
       .addCase(postFavoriteAction.fulfilled, (state, action) => {
-        if (action.payload) {
+        if (action.payload.isFavorite) {
           state.favorites = [...state.favorites, action.payload];
+        } else {
+          state.favorites = state.favorites.filter((offer) => offer.id !== action.payload.id);
         }
       });
   }
