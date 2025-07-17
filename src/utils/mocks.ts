@@ -13,6 +13,8 @@ const MAX_PRICE = 500;
 const MAX_RATING = 5;
 const PRECISION_RATING = 1;
 
+export const fakeMapName = faker.helpers.randomize(['CITIES', 'OFFER']);
+
 export const makeFakeLocation = (): LocationType => ({
   latitude: Number(address.latitude()),
   longitude: Number(address.longitude()),
