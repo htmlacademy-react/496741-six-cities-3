@@ -1,8 +1,12 @@
 import { Link } from 'react-router-dom';
-import { OfferType } from '../../../types/types.ts';
 import { NamePlaceCard } from '../../../const.ts';
 import { isFavoriteName } from './utils.ts';
 import cn from 'classnames';
+import { OfferType } from '../../../types/offer.ts';
+import React from 'react';
+import { postFavoriteAction } from '../../../store/api-actions.ts';
+import { useAppDispatch } from '../../../hooks/index.ts';
+import { useAuth } from '../../../hooks/auth.ts';
 
 type PlaceCardProps = {
   offer: OfferType;
@@ -25,6 +29,15 @@ function PlaceCard({
     isPremium,
   } = offer;
 
+  const dispatch = useAppDispatch();
+
+  const userIsAuth = useAuth();
+  const handleFavoriteClick = React.useCallback(
+    () => {
+      dispatch(postFavoriteAction({offer, userIsAuth}));
+    },
+    [offer, dispatch, userIsAuth],
+  );
   const handleMouseOn = () => onOfferHover && onOfferHover(offer);
   const handleMouseOff = () => onOfferHover && onOfferHover(undefined);
   const isFavoriteCard = isFavoriteName(cardName);
@@ -60,7 +73,9 @@ function PlaceCard({
               'place-card__bookmark-button',
               {'place-card__bookmark-button--active': isFavorite},
               'button'
-            )} type="button"
+            )}
+            onClick={handleFavoriteClick}
+            type="button"
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

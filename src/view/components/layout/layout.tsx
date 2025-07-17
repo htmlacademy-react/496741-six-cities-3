@@ -1,12 +1,13 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo.tsx';
-import { AppRoute, AuthorizationStatus, PageTitle } from '../../../const.ts';
+import { AppRoute, PageTitle } from '../../../const.ts';
 import Footer from '../footer/footer.tsx';
 import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
 import { MouseEvent } from 'react';
 import { logoutAction } from '../../../store/api-actions.ts';
-import { selectAuthInfo } from '../../../store/selectors/user.ts';
+import { selectAuthInfo, selectFavorites } from '../../../store/selectors/user.ts';
+import { useAuth } from '../../../hooks/auth.ts';
 
 const getLayoutState = (pathname: AppRoute) => {
   let layoutClassName = 'page';
@@ -29,10 +30,9 @@ const getLayoutState = (pathname: AppRoute) => {
 
 function Layout(): JSX.Element {
   const authInfo = useAppSelector(selectAuthInfo);
-  //const favorite = useAppSelector(selectFavorite);
+  const favorites = useAppSelector(selectFavorites);
   const {pathname} = useLocation();
 
-  //console.log(favorite);
   const {
     layoutClassName,
     isMainPage,
@@ -41,7 +41,7 @@ function Layout(): JSX.Element {
   } = getLayoutState(pathname as AppRoute);
 
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const userIsAuth = useAuth();
 
   const title = PageTitle[pathname as AppRoute];
 
@@ -68,15 +68,15 @@ function Layout(): JSX.Element {
                   <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    {authorizationStatus === AuthorizationStatus.Auth ?
+                    {userIsAuth ?
                       <>
                         <span className="header__user-name user__name">{authInfo?.email}</span>
-                        <span className="header__favorite-count">3</span>
+                        <span className="header__favorite-count">{favorites.length}</span>
                       </> :
                       <span className="header__login">Sign in</span>}
                   </Link>
                 </li>
-                {authorizationStatus === AuthorizationStatus.Auth &&
+                {userIsAuth &&
                 <li className="header__nav-item">
                   <Link className="header__nav-link" onClick={handleLogout} to={AppRoute.Root}>
                     <span className="header__signout">

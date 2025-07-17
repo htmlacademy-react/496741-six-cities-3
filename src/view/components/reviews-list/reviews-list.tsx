@@ -1,12 +1,16 @@
-import { ReviewType } from '../../../types/types.ts';
+import { useParams } from 'react-router-dom';
+import { useAppSelector } from '../../../hooks/index.ts';
 import ReviewsForm from '../reviews-form/reviews-form';
 import ReviewsItem from '../reviews-item/reviews-item';
+import { useAuth } from '../../../hooks/auth.ts';
+import { selectComments } from '../../../store/selectors/offer.ts';
 
-type ReviewsListProps = {
-  reviews: ReviewType[];
-};
+function ReviewsList() {
 
-function ReviewsList({reviews}: ReviewsListProps) {
+  const { id } = useParams();
+  const userIsAuth = useAuth();
+  const reviews = useAppSelector(selectComments);
+
   return (
     <section className="offer__reviews reviews">
       <h2 className="reviews__title">
@@ -17,7 +21,7 @@ function ReviewsList({reviews}: ReviewsListProps) {
           <ReviewsItem key={review.id} review={review} />
         ))}
       </ul>
-      <ReviewsForm />
+      {userIsAuth && id && <ReviewsForm offerId={id} />}
     </section>
   );
 }

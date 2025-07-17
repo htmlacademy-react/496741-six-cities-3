@@ -1,4 +1,4 @@
-import { ReviewType } from '../../../types/types';
+import { ReviewType } from '../../../types/offer.ts';
 
 type ReviewsItemProps = {
   review: ReviewType;

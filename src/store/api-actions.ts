@@ -1,107 +1,105 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { OfferType, ReviewType } from '../types/types';
-import { APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
-import {
-  setOffer,
-  setOffers,
-  redirectToRoute,
-  requireAuthorization,
-  setAuthInfo,
-  setError,
-  setFavorite,
-  setOffersLoadingStatus,
-  setOffersNearby,
-  setComments} from './action';
-import { AuthInfo } from '../types/auth.ts';
+import { APIRoute, AppRoute } from '../const';
+import { redirectToRoute } from './action';
 import { dropToken, saveToken } from '../services/token.ts';
-import { AuthData } from '../types/auth.ts';
-import { store } from './index.ts';
-import { UserReviewType } from '../types/user.ts';
+import { AuthData, AuthInfo, UserFvoritesType, UserReviewType } from '../types/user.ts';
+import { FullOfferType, OfferType, ReviewType } from '../types/offer.ts';
+import { updateOffer } from './offers/offers-reducer.ts';
 
-export const setOffersAction = createAsyncThunk<void, undefined, {
+export const fetchOffersAction = createAsyncThunk<OfferType[], undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/setOffers',
-  async (_arg, { dispatch, extra: api }) => {
-    dispatch(setOffersLoadingStatus(true));
+  'offers/fetchOffers',
+  async (_arg, { extra: api }) => {
     const { data } = await api.get<OfferType[]>(APIRoute.Offers);
-    dispatch(setOffersLoadingStatus(false));
-    dispatch(setOffers(data));
+
+    return data;
   },
 );
 
-export const setCommentsAction = createAsyncThunk<void, string, {
+export const fetchCommentsAction = createAsyncThunk<ReviewType[], string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/setComments',
-  async (offerId, { dispatch, extra: api }) => {
+  'offer/fetchComments',
+  async (offerId, { extra: api }) => {
     const { data } = await api.get<ReviewType[]>(APIRoute.Comments + offerId);
-    dispatch(setComments(data));
+
+    return data;
   },
 );
 
-export const setOffersNearbyAction = createAsyncThunk<void, string, {
+export const fetchOffersNearbyAction = createAsyncThunk<OfferType[], string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/setOffersNearby',
-  async (offerId, { dispatch, extra: api }) => {
+  'offer/fetchOffersNearby',
+  async (offerId, { extra: api }) => {
     const { data } = await api.get<OfferType[]>(APIRoute.Offer + offerId + APIRoute.OffersNearby);
-    dispatch(setOffersNearby(data));
+
+    return data;
   },
 );
 
-export const setOfferAction = createAsyncThunk<void, string, {
+export const fetchOfferAction = createAsyncThunk<FullOfferType, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/setOffer',
-  async (offerId, { dispatch, extra: api }) => {
-    const { data } = await api.get<OfferType>(APIRoute.Offer + offerId);
-    dispatch(setOffer(data));
-    dispatch(setCommentsAction(offerId));
-    dispatch(setOffersNearbyAction(offerId));
+  'offer/fetchOffer',
+  async (offerId, { extra: api }) => {
+    const { data } = await api.get<FullOfferType>(APIRoute.Offer + offerId);
+
+    return data;
   },
 );
 
-export const checkAuthAction = createAsyncThunk<void, undefined, {
+export const checkAuthAction = createAsyncThunk<AuthInfo, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/checkAuth',
-  async (_arg, { dispatch, extra: api }) => {
-    try {
-      const { data } = await api.get<AuthInfo>(APIRoute.Login);
-      dispatch(setAuthInfo(data));
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    }
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<AuthInfo>(APIRoute.Login);
+
+    return data;
   },
 );
 
-export const postCommentAction = createAsyncThunk<void, [string, UserReviewType], {
+export const postCommentAction = createAsyncThunk<ReviewType, UserReviewType, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'user/comment',
-  async ([offerId, {comment, rating}], {dispatch, extra: api}) => {
-    const {data} = await api.post<ReviewType[]>(APIRoute.Comments + offerId, {comment, rating});
-    dispatch(setComments(data));
+  'offer/postComment',
+  async ({offerId, comment, rating}, {extra: api}) => {
+    const {data} = await api.post<ReviewType>(APIRoute.Comments + offerId, {comment, rating});
+
+    return data;
   }
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, {
+export const fetchFavoritesAction = createAsyncThunk<OfferType[], undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/fetchFavorites',
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<OfferType[]>(APIRoute.Favorite);
+
+    return data;
+  },
+);
+
+export const loginAction = createAsyncThunk<AuthInfo, AuthData, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -110,22 +108,30 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   async ({email, password}, {dispatch, extra: api}) => {
     const {data} = await api.post<AuthInfo>(APIRoute.Login, {email, password});
     saveToken(data.token);
-    dispatch(setAuthInfo(data));
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(redirectToRoute(AppRoute.Root));
+    dispatch(fetchOffersAction());
+    dispatch(fetchFavoritesAction());
+    return data;
   },
 );
 
-export const fetchFavoriteAction = createAsyncThunk<void, undefined, {
+export const postFavoriteAction = createAsyncThunk<OfferType, UserFvoritesType, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'setFavorite',
-  async (_arg, { dispatch, extra: api }) => {
-    const { data } = await api.get<OfferType[]>(APIRoute.Favorite);
-    dispatch(setFavorite(data));
-  },
+  'user/postFavorite',
+  async ({offer, userIsAuth}, {dispatch, extra: api}) => {
+    if (!userIsAuth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+      return offer;
+    }
+    const newStatus = Number(!offer.isFavorite);
+    const {data} = await api.post<OfferType>(`${APIRoute.Favorite}/${offer.id}/${newStatus}`);
+
+    dispatch(updateOffer(data));
+    return data;
+  }
 );
 
 export const logoutAction = createAsyncThunk<void, undefined, {
@@ -137,17 +143,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    dispatch(setAuthInfo(null));
-  },
-);
-
-export const clearErrorAction = createAsyncThunk(
-  'clearError',
-  () => {
-    setTimeout(
-      () => store.dispatch(setError(null)),
-      TIMEOUT_SHOW_ERROR,
-    );
+    dispatch(fetchOffersAction());
   },
 );

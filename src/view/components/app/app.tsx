@@ -12,10 +12,12 @@ import { useAppSelector } from '../../../hooks/index.ts';
 import LoadingScreen from '../../pages/loading-screen/loading-screen.tsx';
 import HistoryRouter from '../history-router/history-router.tsx';
 import browserHistory from '../../../browser-history.ts';
+import { selectOffersLoadingStatus } from '../../../store/selectors/offers.ts';
+import { selectAuthorizationStatus } from '../../../store/selectors/user.ts';
 
 function App() : JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
+  const isOffersLoading = useAppSelector(selectOffersLoadingStatus);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isOffersLoading) {
     return (
@@ -38,14 +40,14 @@ function App() : JSX.Element {
             <Route
               path={AppRoute.Favorites}
               element={
-                <PrivateRoute authorionStatus={authorizationStatus}>
+                <PrivateRoute>
                   <Favorites />
                 </PrivateRoute>
               }
             />
             <Route
               path={AppRoute.Login}
-              element={<Login authorionStatus={authorizationStatus} />}
+              element={<Login />}
             />
             <Route
               path={AppRoute.Offer}

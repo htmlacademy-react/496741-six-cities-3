@@ -1,9 +1,15 @@
+import { NameSpace } from '../../const.ts';
 import { State } from '../../types/state.ts';
 
-const selectCity = (state: State) => state.city;
-const selectOffers = (state: State) => state.offers;
-const selectOffer = (state: State) => state.offer;
-const selectOffersNearby = (state: State) => state.offersNearby;
-const selectComments = (state: State) => state.comments;
+const selectCity = (state: State) => state[NameSpace.Offers].city;
+const selectOffers = (state: State) => state[NameSpace.Offers].offers;
+const selectOffersLoadingStatus = (state: State) => state[NameSpace.Offers].isOffersLoading;
+const selectSortOption = (state: State) => state[NameSpace.Offers].sortOption;
+const selectErrorStatus = (state: State) => state[NameSpace.Offers].hasError;
 
-export { selectCity, selectOffers, selectOffer, selectOffersNearby, selectComments };
+export {
+  selectCity,
+  selectOffers,
+  selectOffersLoadingStatus,
+  selectSortOption,
+  selectErrorStatus };

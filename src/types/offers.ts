@@ -1,4 +1,4 @@
-import { CityName, Placement } from '../const';
+import { CityName, Placement, SortTypeOptions } from '../const';
 
 export type LocationType = {
   latitude: number;
@@ -25,16 +25,10 @@ export type OfferType = {
   images?: string[];
 };
 
-type UserType = {
-  name: string;
-  avatarUrl: string;
-  isPro: boolean;
-  }
-
-export type ReviewType = {
-  id: string;
-  date: string;
-  user: UserType;
-  comment: string;
-  rating: number;
-  };
+export type OffersReducerType = {
+  offers: OfferType[];
+  city: CityType;
+  sortOption: SortTypeOptions;
+  isOffersLoading: boolean;
+  hasError: boolean;
+}
