@@ -5,7 +5,7 @@ import { APIRoute, AppRoute } from '../const';
 import { redirectToRoute } from './action';
 import { dropToken, saveToken } from '../services/token.ts';
 import { AuthData, AuthInfo, UserFvoritesType, UserReviewType } from '../types/user.ts';
-import { OfferType, ReviewType } from '../types/offer.ts';
+import { FullOfferType, OfferType, ReviewType } from '../types/offer.ts';
 import { updateOffer } from './offers/offers-reducer.ts';
 
 export const fetchOffersAction = createAsyncThunk<OfferType[], undefined, {
@@ -47,14 +47,14 @@ export const fetchOffersNearbyAction = createAsyncThunk<OfferType[], string, {
   },
 );
 
-export const fetchOfferAction = createAsyncThunk<OfferType, string, {
+export const fetchOfferAction = createAsyncThunk<FullOfferType, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'offer/fetchOffer',
   async (offerId, { extra: api }) => {
-    const { data } = await api.get<OfferType>(APIRoute.Offer + offerId);
+    const { data } = await api.get<FullOfferType>(APIRoute.Offer + offerId);
 
     return data;
   },

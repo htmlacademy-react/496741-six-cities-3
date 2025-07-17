@@ -3,17 +3,16 @@ import LocationsList from '../../components/locations-list/locations-list.tsx';
 import PlaceList from '../../components/place-list/place-list.tsx';
 import Map from '../../components/map/map.tsx';
 import { useAppSelector } from '../../../hooks/index.ts';
-import { getFilteredCityOffers } from '../../../utils.ts';
 import { selectCity, selectErrorStatus, selectOffers } from '../../../store/selectors/offers.ts';
 import { OfferType } from '../../../types/offer.ts';
 import MainEmpty from '../../components/main-empty/main-empty.tsx';
+import { getFilteredCityOffers } from '../../../utils/utils.ts';
 
 function Main(): JSX.Element {
   const city = useAppSelector(selectCity);
   const offers = useAppSelector(selectOffers);
   const hasError = useAppSelector(selectErrorStatus);
   const filteredOffers = getFilteredCityOffers(offers, city);
-
   const [activeOffer, setActiveOffer] = useState<OfferType | undefined>(undefined);
   const handleOfferHover = (offer?: OfferType) => {
     setActiveOffer(offer || undefined);

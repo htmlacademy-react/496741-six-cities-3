@@ -13,7 +13,18 @@ export type OfferType = {
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
-  images?: string[];
+};
+
+
+type RemovedKeys = 'previewImage';
+
+export type FullOfferType = Omit<OfferType, RemovedKeys> & {
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: UserType;
+  maxAdults: number;
+  images: string[];
 };
 
 export type ReviewType = {
@@ -25,7 +36,7 @@ export type ReviewType = {
 };
 
 export type OfferRerucerType = {
-  offer: OfferType | null;
+  offer: FullOfferType | null;
   offersNearby: OfferType[];
   comments: ReviewType[];
   isOfferPageLoading: boolean;

@@ -4,7 +4,7 @@ import PlacesSorting from '../places-sorting/places-sorting.tsx';
 import { useAppSelector } from '../../../hooks/index.ts';
 import { selectCity, selectSortOption } from '../../../store/selectors/offers.ts';
 import { OfferType } from '../../../types/offer.ts';
-import { getSortedOffers } from '../../../utils.ts';
+import { getSortedOffers } from '../../../utils/utils.ts';
 
 type PlaceListProps = {
   onOfferHover: (offer?: OfferType) => void;
