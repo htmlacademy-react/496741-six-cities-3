@@ -27,6 +27,11 @@ export type UserReviewType = {
   rating: number;
 };
 
+export type PostFavoriteType = {
+  offer: OfferType;
+  authorizationStatus: AuthorizationStatus;
+}
+
 export type UserReducerType = {
   authorizationStatus: AuthorizationStatus;
   authInfo: AuthInfo | null;

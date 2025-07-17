@@ -5,7 +5,8 @@ import {
   checkAuthAction,
   fetchFavoritesAction,
   loginAction,
-  logoutAction } from '../api-actions.ts';
+  logoutAction,
+  postFavoriteAction} from '../api-actions.ts';
 
 const initialState: UserReducerType = {
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -39,6 +40,11 @@ export const userReducer = createSlice({
       })
       .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
         state.favorites = action.payload;
+      })
+      .addCase(postFavoriteAction.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.favorites = [...state.favorites, action.payload];
+        }
       });
   }
 });
