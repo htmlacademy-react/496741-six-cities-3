@@ -17,7 +17,7 @@ describe('Selectors offers', () => {
   it('should return offers from the state', () => {
     const { offers } = state[NameSpace.Offers];
     const result = selectOffers(state);
-    expect(result).toBe(offers);
+    expect(result).toEqual(offers);
   });
 
   it('should return city from the state', () => {

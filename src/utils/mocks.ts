@@ -6,7 +6,7 @@ import {
   Placement,
   SortTypeOptions } from '../const';
 import { CityType, LocationType } from '../types/offers';
-import { AuthInfo, UserType } from '../types/user';
+import { AuthData, AuthInfo, UserType } from '../types/user';
 import { FullOfferType, OfferType, ReviewType } from '../types/offer';
 import faker from 'faker';
 
@@ -53,6 +53,11 @@ export const makeFakeOffer = (): OfferType => ({
   rating: faker.datatype.float({ min: 1, max: 5, precision: 0.1 }),
 });
 
+export const makeFakeFavoriteOffer = (): OfferType => ({
+  ...makeFakeOffer(),
+  isFavorite: true,
+});
+
 export const makeFakeFullOffer = (): FullOfferType => ({
   id: faker.datatype.uuid(),
   title: faker.commerce.productName(),
@@ -85,8 +90,8 @@ export const makeFakeOffersNearby = (city: CityType): OfferType[] =>
   });
 
 export const makeFakeFavoriteOffers = (): OfferType[] => (
-  makeFakeOffers().map((offer) => (
-    {...offer, isFavorite: true})) as OfferType[]);
+  Array.from({ length: NUMBER_OF_FAKE_CASES + 1 }, () => makeFakeFavoriteOffer())
+);
 
 export const makeFakeComment = (): ReviewType => ({
   comment: faker.commerce.productDescription(),
@@ -94,6 +99,11 @@ export const makeFakeComment = (): ReviewType => ({
   id: faker.datatype.uuid(),
   rating: faker.datatype.float({max: MAX_RATING, precision: PRECISION_RATING}),
   user: makeFakeUser(),
+});
+
+export const makeFakeAuthData = (): AuthData => ({
+  email: faker.internet.email(),
+  password: faker.datatype.string(),
 });
 
 export const makeFakeAuthInfo = (): AuthInfo => ({
