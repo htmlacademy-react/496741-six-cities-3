@@ -67,9 +67,13 @@ export const makeFakeOffers = (): OfferType[] => (
   Array.from({ length: NUMBER_OF_FAKE_CASES + 1 }, () => makeFakeOffer())
 );
 
-export const makeFakeOffersNearby = (): OfferType[] => (
-  Array.from({ length: DISPLAYED_NEARBY_OFFERS + 1 }, () => makeFakeOffer())
-);
+export const makeFakeOffersNearby = (city: CityType): OfferType[] => new Array(DISPLAYED_NEARBY_OFFERS).fill(null).map(() => {
+  const offer = makeFakeOffer();
+  return {
+    ...offer,
+    city,
+  };
+});
 
 export const makeFakeFavoriteOffers = (): OfferType[] => (
   makeFakeOffers().map((offer) => (
