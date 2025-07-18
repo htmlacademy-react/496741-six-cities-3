@@ -14,6 +14,9 @@ const MAX_RATING = 5;
 const PRECISION_RATING = 1;
 
 export const fakeMapName = faker.helpers.randomize(Object.keys(NameMap));
+export const fakeOfferType = faker.helpers.randomize(Object.values(Placement));
+export const fakeCityName = faker.helpers.randomize(Object.values(CityName));
+export const fakeSortOption = faker.helpers.randomize(Object.values(SortTypeOptions));
 
 export const makeFakeLocation = (): LocationType => ({
   latitude: Number(address.latitude()),
@@ -23,7 +26,7 @@ export const makeFakeLocation = (): LocationType => ({
 
 export const makeFakeCity = (): CityType => ({
   location: makeFakeLocation(),
-  name: faker.helpers.randomize(Object.values(CityName)),
+  name: fakeCityName,
 } as CityType);
 
 export const makeFakeUser = (): UserType => ({
@@ -35,7 +38,7 @@ export const makeFakeUser = (): UserType => ({
 export const makeFakeOffer = (): OfferType => ({
   id: faker.datatype.uuid(),
   title: faker.commerce.productName(),
-  type: faker.helpers.randomize(Object.values(Placement)),
+  type: fakeOfferType,
   price: faker.datatype.number({ min: MIN_PRICE, max: MAX_PRICE }),
   previewImage: faker.internet.url(),
   city: makeFakeCity(),
@@ -48,7 +51,7 @@ export const makeFakeOffer = (): OfferType => ({
 export const makeFakeFullOffer = (): FullOfferType => ({
   id: faker.datatype.uuid(),
   title: faker.commerce.productName(),
-  type: faker.helpers.randomize(Object.values(Placement)),
+  type: fakeOfferType,
   price: faker.datatype.number({ min: MIN_PRICE, max: MAX_PRICE }),
   city: makeFakeCity(),
   location: makeFakeLocation(),
