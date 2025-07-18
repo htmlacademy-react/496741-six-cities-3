@@ -6,7 +6,7 @@ import {
   Placement,
   SortTypeOptions } from '../const';
 import { CityType, LocationType } from '../types/offers';
-import { AuthData, AuthInfo, UserType } from '../types/user';
+import { AuthData, AuthInfo, UserReviewType, UserType } from '../types/user';
 import { FullOfferType, OfferType, ReviewType } from '../types/offer';
 import faker from 'faker';
 
@@ -99,6 +99,12 @@ export const makeFakeComment = (): ReviewType => ({
   id: faker.datatype.uuid(),
   rating: faker.datatype.float({max: MAX_RATING, precision: PRECISION_RATING}),
   user: makeFakeUser(),
+});
+
+export const makeFakeCommentForPost = (): UserReviewType => ({
+  comment: faker.commerce.productDescription(),
+  offerId: faker.datatype.uuid(),
+  rating: faker.datatype.float({max: MAX_RATING, precision: PRECISION_RATING}),
 });
 
 export const makeFakeAuthData = (): AuthData => ({
