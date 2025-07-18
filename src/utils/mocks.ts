@@ -1,44 +1,49 @@
-import { address, datatype, internet, random } from 'faker';
-import { AuthorizationStatus, CityName, DISPLAYED_NEARBY_OFFERS, NameMap, Placement, SortTypeOptions } from '../const';
+import {
+  AuthorizationStatus,
+  CityName,
+  DISPLAYED_NEARBY_OFFERS,
+  NameMap,
+  Placement,
+  SortTypeOptions } from '../const';
 import { CityType, LocationType } from '../types/offers';
 import { AuthInfo, UserType } from '../types/user';
 import { FullOfferType, OfferType, ReviewType } from '../types/offer';
 import faker from 'faker';
 
 const ZOOM = 10;
-
 const NUMBER_OF_FAKE_CASES = 10;
 const MIN_PRICE = 50;
 const MAX_PRICE = 500;
 const MAX_RATING = 5;
 const PRECISION_RATING = 1;
 
-export const fakeMapName = faker.helpers.randomize(Object.keys(NameMap));
-export const fakeOfferType = faker.helpers.randomize(Object.values(Placement));
-export const fakeCityName = faker.helpers.randomize(Object.values(CityName));
-export const fakeSortOption = faker.helpers.randomize(Object.values(SortTypeOptions));
+export const randomMapName = faker.helpers.randomize(Object.keys(NameMap));
+export const randomOfferType = faker.helpers.randomize(Object.values(Placement));
+export const randomCityName = faker.helpers.randomize(Object.values(CityName));
+export const randomSortOption = faker.helpers.randomize(Object.values(SortTypeOptions));
+export const randomAuthorizationStatus = faker.helpers.randomize(Object.values(AuthorizationStatus));
 
 export const makeFakeLocation = (): LocationType => ({
-  latitude: Number(address.latitude()),
-  longitude: Number(address.longitude()),
+  latitude: Number(faker.address.latitude()),
+  longitude: Number(faker.address.longitude()),
   zoom: ZOOM,
 } as LocationType);
 
 export const makeFakeCity = (): CityType => ({
   location: makeFakeLocation(),
-  name: fakeCityName,
+  name: randomCityName,
 } as CityType);
 
 export const makeFakeUser = (): UserType => ({
-  avatarUrl: internet.avatar(),
-  name: internet.userName(),
-  isPro: datatype.boolean(),
+  avatarUrl: faker.internet.avatar(),
+  name: faker.internet.userName(),
+  isPro: faker.datatype.boolean(),
 } as UserType);
 
 export const makeFakeOffer = (): OfferType => ({
   id: faker.datatype.uuid(),
   title: faker.commerce.productName(),
-  type: fakeOfferType,
+  type: randomOfferType,
   price: faker.datatype.number({ min: MIN_PRICE, max: MAX_PRICE }),
   previewImage: faker.internet.url(),
   city: makeFakeCity(),
@@ -51,7 +56,7 @@ export const makeFakeOffer = (): OfferType => ({
 export const makeFakeFullOffer = (): FullOfferType => ({
   id: faker.datatype.uuid(),
   title: faker.commerce.productName(),
-  type: fakeOfferType,
+  type: randomOfferType,
   price: faker.datatype.number({ min: MIN_PRICE, max: MAX_PRICE }),
   city: makeFakeCity(),
   location: makeFakeLocation(),
@@ -70,13 +75,14 @@ export const makeFakeOffers = (): OfferType[] => (
   Array.from({ length: NUMBER_OF_FAKE_CASES + 1 }, () => makeFakeOffer())
 );
 
-export const makeFakeOffersNearby = (city: CityType): OfferType[] => new Array(DISPLAYED_NEARBY_OFFERS).fill(null).map(() => {
-  const offer = makeFakeOffer();
-  return {
-    ...offer,
-    city,
-  };
-});
+export const makeFakeOffersNearby = (city: CityType): OfferType[] =>
+  new Array(DISPLAYED_NEARBY_OFFERS).fill(null).map(() => {
+    const offer = makeFakeOffer();
+    return {
+      ...offer,
+      city,
+    };
+  });
 
 export const makeFakeFavoriteOffers = (): OfferType[] => (
   makeFakeOffers().map((offer) => (
@@ -86,23 +92,17 @@ export const makeFakeComment = (): ReviewType => ({
   comment: faker.commerce.productDescription(),
   date: faker.datatype.datetime().toISOString(),
   id: faker.datatype.uuid(),
-  rating: datatype.float({max: MAX_RATING, precision: PRECISION_RATING}),
+  rating: faker.datatype.float({max: MAX_RATING, precision: PRECISION_RATING}),
   user: makeFakeUser(),
 });
 
 export const makeFakeAuthInfo = (): AuthInfo => ({
-  avatarUrl: internet.avatar(),
-  email: internet.email(),
-  isPro: datatype.boolean(),
-  name: internet.userName(),
-  token: datatype.string(),
+  avatarUrl: faker.internet.avatar(),
+  email: faker.internet.email(),
+  isPro: faker.datatype.boolean(),
+  name: faker.internet.userName(),
+  token: faker.datatype.string(),
 });
 
 export const makeFakeComments = (): ReviewType[] => (
-  new Array(datatype.number(NUMBER_OF_FAKE_CASES)).fill(null).map(makeFakeComment));
-
-export const getRandomSortOptions = (): SortTypeOptions => (
-  random.arrayElement(Object.values(SortTypeOptions)) as SortTypeOptions);
-
-export const getAuthorizationStatus = (): AuthorizationStatus => (
-  random.arrayElement(Object.values(AuthorizationStatus)) as AuthorizationStatus);
+  new Array(faker.datatype.number(NUMBER_OF_FAKE_CASES)).fill(null).map(makeFakeComment));
