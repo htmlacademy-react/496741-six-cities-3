@@ -9,6 +9,9 @@ import { CityType, LocationType } from '../types/offers';
 import { AuthData, AuthInfo, UserReviewType, UserType } from '../types/user';
 import { FullOfferType, OfferType, ReviewType } from '../types/offer';
 import faker from 'faker';
+import { Action, ThunkDispatch } from '@reduxjs/toolkit';
+import { createAPI } from '../services/api';
+import { State } from '../types/state';
 
 const ZOOM = 10;
 const NUMBER_OF_FAKE_CASES = 10;
@@ -23,6 +26,10 @@ export const randomCityName = faker.helpers.randomize(Object.values(CityName));
 export const randomSortOption = faker.helpers.randomize(Object.values(SortTypeOptions));
 export const randomAuthorizationStatus = faker.helpers.randomize(Object.values(AuthorizationStatus));
 
+export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
+
+export const makeFakeToken = (): string => faker.datatype.uuid();
+
 export const makeFakeLocation = (): LocationType => ({
   latitude: Number(faker.address.latitude()),
   longitude: Number(faker.address.longitude()),
@@ -31,7 +38,7 @@ export const makeFakeLocation = (): LocationType => ({
 
 export const makeFakeCity = (): CityType => ({
   location: makeFakeLocation(),
-  name: randomCityName,
+  name: faker.helpers.randomize(Object.values(CityName)),
 } as CityType);
 
 export const makeFakeUser = (): UserType => ({
@@ -43,7 +50,7 @@ export const makeFakeUser = (): UserType => ({
 export const makeFakeOffer = (): OfferType => ({
   id: faker.datatype.uuid(),
   title: faker.commerce.productName(),
-  type: randomOfferType,
+  type: faker.helpers.randomize(Object.values(Placement)),
   price: faker.datatype.number({ min: MIN_PRICE, max: MAX_PRICE }),
   previewImage: faker.internet.url(),
   city: makeFakeCity(),
@@ -61,7 +68,7 @@ export const makeFakeFavoriteOffer = (): OfferType => ({
 export const makeFakeFullOffer = (): FullOfferType => ({
   id: faker.datatype.uuid(),
   title: faker.commerce.productName(),
-  type: randomOfferType,
+  type: faker.helpers.randomize(Object.values(Placement)),
   price: faker.datatype.number({ min: MIN_PRICE, max: MAX_PRICE }),
   city: makeFakeCity(),
   location: makeFakeLocation(),
@@ -109,7 +116,7 @@ export const makeFakeCommentForPost = (): UserReviewType => ({
 
 export const makeFakeAuthData = (): AuthData => ({
   email: faker.internet.email(),
-  password: faker.datatype.string(),
+  password: faker.datatype.uuid(),
 });
 
 export const makeFakeAuthInfo = (): AuthInfo => ({
@@ -117,8 +124,10 @@ export const makeFakeAuthInfo = (): AuthInfo => ({
   email: faker.internet.email(),
   isPro: faker.datatype.boolean(),
   name: faker.internet.userName(),
-  token: faker.datatype.string(),
+  token: faker.datatype.uuid(),
 });
 
 export const makeFakeComments = (): ReviewType[] => (
   new Array(faker.datatype.number(NUMBER_OF_FAKE_CASES)).fill(null).map(makeFakeComment));
+
+export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({ type }) => type);
