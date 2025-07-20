@@ -3,7 +3,7 @@ import NearPlaces from '../../components/near-places/near-places.tsx';
 import NotFound from '../not-found/not-found.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import Map from '../../components/map/map.tsx';
-import { AppRoute, DISPLAYED_NEARBY_OFFERS } from '../../../const.ts';
+import { AppRoute, DISPLAYED_NEARBY_OFFERS, MAX_RATING } from '../../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -77,7 +77,7 @@ function Offer(): JSX.Element {
     }
   };
 
-  const ratingFiveStars = Math.round(offer.rating) * 20;
+  const offerRating = Math.round(offer.rating) * 100 / MAX_RATING;
 
   return (
     <main className="page__main page__main--offer">
@@ -106,7 +106,7 @@ function Offer(): JSX.Element {
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
-                <span style={{width: `${ratingFiveStars}%`}}></span>
+                <span style={{width: `${offerRating}%`}}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
               <span className="offer__rating-value rating__value">{rating}</span>
