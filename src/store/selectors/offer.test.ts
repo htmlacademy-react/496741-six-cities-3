@@ -1,12 +1,15 @@
 import { NameSpace } from '../../const.ts';
-import { makeFakeComments, makeFakeFullOffer, makeFakeOffersNearby } from '../../utils/mocks';
+import { makeFakeComments, makeFakeFullOffer, makeFakeOffersNearby, makeFakeState } from '../../utils/mocks';
 import { selectComments, selectOffer, selectOfferPageLoading, selectOffersNearby } from './offer';
 import faker from 'faker';
 
 describe('Selectors offer', () => {
   const fakeFullOffer = makeFakeFullOffer();
+  const fakeState = makeFakeState();
   const state = {
+    ...fakeState,
     [NameSpace.Offer]: {
+      ...fakeState[NameSpace.Offer],
       offer: fakeFullOffer,
       offersNearby: makeFakeOffersNearby(fakeFullOffer.city),
       comments: makeFakeComments(),
