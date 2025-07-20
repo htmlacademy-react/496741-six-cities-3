@@ -7,14 +7,6 @@ import { vi } from 'vitest';
 import * as offerSelectors from '../../../store/selectors/offer';
 import * as offersSelectors from '../../../store/selectors/offers';
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom');
-  return {
-    ...actual,
-    useParams: () => ({ id: '1' }),
-  };
-});
-
 describe('Component: Offer', () => {
   const fakeOffer = makeFakeFullOffer();
   const fakeOffers = makeFakeOffers();
