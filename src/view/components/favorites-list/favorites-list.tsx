@@ -1,26 +1,26 @@
 import { Link } from 'react-router-dom';
 import PlaceCard from '../../components/place-card/place-card';
 import { OfferType } from '../../../types/offer';
-import { CityType } from '../../../types/offers';
+import { CityName } from '../../../const';
 
 type FavoritesListProps = {
-  cities: CityType[];
+  cityNames: CityName[];
   favoriteOffers: OfferType[];
 };
 
-function FavoritesList({ cities, favoriteOffers }: FavoritesListProps): JSX.Element {
+function FavoritesList({ cityNames, favoriteOffers }: FavoritesListProps): JSX.Element {
 
   return (
     <ul className="favorites__list" data-testid="favorites-list">
-      {cities.map((city) => {
-        const cityOffers = favoriteOffers.filter((offer) => offer.city.name === city.name);
+      {cityNames.map((cityName) => {
+        const cityOffers = favoriteOffers.filter((offer) => offer.city.name === cityName);
 
         return (
-          <li className="favorites__locations-items" key={city.name} data-testid="favorites-city-item">
+          <li className="favorites__locations-items" key={cityName} data-testid="favorites-city-item">
             <div className="favorites__locations locations locations--current">
               <div className="locations__item">
                 <Link className="locations__item-link" to="/">
-                  <span>{city.name}</span>
+                  <span>{cityName}</span>
                 </Link>
               </div>
             </div>
