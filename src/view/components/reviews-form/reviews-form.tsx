@@ -1,5 +1,5 @@
 import { FormEvent, Fragment, useState } from 'react';
-import { stars } from '../../../const';
+import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, stars } from '../../../const';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { UserReviewType } from '../../../types/user';
 import { postCommentAction } from '../../../store/api-actions';
@@ -74,8 +74,7 @@ function ReviewsForm({offerId}: ReviewsFormProps): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
         onChange={handleCommentChange}
-        minLength={50}
-        maxLength={300}
+        minLength={MIN_COMMENT_LENGTH}
         disabled={isCommentPosting}
       >
       </textarea>
@@ -83,12 +82,16 @@ function ReviewsForm({offerId}: ReviewsFormProps): JSX.Element {
         <p className="reviews__help">
           To submit review please make sure to
           set <span className="reviews__star">rating</span> and describe your stay with at
-          least <b className="reviews__text-amount">50 characters</b>.
+          least <b className="reviews__text-amount">{MIN_COMMENT_LENGTH} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={(comment.length < 50 || comment.length > 300 || rating === 0 || isCommentPosting)}
+          disabled={(
+            comment.length < MIN_COMMENT_LENGTH
+            || comment.length > MAX_COMMENT_LENGTH
+            || rating === 0
+            || isCommentPosting)}
         >
           Submit
         </button>
