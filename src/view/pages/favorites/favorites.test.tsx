@@ -5,7 +5,6 @@ import { makeFakeFavoriteOffers, makeFakeState } from '../../../utils/mocks';
 import { createMemoryHistory } from 'history';
 import { withHistory, withStore } from '../../../utils/mock-component';
 
-
 describe('Component: Favorites', () => {
   it('should render favorites list when favorite offers exist', () => {
     const mockHistory = createMemoryHistory();

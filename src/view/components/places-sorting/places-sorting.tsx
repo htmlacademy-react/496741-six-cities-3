@@ -20,6 +20,7 @@ function PlacesSorting(): JSX.Element {
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by </span>
       <span
+        data-testid="sort-toggle"
         className="places__sorting-type"
         tabIndex={0}
         onClick={() => setIsOpen(true)}
@@ -35,6 +36,7 @@ function PlacesSorting(): JSX.Element {
           return (
             <li
               key={`${sort}-${id}`}
+              data-testid={`sort-option-${sort}`}
               className={`places__option ${sort === sortingOption && 'places__option--active'}`}
               tabIndex={0}
               onClick={() => handleSortOptionChange(sort)}
