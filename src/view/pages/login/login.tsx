@@ -19,13 +19,22 @@ function Login(): JSX.Element {
     return <Navigate to={AppRoute.Root} />;
   }
 
+  const validatePassword = () => {
+    if (passwordReff === null || passwordReff.current === null) {
+      return false;
+    }
+    const containsAtLeastOneNumber = /\d/.test(passwordReff.current.value);
+    const containsAtLeastOneLetter = /[a-zA-Z]/.test(passwordReff.current.value);
+    return containsAtLeastOneNumber && containsAtLeastOneLetter;
+  };
+
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if(emailRef.current !== null && passwordReff.current !== null) {
+    if (emailRef.current !== null && validatePassword()) {
       dispatch(loginAction({
         email: emailRef.current.value,
-        password: passwordReff.current.value,
+        password: passwordReff?.current?.value || '',
       }));
     }
   };
