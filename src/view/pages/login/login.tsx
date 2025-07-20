@@ -1,14 +1,14 @@
 import { Navigate } from 'react-router-dom';
 import { AppRoute } from '../../../const.ts';
-import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
-import { selectCity } from '../../../store/selectors/offers.ts';
+import { useAppDispatch } from '../../../hooks/index.ts';
 import { FormEvent, useRef } from 'react';
 import { loginAction } from '../../../store/api-actions.ts';
 import { useAuth } from '../../../hooks/auth.ts';
+import { cities } from '../../../const.ts';
+import { changeCity } from '../../../store/offers/offers-reducer.ts';
+import { redirectToRoute } from '../../../store/action.ts';
 
 function Login(): JSX.Element {
-
-  const city = useAppSelector(selectCity);
   const userIsAuth = useAuth();
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordReff = useRef<HTMLInputElement | null>(null);
@@ -18,6 +18,8 @@ function Login(): JSX.Element {
   if (userIsAuth) {
     return <Navigate to={AppRoute.Root} />;
   }
+
+  const randomCity = cities[Math.floor(Math.random() * cities.length)];
 
   const validatePassword = () => {
     if (passwordReff === null || passwordReff.current === null) {
@@ -37,6 +39,11 @@ function Login(): JSX.Element {
         password: passwordReff?.current?.value || '',
       }));
     }
+  };
+
+  const handleCityClick = () => {
+    dispatch(changeCity(randomCity));
+    dispatch(redirectToRoute(AppRoute.Root));
   };
 
   return (
@@ -79,8 +86,8 @@ function Login(): JSX.Element {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <a className="locations__item-link" href="#">
-              <span>{city.name}</span>
+            <a className="locations__item-link" href="#" onClick={handleCityClick}>
+              <span>{randomCity.name}</span>
             </a>
           </div>
         </section>
