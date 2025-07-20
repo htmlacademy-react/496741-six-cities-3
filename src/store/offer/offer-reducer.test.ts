@@ -5,18 +5,22 @@ import { fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction, postCom
 
 describe('OfferReducer Slice', () => {
   const fakeFullOffer = makeFakeFullOffer();
+
   const fakeState = {
     offer: fakeFullOffer,
     offersNearby: makeFakeOffersNearby(fakeFullOffer.city),
     comments: makeFakeComments(),
     isOfferPageLoading: faker.datatype.boolean(),
+    isCommentPosting: false,
   };
 
+  // Добавляем isCommentPosting в initialState
   const fakeInitialState = {
     offer: null,
     offersNearby: [],
     comments: [],
     isOfferPageLoading: false,
+    isCommentPosting: false,
   };
 
   const fakeOffer = makeFakeOffer();
@@ -86,12 +90,28 @@ describe('OfferReducer Slice', () => {
     expect(result.comments).toEqual(fakeComments);
   });
 
-  it('should add new comment with "postCommentAction.fulfilled"', () => {
+  it('should set isCommentPosting true with "postCommentAction.pending"', () => {
+    const result = offerReducer.reducer(
+      fakeState,
+      postCommentAction.pending('requestId', fakeCommentForPost)
+    );
+    expect(result.isCommentPosting).toBe(true);
+  });
+
+  it('should add new comment and set isCommentPosting false with "postCommentAction.fulfilled"', () => {
     const result = offerReducer.reducer(
       fakeState,
       postCommentAction.fulfilled(fakeComment, 'requestId', fakeCommentForPost)
     );
     expect(result.comments).toContainEqual(fakeComment);
+    expect(result.isCommentPosting).toBe(false);
   });
 
+  it('should set isCommentPosting false with "postCommentAction.rejected"', () => {
+    const result = offerReducer.reducer(
+      fakeState,
+      postCommentAction.rejected(new Error(), 'requestId', fakeCommentForPost)
+    );
+    expect(result.isCommentPosting).toBe(false);
+  });
 });

@@ -12,6 +12,7 @@ const initialState: OfferRerucerType = {
   offersNearby: [],
   comments: [],
   isOfferPageLoading: false,
+  isCommentPosting: false,
 };
 
 export const offerReducer = createSlice({
@@ -42,8 +43,15 @@ export const offerReducer = createSlice({
       .addCase(fetchCommentsAction.fulfilled, (state, action) => {
         state.comments = action.payload;
       })
+      .addCase(postCommentAction.pending, (state) => {
+        state.isCommentPosting = true;
+      })
       .addCase(postCommentAction.fulfilled, (state, action) => {
         state.comments = [...state.comments, action.payload];
+        state.isCommentPosting = false;
+      })
+      .addCase(postCommentAction.rejected, (state) => {
+        state.isCommentPosting = false;
       });
   }
 });
