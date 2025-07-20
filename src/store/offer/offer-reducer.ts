@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
-import { OfferRerucerType } from '../../types/offer.ts';
+import { FullOfferType, OfferRerucerType } from '../../types/offer.ts';
 import {
   fetchCommentsAction,
   fetchOfferAction,
@@ -12,16 +12,32 @@ const initialState: OfferRerucerType = {
   offersNearby: [],
   comments: [],
   isOfferPageLoading: false,
+  isCommentPosting: false,
+  reviewRating: 0,
+  reviewComment: '',
 };
 
 export const offerReducer = createSlice({
   name: NameSpace.Offer,
   initialState,
   reducers: {
+    setOffer: (state, action: PayloadAction<FullOfferType>) => {
+      state.offer = action.payload;
+    },
     resetOfferData: (state) => {
       state.offer = null;
       state.comments = [];
       state.offersNearby = [];
+    },
+    setReviewRating: (state, action: PayloadAction<number>) => {
+      state.reviewRating = action.payload;
+    },
+    setReviewComment: (state, action: PayloadAction<string>) => {
+      state.reviewComment = action.payload;
+    },
+    resetReviewForm: (state) => {
+      state.reviewRating = 0;
+      state.reviewComment = '';
     }
   },
   extraReducers(builder) {
@@ -42,10 +58,19 @@ export const offerReducer = createSlice({
       .addCase(fetchCommentsAction.fulfilled, (state, action) => {
         state.comments = action.payload;
       })
+      .addCase(postCommentAction.pending, (state) => {
+        state.isCommentPosting = true;
+      })
       .addCase(postCommentAction.fulfilled, (state, action) => {
-        state.comments = [...state.comments, action.payload];
+        state.comments = [ action.payload, ...state.comments ];
+        state.isCommentPosting = false;
+        state.reviewRating = 0;
+        state.reviewComment = '';
+      })
+      .addCase(postCommentAction.rejected, (state) => {
+        state.isCommentPosting = false;
       });
   }
 });
 
-export const { resetOfferData } = offerReducer.actions;
+export const { resetOfferData, setOffer, setReviewRating, setReviewComment, resetReviewForm } = offerReducer.actions;

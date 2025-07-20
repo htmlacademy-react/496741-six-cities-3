@@ -1,34 +1,41 @@
-import { FormEvent, Fragment, useState } from 'react';
-import { stars } from '../../../const';
-import { useAppDispatch } from '../../../hooks';
+import { FormEvent, Fragment, useEffect } from 'react';
+import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, stars } from '../../../const';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { UserReviewType } from '../../../types/user';
 import { postCommentAction } from '../../../store/api-actions';
+import { selectIsCommentPosting } from '../../../store/selectors/offers';
+import { selectReviewRating, selectReviewComment } from '../../../store/selectors/offer';
+import { setReviewRating, setReviewComment } from '../../../store/offer/offer-reducer';
 
 type ReviewsFormProps = {
   offerId: string;
 };
 
 function ReviewsForm({offerId}: ReviewsFormProps): JSX.Element {
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('');
+  const rating = useAppSelector(selectReviewRating);
+  const comment = useAppSelector(selectReviewComment);
+  const isCommentPosting = useAppSelector(selectIsCommentPosting);
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setReviewRating(0));
+    dispatch(setReviewComment(''));
+  }, [offerId, dispatch]);
 
   const handleCommentSubmit = (review: UserReviewType) => {
     dispatch(postCommentAction(review));
   };
 
   const handleRatingChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setRating(parseInt(evt.target.value, 10));
+    dispatch(setReviewRating(parseInt(evt.target.value, 10)));
   };
   const handleCommentChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setComment(evt.target.value);
+    dispatch(setReviewComment(evt.target.value));
   };
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     handleCommentSubmit({offerId, rating, comment});
-    setRating(0);
-    setComment('');
   };
 
   return (
@@ -52,6 +59,7 @@ function ReviewsForm({offerId}: ReviewsFormProps): JSX.Element {
               id={`${star.value}-stars`}
               type="radio"
               checked={star.value === rating}
+              disabled={isCommentPosting}
             />
             <label
               htmlFor={`${star.value}-stars`}
@@ -71,20 +79,24 @@ function ReviewsForm({offerId}: ReviewsFormProps): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
         onChange={handleCommentChange}
-        minLength={50}
-        maxLength={300}
+        minLength={MIN_COMMENT_LENGTH}
+        disabled={isCommentPosting}
       >
       </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to
           set <span className="reviews__star">rating</span> and describe your stay with at
-          least <b className="reviews__text-amount">50 characters</b>.
+          least <b className="reviews__text-amount">{MIN_COMMENT_LENGTH} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={(comment.length < 50 || comment.length > 300 || rating === 0)}
+          disabled={(
+            comment.length < MIN_COMMENT_LENGTH
+            || comment.length > MAX_COMMENT_LENGTH
+            || rating === 0
+            || isCommentPosting)}
         >
           Submit
         </button>

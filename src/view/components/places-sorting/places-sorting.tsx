@@ -20,6 +20,7 @@ function PlacesSorting(): JSX.Element {
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by </span>
       <span
+        data-testid="sort-toggle"
         className="places__sorting-type"
         tabIndex={0}
         onClick={() => setIsOpen(true)}
@@ -29,23 +30,22 @@ function PlacesSorting(): JSX.Element {
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      {isOpen && (
-        <ul className="places__options places__options--custom places__options--opened">
-          {Object.values(SortTypeOptions).map((sort) => {
-            const id = nanoid();
-            return (
-              <li
-                key={`${sort}-${id}`}
-                className={`places__option ${sort === sortingOption && 'places__option--active'}`}
-                tabIndex={0}
-                onClick={() => handleSortOptionChange(sort)}
-              >
-                {sort}
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      <ul className={`places__options places__options--custom ${isOpen ? 'places__options--opened' : 'places__options--closed'}`}>
+        {Object.values(SortTypeOptions).map((sort) => {
+          const id = nanoid();
+          return (
+            <li
+              key={`${sort}-${id}`}
+              data-testid={`sort-option-${sort}`}
+              className={`places__option ${sort === sortingOption && 'places__option--active'}`}
+              tabIndex={0}
+              onClick={() => handleSortOptionChange(sort)}
+            >
+              {sort}
+            </li>
+          );
+        })}
+      </ul>
     </form>
   );
 }

@@ -18,7 +18,6 @@ describe('Component: PlacesSorting', () => {
     const newSort = SortTypeOptions.TopRatedFirst;
 
     vi.spyOn(hooks, 'useAppDispatch').mockReturnValue(mockDispatch);
-
     vi.spyOn(hooks, 'useAppSelector').mockImplementation((selector) =>
       selector({ ...mockState, OFFERS: { ...mockState.OFFERS, sortOption: currentSort } })
     );
@@ -26,10 +25,10 @@ describe('Component: PlacesSorting', () => {
     const { withStoreComponent } = withStore(<PlacesSorting />, mockState);
     render(withStoreComponent);
 
-    const toggle = screen.getByText(currentSort);
+    const toggle = screen.getByTestId('sort-toggle');
     await user.click(toggle);
 
-    const newSortOptionElement = screen.getByText(newSort);
+    const newSortOptionElement = screen.getByTestId(`sort-option-${newSort}`);
     await user.click(newSortOptionElement);
 
     expect(mockDispatch).toHaveBeenCalledWith(changeSortType(newSort));
@@ -49,12 +48,11 @@ describe('Component: PlacesSorting', () => {
     const { withStoreComponent } = withStore(<PlacesSorting />, mockState);
     render(withStoreComponent);
 
-    const toggle = screen.getByText(currentSort);
+    const toggle = screen.getByTestId('sort-toggle');
     await user.click(toggle);
 
-    const menuOptions = screen.getAllByText(currentSort);
-    const itemToClick = menuOptions.find((el) => el.tagName === 'LI');
-    await user.click(itemToClick!);
+    const currentOption = screen.getByTestId(`sort-option-${currentSort}`);
+    await user.click(currentOption);
 
     expect(mockDispatch).not.toHaveBeenCalled();
   });

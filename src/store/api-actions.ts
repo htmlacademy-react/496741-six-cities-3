@@ -1,12 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { APIRoute, AppRoute } from '../const';
+import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { redirectToRoute } from './action';
 import { dropToken, saveToken } from '../services/token.ts';
 import { AuthData, AuthInfo, UserFvoritesType, UserReviewType } from '../types/user.ts';
 import { FullOfferType, OfferType, ReviewType } from '../types/offer.ts';
 import { updateOffer } from './offers/offers-reducer.ts';
+import { selectAuthorizationStatus } from './selectors/user.ts';
+import { selectOffer } from './selectors/offer.ts';
+import { setOffer } from './offer/offer-reducer.ts';
 
 export const fetchOffersAction = createAsyncThunk<OfferType[], undefined, {
   dispatch: AppDispatch;
@@ -92,7 +95,11 @@ export const fetchFavoritesAction = createAsyncThunk<OfferType[], undefined, {
   extra: AxiosInstance;
 }>(
   'user/fetchFavorites',
-  async (_arg, { extra: api }) => {
+  async (_arg, { getState, extra: api }) => {
+    const state = getState();
+    if (selectAuthorizationStatus(state) !== AuthorizationStatus.Auth) {
+      return [];
+    }
     const { data } = await api.get<OfferType[]>(APIRoute.Favorite);
 
     return data;
@@ -121,7 +128,10 @@ export const postFavoriteAction = createAsyncThunk<OfferType, UserFvoritesType, 
   extra: AxiosInstance;
 }>(
   'user/postFavorite',
-  async ({offer, userIsAuth}, {dispatch, extra: api}) => {
+  async ({offer, userIsAuth}, {dispatch, extra: api, getState}) => {
+    const state = getState();
+    const currentOffer = selectOffer(state);
+
     if (!userIsAuth) {
       dispatch(redirectToRoute(AppRoute.Login));
       return offer;
@@ -130,6 +140,9 @@ export const postFavoriteAction = createAsyncThunk<OfferType, UserFvoritesType, 
     const {data} = await api.post<OfferType>(`${APIRoute.Favorite}/${offer.id}/${newStatus}`);
 
     dispatch(updateOffer(data));
+    if (data.id === currentOffer?.id) {
+      dispatch(setOffer(data as unknown as FullOfferType));
+    }
     return data;
   }
 );

@@ -40,4 +40,7 @@ export type OfferRerucerType = {
   offersNearby: OfferType[];
   comments: ReviewType[];
   isOfferPageLoading: boolean;
+  isCommentPosting: boolean;
+  reviewRating: number;
+  reviewComment: string;
 };

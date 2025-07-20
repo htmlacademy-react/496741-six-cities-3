@@ -1,16 +1,23 @@
-import { useAppSelector } from '../../../hooks';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { fetchFavoritesAction } from '../../../store/api-actions';
 import { selectFavorites } from '../../../store/selectors/user';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 
 function Favorites(): JSX.Element {
   const favoriteOffers = useAppSelector(selectFavorites);
 
-  const citiesSet = new Set(favoriteOffers.map((offer) => offer.city));
-  const cities = [...citiesSet].sort();
+  const cityNames = new Set(favoriteOffers.map((offer) => offer.city.name));
+  const cityNamesSorted = [...cityNames];
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchFavoritesAction());
+  }, [dispatch]);
 
   return (
-    <main className="page__main page__main--favorites">
-      <div className="page__favorites-container container">
+    <main className={`page__main page__main--favorites ${favoriteOffers.length === 0 ? 'page__main--favorites-empty' : ''}`}>
+      <div className={`page__favorites-container container ${favoriteOffers.length === 0 ? 'page--favorites-empty' : ''}`}>
         {favoriteOffers.length === 0 ? (
           <section className="favorites favorites--empty">
             <h1 className="visually-hidden">Favorites (empty)</h1>
@@ -22,7 +29,7 @@ function Favorites(): JSX.Element {
         ) : (
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList cities={cities} favoriteOffers={favoriteOffers} />
+            <FavoritesList cityNames={cityNamesSorted} favoriteOffers={favoriteOffers} />
           </section>
         )}
       </div>

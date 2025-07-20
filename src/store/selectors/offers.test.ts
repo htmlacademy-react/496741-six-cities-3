@@ -1,11 +1,14 @@
 import { NameSpace } from '../../const.ts';
 import faker from 'faker';
-import { makeFakeCity, makeFakeOffers, getRandomSortOption } from '../../utils/mocks.ts';
+import { makeFakeCity, makeFakeOffers, getRandomSortOption, makeFakeState } from '../../utils/mocks.ts';
 import { selectCity, selectErrorStatus, selectOffers, selectOffersLoadingStatus, selectSortOption } from './offers.ts';
 
 describe('Selectors offers', () => {
+  const fakeState = makeFakeState();
   const state = {
+    ...fakeState,
     [NameSpace.Offers]: {
+      ...fakeState[NameSpace.Offers],
       offers: makeFakeOffers(),
       city: makeFakeCity(),
       sortOption: getRandomSortOption(),

@@ -11,7 +11,7 @@ function NotFound({type}: NotFoundProps): JSX.Element {
       className="page__main page__main--index page__main--not-found"
     >
       <h1 data-testid="text-not-found">
-        {TextNotFound[type]}
+        404. Page not found. {type === 'ID_IS_NOT_CORRECT' && TextNotFound[type]}
       </h1>
       <Link className="link__not-found" to="/">Go to main page</Link>
       <img className="img__not-found" src="img/not-found.jpg" alt="Not-found" />

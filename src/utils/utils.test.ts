@@ -1,7 +1,8 @@
 
 import { CityName, SortTypeOptions } from '../const';
-import { makeFakeCity, makeFakeOffer } from '../utils/mocks';
-import { getFilteredCityOffers, getFormattedDate, getSortedOffers } from './utils';
+import { ReviewType } from '../types/offer';
+import { makeFakeCity, makeFakeComment, makeFakeOffer } from '../utils/mocks';
+import { getFilteredCityOffers, getFormattedDate, getSortedOffers, getSortedReviews } from './utils';
 
 describe('Functions: getFilteredCityOffers & getSortedOffers', () => {
   describe('getFilteredCityOffers', () => {
@@ -66,5 +67,41 @@ describe('Function: getFormattedDate', () => {
     const invalidDate = 'invalid-date';
     const formatted = getFormattedDate(invalidDate);
     expect(formatted).toBe('');
+  });
+});
+
+describe('Function: getSortedReviews', () => {
+  it('should sort reviews by date descending and limit the number of results', () => {
+    const reviews: ReviewType[] = [
+      { ...makeFakeComment(), date: '2024-06-01T10:00:00.000Z' },
+      { ...makeFakeComment(), date: '2025-07-01T10:00:00.000Z' },
+      { ...makeFakeComment(), date: '2023-05-01T10:00:00.000Z' },
+    ];
+
+    const result = getSortedReviews(reviews, 2);
+
+    expect(result).toHaveLength(2);
+    expect(new Date(result[0].date).getTime()).toBeGreaterThan(new Date(result[1].date).getTime());
+    expect(result.map((r) => r.date)).toEqual([
+      '2025-07-01T10:00:00.000Z',
+      '2024-06-01T10:00:00.000Z',
+    ]);
+  });
+
+  it('should return all reviews if length exceeds array length', () => {
+    const reviews = [
+      { ...makeFakeComment(), date: '2024-06-01T10:00:00.000Z' },
+      { ...makeFakeComment(), date: '2025-07-01T10:00:00.000Z' },
+    ];
+
+    const result = getSortedReviews(reviews, 5);
+
+    expect(result).toHaveLength(2);
+  });
+
+  it('should return an empty array when passed an empty array', () => {
+    const result = getSortedReviews([], 5);
+
+    expect(result).toEqual([]);
   });
 });

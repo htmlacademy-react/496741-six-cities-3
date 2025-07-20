@@ -20,7 +20,7 @@ function Main(): JSX.Element {
 
   return (
     <main
-      className={`page__main page__main--index ${hasError && 'page__main--index-empty'}`}
+      className={`page__main page__main--index ${hasError || filteredOffers.length === 0 && 'page__main--index-empty'}`}
       data-testid="main-page"
     >
       <h1 className="visually-hidden">Cities</h1>
@@ -29,9 +29,9 @@ function Main(): JSX.Element {
       </div>
       <div className="cities">
         <div
-          className={`cities__places-container ${hasError && 'cities__places-container--empty'} container`}
+          className={`cities__places-container ${hasError || filteredOffers.length === 0 && 'cities__places-container--empty'} container`}
         >
-          {hasError
+          {hasError || filteredOffers.length === 0
             ? <MainEmpty city={city} />
             :
             <>

@@ -43,6 +43,12 @@ export const getRandomSortOption = (): SortTypeOptions =>
 export const getRandomCityName = (): CityName =>
   faker.helpers.randomize(Object.values(CityName));
 
+export const getRandomCityNames = (): CityName[] => {
+  const allNames = Object.values(CityName);
+  const count = faker.datatype.number({ min: 1, max: allNames.length });
+  return faker.helpers.shuffle(allNames).slice(0, count);
+};
+
 export const getRandomOfferType = (): Placement =>
   faker.helpers.randomize(Object.values(Placement));
 
@@ -95,7 +101,7 @@ export const makeFakeOffer = (): OfferType => ({
   location: makeFakeLocation(),
   isFavorite: faker.datatype.boolean(),
   isPremium: faker.datatype.boolean(),
-  rating: faker.datatype.float({ min: MIN_RATING, max: MAX_RATING, precision: PRECISION_RATING }),
+  rating: faker.datatype.number({ min: MIN_RATING, max: MAX_RATING, precision: PRECISION_RATING }),
 });
 
 export const makeFakeFavoriteOffer = (): OfferType => ({
@@ -198,6 +204,9 @@ export const makeFakeState = (initialState?: Partial<State>): State => {
       offersNearby: makeFakeOffersNearby(fakeFullOffer.city),
       comments: makeFakeComments(),
       isOfferPageLoading: faker.datatype.boolean(),
+      isCommentPosting: false,
+      reviewRating: 0,
+      reviewComment: '',
     },
     [NameSpace.Offers]: {
       offers: makeFakeOffers(),

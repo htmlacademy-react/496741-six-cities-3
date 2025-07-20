@@ -1,46 +1,31 @@
 import { render, screen } from '@testing-library/react';
 import Favorites from './favorites';
-import * as hooks from '../../../hooks';
-import { vi } from 'vitest';
-import FavoritesList from '../../components/favorites-list/favorites-list';
-
-vi.mock('../../components/favorites-list/favorites-list', () => ({
-  __esModule: true,
-  default: vi.fn(() => <div data-testid="favorites-list" />),
-}));
+import { AuthorizationStatus, NameSpace } from '../../../const';
+import { makeFakeFavoriteOffers, makeFakeState } from '../../../utils/mocks';
+import { createMemoryHistory } from 'history';
+import { withHistory, withStore } from '../../../utils/mock-component';
 
 describe('Component: Favorites', () => {
-  const mockFavoriteOffers = [
-    { id: 1, city: 'Paris', title: 'Offer 1' },
-    { id: 2, city: 'Amsterdam', title: 'Offer 2' },
-    { id: 3, city: 'Paris', title: 'Offer 3' },
-  ];
+  it('should render favorites list when favorite offers exist', () => {
+    const mockHistory = createMemoryHistory();
+    const fakeState = makeFakeState();
+    const fakeFavoriteOffers = makeFakeFavoriteOffers();
 
-  beforeEach(() => {
-    vi.spyOn(hooks, 'useAppSelector').mockImplementation((selector) => {
-      if (selector.name === 'selectFavorites') {
-        return mockFavoriteOffers;
+    const store = {
+      ...fakeState,
+      [NameSpace.User]: {
+        ...fakeState[NameSpace.User],
+        authorizationStatus: AuthorizationStatus.Auth,
+        favorites: fakeFavoriteOffers,
       }
-      return undefined;
-    });
-  });
+    };
 
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
+    const withHistoryComponent = withHistory(<Favorites />, mockHistory);
+    const { withStoreComponent } = withStore(withHistoryComponent, store);
 
-  it('should render with correct title and pass correct props to FavoritesList', () => {
-    render(<Favorites />);
+    render(withStoreComponent);
 
-    expect(screen.getByText(/saved listing/i)).toBeInTheDocument();
-    expect(FavoritesList).toHaveBeenCalledWith(
-      {
-        cities: ['Amsterdam', 'Paris'],
-        favoriteOffers: mockFavoriteOffers,
-      },
-      {}
-    );
-
-    expect(screen.getByTestId('favorites-list')).toBeInTheDocument();
+    expect(screen.getByText(/Saved listing/i)).toBeInTheDocument();
+    expect(screen.getByText(fakeFavoriteOffers[0].title)).toBeInTheDocument();
   });
 });

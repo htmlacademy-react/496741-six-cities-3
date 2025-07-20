@@ -6,7 +6,6 @@ import { Action } from 'redux';
 import {
   AppThunkDispatch,
   extractActionsTypes,
-  getRandomAuthorizationStatus,
   getRandomSortOption,
   makeFakeAuthData,
   makeFakeAuthInfo,
@@ -20,7 +19,7 @@ import {
   makeFakeToken } from '../utils/mocks';
 import { State } from '../types/state';
 import { checkAuthAction, fetchCommentsAction, fetchFavoritesAction, fetchOfferAction, fetchOffersAction, fetchOffersNearbyAction, loginAction, logoutAction, postCommentAction, postFavoriteAction } from './api-actions';
-import { APIRoute, NameSpace } from '../const';
+import { APIRoute, AuthorizationStatus, NameSpace } from '../const';
 import faker from 'faker';
 import { AuthData } from '../types/user';
 import { redirectToRoute } from './action';
@@ -51,7 +50,7 @@ describe('Async actions', () => {
         hasError: faker.datatype.boolean(),
       },
       [NameSpace.User]: {
-        authorizationStatus: getRandomAuthorizationStatus(),
+        authorizationStatus: AuthorizationStatus.Auth,
         authInfo: makeFakeAuthInfo(),
         favorites: makeFakeFavoriteOffers(),
       }
