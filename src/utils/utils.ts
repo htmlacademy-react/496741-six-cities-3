@@ -22,4 +22,17 @@ const getSortFunction = (sortOption: SortTypeOptions):
 const getSortedOffers = (offers: OfferType[], sortOption: SortTypeOptions): OfferType[] =>
   offers.slice().sort(getSortFunction(sortOption));
 
-export { getFilteredCityOffers, getSortedOffers };
+const getFormattedDate = (dateString: string): string => {
+  const date = new Date(dateString);
+
+  if (isNaN(date.getTime())) {
+    return '';
+  }
+
+  return date.toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'long',
+  });
+};
+
+export { getFilteredCityOffers, getSortedOffers, getFormattedDate };

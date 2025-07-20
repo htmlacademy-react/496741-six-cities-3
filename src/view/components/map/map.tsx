@@ -56,6 +56,7 @@ function Map({offers, activeOffer, mapName}: MapProps): JSX.Element {
       className={`${NameMap[mapName]}__map map`}
       ref={mapRef}
       style={NameMap[mapName] === NameMap.OFFER ? offerMapStyle : {}}
+      data-testid="map"
     >
     </section>
   );

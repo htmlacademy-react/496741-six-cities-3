@@ -63,7 +63,7 @@ function Offer(): JSX.Element {
   const displayedOffers = currentOffer ? [...displayedOffersNearby, currentOffer] : [];
   return (
     <main className="page__main page__main--offer">
-      <section className="offer">
+      <section className="offer" data-testid="offer-page">
         {(images && images.length > 0) && <ImageGallery images={images} />}
         <div className="offer__container container">
           <div className="offer__wrapper">
@@ -140,7 +140,7 @@ function Offer(): JSX.Element {
                 <p className="offer__text">{description}</p>
               </div>
             </div>
-            <ReviewsList />
+            {id && <ReviewsList id={id} />}
           </div>
         </div>
         <Map

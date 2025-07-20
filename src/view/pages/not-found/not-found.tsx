@@ -10,7 +10,7 @@ function NotFound({type}: NotFoundProps): JSX.Element {
     <main
       className="page__main page__main--index page__main--not-found"
     >
-      <h1>
+      <h1 data-testid="text-not-found">
         {TextNotFound[type]}
       </h1>
       <Link className="link__not-found" to="/">Go to main page</Link>

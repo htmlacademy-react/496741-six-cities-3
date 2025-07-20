@@ -1,7 +1,7 @@
 
 import { CityName, SortTypeOptions } from '../const';
 import { makeFakeCity, makeFakeOffer } from '../utils/mocks';
-import { getFilteredCityOffers, getSortedOffers } from './utils';
+import { getFilteredCityOffers, getFormattedDate, getSortedOffers } from './utils';
 
 describe('Functions: getFilteredCityOffers & getSortedOffers', () => {
   describe('getFilteredCityOffers', () => {
@@ -51,5 +51,20 @@ describe('Functions: getFilteredCityOffers & getSortedOffers', () => {
       const ratings = result.map((offer) => offer.rating);
       expect(ratings).toEqual([5, 4, 3]);
     });
+  });
+});
+
+describe('Function: getFormattedDate', () => {
+  it('should format ISO date string as "Month Year"', () => {
+    const inputDate = '2025-06-27T21:00:01.051Z';
+    const formatted = getFormattedDate(inputDate);
+
+    expect(formatted).toBe('June 2025'); // результат зависит от локали и времени
+  });
+
+  it('should return empty string for invalid date', () => {
+    const invalidDate = 'invalid-date';
+    const formatted = getFormattedDate(invalidDate);
+    expect(formatted).toBe('');
   });
 });
