@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
-import { OfferRerucerType } from '../../types/offer.ts';
+import { FullOfferType, OfferRerucerType } from '../../types/offer.ts';
 import {
   fetchCommentsAction,
   fetchOfferAction,
@@ -19,6 +19,9 @@ export const offerReducer = createSlice({
   name: NameSpace.Offer,
   initialState,
   reducers: {
+    setOffer: (state, action: PayloadAction<FullOfferType>) => {
+      state.offer = action.payload;
+    },
     resetOfferData: (state) => {
       state.offer = null;
       state.comments = [];
@@ -56,4 +59,4 @@ export const offerReducer = createSlice({
   }
 });
 
-export const { resetOfferData } = offerReducer.actions;
+export const { resetOfferData, setOffer } = offerReducer.actions;

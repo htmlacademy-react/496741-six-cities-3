@@ -8,6 +8,8 @@ import { AuthData, AuthInfo, UserFvoritesType, UserReviewType } from '../types/u
 import { FullOfferType, OfferType, ReviewType } from '../types/offer.ts';
 import { updateOffer } from './offers/offers-reducer.ts';
 import { selectAuthorizationStatus } from './selectors/user.ts';
+import { selectOffer } from './selectors/offer.ts';
+import { setOffer } from './offer/offer-reducer.ts';
 
 export const fetchOffersAction = createAsyncThunk<OfferType[], undefined, {
   dispatch: AppDispatch;
@@ -126,7 +128,10 @@ export const postFavoriteAction = createAsyncThunk<OfferType, UserFvoritesType, 
   extra: AxiosInstance;
 }>(
   'user/postFavorite',
-  async ({offer, userIsAuth}, {dispatch, extra: api}) => {
+  async ({offer, userIsAuth}, {dispatch, extra: api, getState}) => {
+    const state = getState();
+    const currentOffer = selectOffer(state);
+
     if (!userIsAuth) {
       dispatch(redirectToRoute(AppRoute.Login));
       return offer;
@@ -135,6 +140,9 @@ export const postFavoriteAction = createAsyncThunk<OfferType, UserFvoritesType, 
     const {data} = await api.post<OfferType>(`${APIRoute.Favorite}/${offer.id}/${newStatus}`);
 
     dispatch(updateOffer(data));
+    if (data.id === currentOffer?.id) {
+      dispatch(setOffer(data as unknown as FullOfferType));
+    }
     return data;
   }
 );

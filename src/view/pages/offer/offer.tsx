@@ -3,22 +3,26 @@ import NearPlaces from '../../components/near-places/near-places.tsx';
 import NotFound from '../not-found/not-found.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import Map from '../../components/map/map.tsx';
-import { DISPLAYED_NEARBY_OFFERS, MAX_RATING } from '../../../const.ts';
+import { AppRoute, DISPLAYED_NEARBY_OFFERS } from '../../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction } from '../../../store/api-actions.ts';
+import { fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction, postFavoriteAction } from '../../../store/api-actions.ts';
 import { selectOffers } from '../../../store/selectors/offers.ts';
 import { selectOffer, selectOfferPageLoading, selectOffersNearby } from '../../../store/selectors/offer.ts';
 import { resetOfferData } from '../../../store/offer/offer-reducer.ts';
 import LoadingScreen from '../loading-screen/loading-screen.tsx';
 import { nanoid } from '@reduxjs/toolkit';
+import { redirectToRoute } from '../../../store/action.ts';
+import { OfferType } from '../../../types/offers.ts';
+import { useAuth } from '../../../hooks/auth.ts';
 
 function Offer(): JSX.Element {
   const offers = useAppSelector(selectOffers);
   const offer = useAppSelector(selectOffer);
   const offersNearby = useAppSelector(selectOffersNearby);
   const offerPageIsLoading = useAppSelector(selectOfferPageLoading);
+  const userIsAuth = useAuth();
 
   const { id } = useParams();
 
@@ -62,6 +66,19 @@ function Offer(): JSX.Element {
   const displayedOffersNearby = offersNearby.slice(0, DISPLAYED_NEARBY_OFFERS);
   const displayedOffers = currentOffer ? [...displayedOffersNearby, currentOffer] : [];
 
+  const handleFavoriteClick = () => {
+    if (!userIsAuth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+    }
+
+    if (id) {
+      const offerParam: OfferType = offer as unknown as OfferType;
+      dispatch(postFavoriteAction({offer: offerParam, userIsAuth: true}));
+    }
+  };
+
+  const ratingFiveStars = Math.round(offer.rating) * 20;
+
   return (
     <main className="page__main page__main--offer">
       <section className="offer" data-testid="offer-page">
@@ -77,9 +94,8 @@ function Offer(): JSX.Element {
                 {title}
               </h1>
               <button
-                className={isFavorite
-                  ? 'offer__bookmark-button offer__bookmark-button--active button'
-                  : 'offer__bookmark-button button'}
+                onClick={handleFavoriteClick}
+                className={`offer__bookmark-button ${isFavorite ? 'offer__bookmark-button--active' : ''} button`}
                 type="button"
               >
                 <svg className="offer__bookmark-icon" width="31" height="33">
@@ -90,7 +106,7 @@ function Offer(): JSX.Element {
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
-                <span style={{width: `${Math.floor(offer.rating) * (100 / MAX_RATING)}%`}}></span>
+                <span style={{width: `${ratingFiveStars}%`}}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
               <span className="offer__rating-value rating__value">{rating}</span>
@@ -126,7 +142,7 @@ function Offer(): JSX.Element {
             <div className="offer__host">
               <h2 className="offer__host-title">Meet the host</h2>
               <div className="offer__host-user user">
-                <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                <div className={`offer__avatar-wrapper ${host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
                   <img
                     className="offer__avatar user__avatar"
                     src={host.avatarUrl} width="74" height="74" alt="Host avatar"
