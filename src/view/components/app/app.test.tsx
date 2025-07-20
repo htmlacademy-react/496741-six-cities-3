@@ -3,7 +3,13 @@ import { createMemoryHistory, MemoryHistory } from 'history';
 import App from './app';
 import { AppRoute, AuthorizationStatus, NameSpace, TextNotFound } from '../../../const';
 import { withHistory, withStore } from '../../../utils/mock-component';
-import { makeFakeAuthInfo, makeFakeComments, makeFakeFullOffer, makeFakeOffers, makeFakeState } from '../../../utils/mocks';
+import {
+  makeFakeAuthInfo,
+  makeFakeComments,
+  makeFakeFullOffer,
+  makeFakeOffer,
+  makeFakeOffers,
+  makeFakeState } from '../../../utils/mocks';
 import { State } from '../../../types/state';
 
 describe('Application Routing', () => {
@@ -65,7 +71,7 @@ describe('Application Routing', () => {
         ...fakeState[NameSpace.User],
         authorizationStatus: AuthorizationStatus.Auth,
         authInfo: makeFakeAuthInfo(),
-        favorites: makeFakeOffers(), // 👉 НЕ пустой массив
+        favorites: [...makeFakeOffers(), makeFakeOffer()],
       },
       [NameSpace.Offers]: {
         ...fakeState[NameSpace.Offers],
@@ -91,7 +97,7 @@ describe('Application Routing', () => {
         ...fakeState[NameSpace.User],
         authorizationStatus: AuthorizationStatus.Auth,
         authInfo: makeFakeAuthInfo(),
-        favorites: [], // 👉 ПУСТОЙ массив
+        favorites: [],
       },
       [NameSpace.Offers]: {
         ...fakeState[NameSpace.Offers],

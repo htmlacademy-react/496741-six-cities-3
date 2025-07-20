@@ -20,8 +20,17 @@ const ZOOM = 10;
 const NUMBER_OF_FAKE_CASES = 10;
 const MIN_PRICE = 50;
 const MAX_PRICE = 500;
+const MIN_ADULTS = 1;
+const MAX_ADULTS = 10;
+const MIN_RATING = 1;
 const MAX_RATING = 5;
+const MIN_BEDROOMS = 1;
+const MAX_BEDROOMS = 5;
 const PRECISION_RATING = 1;
+const IMAGES_LENGTH = 6;
+const GOODS_LENGTH = 4;
+const CITY_OFFERS_MIN_COUNT = 1;
+const CITY_OFFERS_MAX_COUNT = 3;
 
 export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
 
@@ -86,7 +95,7 @@ export const makeFakeOffer = (): OfferType => ({
   location: makeFakeLocation(),
   isFavorite: faker.datatype.boolean(),
   isPremium: faker.datatype.boolean(),
-  rating: faker.datatype.float({ min: 1, max: 5, precision: 1 }),
+  rating: faker.datatype.float({ min: MIN_RATING, max: MAX_RATING, precision: PRECISION_RATING }),
 });
 
 export const makeFakeFavoriteOffer = (): OfferType => ({
@@ -103,13 +112,13 @@ export const makeFakeFullOffer = (): FullOfferType => ({
   location: makeFakeLocation(),
   isFavorite: faker.datatype.boolean(),
   isPremium: faker.datatype.boolean(),
-  rating: faker.datatype.float({ min: 1, max: 5, precision: 1 }),
-  images: Array.from({ length: 6 }, () => faker.internet.url()),
+  rating: faker.datatype.float({ min: MIN_RATING, max: MAX_RATING, precision: PRECISION_RATING }),
+  images: Array.from({ length: IMAGES_LENGTH }, () => faker.internet.url()),
   description: faker.commerce.productDescription(),
-  bedrooms: faker.datatype.number({ min: 1, max: 5 }),
-  goods: Array.from({ length: 4 }, () => faker.commerce.product()),
+  bedrooms: faker.datatype.number({ min: MIN_BEDROOMS, max: MAX_BEDROOMS }),
+  goods: Array.from({ length: GOODS_LENGTH }, () => faker.commerce.product()),
   host: makeFakeUser(),
-  maxAdults: faker.datatype.number({ min: 1, max: 10 }),
+  maxAdults: faker.datatype.number({ min: MIN_ADULTS, max: MAX_ADULTS }),
 });
 
 export const makeFakeOffers = (): OfferType[] => (
@@ -130,7 +139,7 @@ export const makeFakeFavoriteOffers = (): OfferType[] => (
 );
 
 export const makeFakeFavoriteCityOffers = (cities: CityType[]): OfferType[] => cities.flatMap((city) => {
-  const count = faker.datatype.number({ min: 1, max: 3 });
+  const count = faker.datatype.number({ min: CITY_OFFERS_MIN_COUNT, max: CITY_OFFERS_MAX_COUNT });
 
   return Array.from({ length: count }, () => ({
     ...makeFakeOffer(),
