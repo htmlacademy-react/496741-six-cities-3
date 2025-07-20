@@ -205,6 +205,8 @@ export const makeFakeState = (initialState?: Partial<State>): State => {
       comments: makeFakeComments(),
       isOfferPageLoading: faker.datatype.boolean(),
       isCommentPosting: false,
+      reviewRating: 0,
+      reviewComment: '',
     },
     [NameSpace.Offers]: {
       offers: makeFakeOffers(),

@@ -13,6 +13,8 @@ const initialState: OfferRerucerType = {
   comments: [],
   isOfferPageLoading: false,
   isCommentPosting: false,
+  reviewRating: 0,
+  reviewComment: '',
 };
 
 export const offerReducer = createSlice({
@@ -26,6 +28,16 @@ export const offerReducer = createSlice({
       state.offer = null;
       state.comments = [];
       state.offersNearby = [];
+    },
+    setReviewRating: (state, action: PayloadAction<number>) => {
+      state.reviewRating = action.payload;
+    },
+    setReviewComment: (state, action: PayloadAction<string>) => {
+      state.reviewComment = action.payload;
+    },
+    resetReviewForm: (state) => {
+      state.reviewRating = 0;
+      state.reviewComment = '';
     }
   },
   extraReducers(builder) {
@@ -52,6 +64,8 @@ export const offerReducer = createSlice({
       .addCase(postCommentAction.fulfilled, (state, action) => {
         state.comments = [ action.payload, ...state.comments ];
         state.isCommentPosting = false;
+        state.reviewRating = 0;
+        state.reviewComment = '';
       })
       .addCase(postCommentAction.rejected, (state) => {
         state.isCommentPosting = false;
@@ -59,4 +73,4 @@ export const offerReducer = createSlice({
   }
 });
 
-export const { resetOfferData, setOffer } = offerReducer.actions;
+export const { resetOfferData, setOffer, setReviewRating, setReviewComment, resetReviewForm } = offerReducer.actions;

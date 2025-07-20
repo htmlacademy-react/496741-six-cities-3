@@ -41,4 +41,6 @@ export type OfferRerucerType = {
   comments: ReviewType[];
   isOfferPageLoading: boolean;
   isCommentPosting: boolean;
+  reviewRating: number;
+  reviewComment: string;
 };

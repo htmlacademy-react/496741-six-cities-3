@@ -12,6 +12,8 @@ describe('OfferReducer Slice', () => {
     comments: makeFakeComments(),
     isOfferPageLoading: faker.datatype.boolean(),
     isCommentPosting: false,
+    reviewRating: 0,
+    reviewComment: '',
   };
 
   const fakeInitialState = {
@@ -20,6 +22,8 @@ describe('OfferReducer Slice', () => {
     comments: [],
     isOfferPageLoading: false,
     isCommentPosting: false,
+    reviewRating: 0,
+    reviewComment: '',
   };
 
   const fakeOffer = makeFakeOffer();

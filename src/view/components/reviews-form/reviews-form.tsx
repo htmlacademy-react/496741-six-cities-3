@@ -1,36 +1,41 @@
-import { FormEvent, Fragment, useState } from 'react';
+import { FormEvent, Fragment, useEffect } from 'react';
 import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, stars } from '../../../const';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { UserReviewType } from '../../../types/user';
 import { postCommentAction } from '../../../store/api-actions';
 import { selectIsCommentPosting } from '../../../store/selectors/offers';
+import { selectReviewRating, selectReviewComment } from '../../../store/selectors/offer';
+import { setReviewRating, setReviewComment } from '../../../store/offer/offer-reducer';
 
 type ReviewsFormProps = {
   offerId: string;
 };
 
 function ReviewsForm({offerId}: ReviewsFormProps): JSX.Element {
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('');
+  const rating = useAppSelector(selectReviewRating);
+  const comment = useAppSelector(selectReviewComment);
   const isCommentPosting = useAppSelector(selectIsCommentPosting);
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setReviewRating(0));
+    dispatch(setReviewComment(''));
+  }, [offerId, dispatch]);
 
   const handleCommentSubmit = (review: UserReviewType) => {
     dispatch(postCommentAction(review));
   };
 
   const handleRatingChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setRating(parseInt(evt.target.value, 10));
+    dispatch(setReviewRating(parseInt(evt.target.value, 10)));
   };
   const handleCommentChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setComment(evt.target.value);
+    dispatch(setReviewComment(evt.target.value));
   };
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     handleCommentSubmit({offerId, rating, comment});
-    setRating(0);
-    setComment('');
   };
 
   return (
