@@ -1,6 +1,6 @@
 import faker from 'faker';
 import { changeCity, changeSortType, offersReducer, updateOffer } from './offers-reducer';
-import { makeFakeCity, makeFakeOffer, makeFakeOffers, randomSortOption } from '../../utils/mocks';
+import { getRandomSortOption, makeFakeCity, makeFakeOffer, makeFakeOffers } from '../../utils/mocks';
 import { cities, SortTypeOptions } from '../../const';
 import { fetchOffersAction } from '../api-actions';
 
@@ -8,7 +8,7 @@ describe('OffersReducer Slice', () => {
   const fakeState = {
     offers: makeFakeOffers(),
     city: makeFakeCity(),
-    sortOption: randomSortOption,
+    sortOption: getRandomSortOption(),
     isOffersLoading: faker.datatype.boolean(),
     hasError: faker.datatype.boolean(),
   };
@@ -24,7 +24,7 @@ describe('OffersReducer Slice', () => {
   const fakeOffer = makeFakeOffer();
   const fakeOffers = makeFakeOffers();
   const fakeCity = makeFakeCity();
-  const fakeSortType = randomSortOption;
+  const fakeSortType = getRandomSortOption();
   const emptyAction = { type: '' };
 
   it('should return initial state with empty action', () => {

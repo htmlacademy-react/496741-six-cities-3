@@ -33,7 +33,7 @@ function PlaceList({offers, onOfferHover}: PlaceListProps): JSX.Element {
   }, [city]);
 
   return (
-    <section className="cities__places places" ref={scrollRef}>
+    <section className="cities__places places" ref={scrollRef} >
       <h2 className="visually-hidden">Places</h2>
       <b className="places__found">
         {offers.length} place{offers.length > 1 && 's'} to stay in {city.name}

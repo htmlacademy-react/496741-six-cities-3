@@ -3,8 +3,11 @@ import {
   CityName,
   DISPLAYED_NEARBY_OFFERS,
   NameMap,
+  NamePlaceCard,
+  NameSpace,
   Placement,
-  SortTypeOptions } from '../const';
+  SortTypeOptions,
+  TextNotFound} from '../const';
 import { CityType, LocationType } from '../types/offers';
 import { AuthData, AuthInfo, UserReviewType, UserType } from '../types/user';
 import { FullOfferType, OfferType, ReviewType } from '../types/offer';
@@ -20,13 +23,28 @@ const MAX_PRICE = 500;
 const MAX_RATING = 5;
 const PRECISION_RATING = 1;
 
-export const randomMapName = faker.helpers.randomize(Object.keys(NameMap));
-export const randomOfferType = faker.helpers.randomize(Object.values(Placement));
-export const randomCityName = faker.helpers.randomize(Object.values(CityName));
-export const randomSortOption = faker.helpers.randomize(Object.values(SortTypeOptions));
-export const randomAuthorizationStatus = faker.helpers.randomize(Object.values(AuthorizationStatus));
-
 export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
+
+export const getRandomAuthorizationStatus = (): AuthorizationStatus =>
+  faker.helpers.randomize(Object.values(AuthorizationStatus));
+
+export const getRandomSortOption = (): SortTypeOptions =>
+  faker.helpers.randomize(Object.values(SortTypeOptions));
+
+export const getRandomCityName = (): CityName =>
+  faker.helpers.randomize(Object.values(CityName));
+
+export const getRandomOfferType = (): Placement =>
+  faker.helpers.randomize(Object.values(Placement));
+
+
+export const getRandomMapName = (): keyof typeof NameMap =>
+  faker.helpers.randomize(Object.keys(NameMap)) as keyof typeof NameMap;
+
+export const getRandomCardName = (): keyof typeof NamePlaceCard =>
+  faker.helpers.randomize(Object.keys(NamePlaceCard)) as keyof typeof NamePlaceCard;
+
+export const makeFakeId = (): string => faker.datatype.uuid();
 
 export const makeFakeToken = (): string => faker.datatype.uuid();
 
@@ -40,6 +58,17 @@ export const makeFakeCity = (): CityType => ({
   location: makeFakeLocation(),
   name: faker.helpers.randomize(Object.values(CityName)),
 } as CityType);
+
+export const makeFakeCities = (): CityType[] => {
+  const allNames = Object.values(CityName);
+  const count = faker.datatype.number({ min: 1, max: allNames.length });
+  const shuffledNames = faker.helpers.shuffle(allNames).slice(0, count);
+
+  return shuffledNames.map((name) => ({
+    ...makeFakeCity(),
+    name,
+  }));
+};
 
 export const makeFakeUser = (): UserType => ({
   avatarUrl: faker.internet.avatar(),
@@ -57,7 +86,7 @@ export const makeFakeOffer = (): OfferType => ({
   location: makeFakeLocation(),
   isFavorite: faker.datatype.boolean(),
   isPremium: faker.datatype.boolean(),
-  rating: faker.datatype.float({ min: 1, max: 5, precision: 0.1 }),
+  rating: faker.datatype.float({ min: 1, max: 5, precision: 1 }),
 });
 
 export const makeFakeFavoriteOffer = (): OfferType => ({
@@ -74,7 +103,7 @@ export const makeFakeFullOffer = (): FullOfferType => ({
   location: makeFakeLocation(),
   isFavorite: faker.datatype.boolean(),
   isPremium: faker.datatype.boolean(),
-  rating: faker.datatype.float({ min: 1, max: 5, precision: 0.1 }),
+  rating: faker.datatype.float({ min: 1, max: 5, precision: 1 }),
   images: Array.from({ length: 6 }, () => faker.internet.url()),
   description: faker.commerce.productDescription(),
   bedrooms: faker.datatype.number({ min: 1, max: 5 }),
@@ -99,6 +128,16 @@ export const makeFakeOffersNearby = (city: CityType): OfferType[] =>
 export const makeFakeFavoriteOffers = (): OfferType[] => (
   Array.from({ length: NUMBER_OF_FAKE_CASES + 1 }, () => makeFakeFavoriteOffer())
 );
+
+export const makeFakeFavoriteCityOffers = (cities: CityType[]): OfferType[] => cities.flatMap((city) => {
+  const count = faker.datatype.number({ min: 1, max: 3 });
+
+  return Array.from({ length: count }, () => ({
+    ...makeFakeOffer(),
+    city,
+    isFavorite: true,
+  }));
+});
 
 export const makeFakeComment = (): ReviewType => ({
   comment: faker.commerce.productDescription(),
@@ -131,3 +170,38 @@ export const makeFakeComments = (): ReviewType[] => (
   new Array(faker.datatype.number(NUMBER_OF_FAKE_CASES)).fill(null).map(makeFakeComment));
 
 export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({ type }) => type);
+
+export const getRandomKeyForTextNotFound
+= (): keyof typeof TextNotFound => {
+  const keys = Object.keys(TextNotFound) as (keyof typeof TextNotFound)[];
+  const index = Math.floor(Math.random() * keys.length);
+  return keys[index];
+};
+
+export const makeFakeState = (initialState?: Partial<State>): State => {
+  const fakeFullOffer = makeFakeFullOffer();
+  const randomAuthorizationStatus = getRandomAuthorizationStatus();
+  const randomSortOption = getRandomSortOption();
+
+  return {
+    [NameSpace.Offer]: {
+      offer: fakeFullOffer,
+      offersNearby: makeFakeOffersNearby(fakeFullOffer.city),
+      comments: makeFakeComments(),
+      isOfferPageLoading: faker.datatype.boolean(),
+    },
+    [NameSpace.Offers]: {
+      offers: makeFakeOffers(),
+      city: makeFakeCity(),
+      sortOption: randomSortOption,
+      isOffersLoading: faker.datatype.boolean(),
+      hasError: faker.datatype.boolean(),
+    },
+    [NameSpace.User]: {
+      authorizationStatus: randomAuthorizationStatus,
+      authInfo: makeFakeAuthInfo(),
+      favorites: makeFakeFavoriteOffers(),
+    },
+    ...initialState ?? {},
+  };
+};

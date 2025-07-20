@@ -3,7 +3,21 @@ import { createAPI } from '../services/api';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import { Action } from 'redux';
-import { AppThunkDispatch, extractActionsTypes, makeFakeAuthData, makeFakeAuthInfo, makeFakeCity, makeFakeComments, makeFakeFavoriteOffers, makeFakeFullOffer, makeFakeOffer, makeFakeOffers, makeFakeOffersNearby, makeFakeToken, randomAuthorizationStatus, randomSortOption } from '../utils/mocks';
+import {
+  AppThunkDispatch,
+  extractActionsTypes,
+  getRandomAuthorizationStatus,
+  getRandomSortOption,
+  makeFakeAuthData,
+  makeFakeAuthInfo,
+  makeFakeCity,
+  makeFakeComments,
+  makeFakeFavoriteOffers,
+  makeFakeFullOffer,
+  makeFakeOffer,
+  makeFakeOffers,
+  makeFakeOffersNearby,
+  makeFakeToken } from '../utils/mocks';
 import { State } from '../types/state';
 import { checkAuthAction, fetchCommentsAction, fetchFavoritesAction, fetchOfferAction, fetchOffersAction, fetchOffersNearbyAction, loginAction, logoutAction, postCommentAction, postFavoriteAction } from './api-actions';
 import { APIRoute, NameSpace } from '../const';
@@ -32,12 +46,12 @@ describe('Async actions', () => {
       [NameSpace.Offers]: {
         offers: makeFakeOffers(),
         city: makeFakeCity(),
-        sortOption: randomSortOption,
+        sortOption: getRandomSortOption(),
         isOffersLoading: faker.datatype.boolean(),
         hasError: faker.datatype.boolean(),
       },
       [NameSpace.User]: {
-        authorizationStatus: randomAuthorizationStatus,
+        authorizationStatus: getRandomAuthorizationStatus(),
         authInfo: makeFakeAuthInfo(),
         favorites: makeFakeFavoriteOffers(),
       }

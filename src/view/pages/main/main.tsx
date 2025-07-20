@@ -19,7 +19,10 @@ function Main(): JSX.Element {
   };
 
   return (
-    <main className={`page__main page__main--index ${hasError && 'page__main--index-empty'}`}>
+    <main
+      className={`page__main page__main--index ${hasError && 'page__main--index-empty'}`}
+      data-testid="main-page"
+    >
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <LocationsList />

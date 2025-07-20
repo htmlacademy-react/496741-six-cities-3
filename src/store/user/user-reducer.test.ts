@@ -7,15 +7,15 @@ import {
   logoutAction,
   postFavoriteAction } from '../api-actions';
 import {
+  getRandomAuthorizationStatus,
   makeFakeAuthData,
   makeFakeAuthInfo,
   makeFakeFavoriteOffer,
-  makeFakeFavoriteOffers,
-  randomAuthorizationStatus } from '../../utils/mocks';
+  makeFakeFavoriteOffers } from '../../utils/mocks';
 
 describe('UserReducer Slice', () => {
   const fakeState = {
-    authorizationStatus: randomAuthorizationStatus,
+    authorizationStatus: getRandomAuthorizationStatus(),
     authInfo: makeFakeAuthInfo(),
     favorites: makeFakeFavoriteOffers(),
   };

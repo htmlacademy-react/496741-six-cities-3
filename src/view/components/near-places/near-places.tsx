@@ -7,10 +7,10 @@ type NearPlacesProps = {
 
 function NearPlaces({offers}: NearPlacesProps): JSX.Element {
   return (
-    <div className="container">
+    <div className="container" data-testid="near-places-container">
       <section className="near-places places">
         <h2 className="near-places__title">Other places in the neighbourhood</h2>
-        <div className="near-places__list places__list">
+        <div className="near-places__list places__list" data-testid="near-places-list">
           {offers.map((offer) =>
             <PlaceCard key={offer.id} offer={offer} cardName='NEAR_PLACES' />
           )}

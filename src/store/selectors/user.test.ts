@@ -1,11 +1,11 @@
 import { NameSpace } from '../../const.ts';
-import { makeFakeAuthInfo, makeFakeFavoriteOffers, randomAuthorizationStatus } from '../../utils/mocks';
+import { getRandomAuthorizationStatus, makeFakeAuthInfo, makeFakeFavoriteOffers } from '../../utils/mocks';
 import { selectAuthInfo, selectAuthorizationStatus, selectFavorites } from './user.ts';
 
 describe('Selectors user', () => {
   const state = {
     [NameSpace.User]: {
-      authorizationStatus: randomAuthorizationStatus,
+      authorizationStatus: getRandomAuthorizationStatus(),
       authInfo: makeFakeAuthInfo(),
       favorites: makeFakeFavoriteOffers(),
     }

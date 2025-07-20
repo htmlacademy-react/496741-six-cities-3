@@ -10,8 +10,6 @@ import Layout from '../layout/layout.tsx';
 import { HelmetProvider } from 'react-helmet-async';
 import { useAppSelector } from '../../../hooks/index.ts';
 import LoadingScreen from '../../pages/loading-screen/loading-screen.tsx';
-import HistoryRouter from '../history-router/history-router.tsx';
-import browserHistory from '../../../browser-history.ts';
 import { selectOffersLoadingStatus } from '../../../store/selectors/offers.ts';
 import { selectAuthorizationStatus } from '../../../store/selectors/user.ts';
 
@@ -27,39 +25,39 @@ function App() : JSX.Element {
 
   return (
     <HelmetProvider>
-      <HistoryRouter history={browserHistory}>
-        <Routes>
+      <Routes>
+        <Route
+          path={AppRoute.Root}
+          element={<Layout />}
+        >
           <Route
-            path={AppRoute.Root}
-            element={<Layout />}
-          >
-            <Route
-              index
-              element={<Main />}
-            />
-            <Route
-              path={AppRoute.Favorites}
-              element={
-                <PrivateRoute>
-                  <Favorites />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path={AppRoute.Login}
-              element={<Login />}
-            />
-            <Route
-              path={AppRoute.Offer}
-              element={<Offer />}
-            />
-            <Route
-              path={AppRoute.NotFound}
-              element={<NotFound type='NOT_FOUND' />}
-            />
-          </Route>
-        </Routes>
-      </HistoryRouter>
+            index
+            element={<Main />}
+          />
+          <Route
+            path={AppRoute.Favorites}
+            element={
+              <PrivateRoute
+                authorizationStatus={authorizationStatus}
+              >
+                <Favorites />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.Login}
+            element={<Login />}
+          />
+          <Route
+            path={AppRoute.Offer}
+            element={<Offer />}
+          />
+          <Route
+            path={AppRoute.NotFound}
+            element={<NotFound type='NOT_FOUND' />}
+          />
+        </Route>
+      </Routes>
     </HelmetProvider>
   );
 }

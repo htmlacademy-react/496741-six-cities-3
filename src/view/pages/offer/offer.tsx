@@ -140,7 +140,7 @@ function Offer(): JSX.Element {
                 <p className="offer__text">{description}</p>
               </div>
             </div>
-            <ReviewsList />
+            {id && <ReviewsList id={id} />}
           </div>
         </div>
         <Map

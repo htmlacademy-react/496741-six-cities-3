@@ -7,15 +7,21 @@ type LogoProps = {
 function Logo({isActive}: LogoProps): JSX.Element {
   const logoClass = isActive ?
     'header__logo-link header__logo-link--active' :
-    'className="header__logo-link';
-  const logoLink = isActive ? '' : AppRoute.Root;
+    'header__logo-link';
+  const logoLink = isActive ? '#' : AppRoute.Root;
 
   return (
     <Link
       className = {logoClass}
       to = {logoLink}
     >
-      <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
+      <img
+        className="header__logo"
+        src="img/logo.svg"
+        alt="6 cities logo"
+        width="81"
+        height="41"
+      />
     </Link>
   );
 }

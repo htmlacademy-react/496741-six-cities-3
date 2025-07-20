@@ -1,4 +1,5 @@
 import { ReviewType } from '../../../types/offer.ts';
+import { getFormattedDate } from '../../../utils/utils.ts';
 
 type ReviewsItemProps = {
   review: ReviewType;
@@ -13,6 +14,7 @@ function ReviewsItem({review}: ReviewsItemProps): JSX.Element {
   } = review;
 
   const ratingInPercentage: string = `${100 / 5 * rating}%`;
+  const formattedDate = getFormattedDate(date);
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -31,7 +33,7 @@ function ReviewsItem({review}: ReviewsItemProps): JSX.Element {
           </div>
         </div>
         <p className="reviews__text">{comment}</p>
-        <time className="reviews__time" dateTime={date}>April 2019</time>
+        <time className="reviews__time" dateTime={date}>{formattedDate}</time>
       </div>
     </li>
   );
