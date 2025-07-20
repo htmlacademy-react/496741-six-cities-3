@@ -8,7 +8,7 @@ function Favorites(): JSX.Element {
   const favoriteOffers = useAppSelector(selectFavorites);
 
   const cityNames = new Set(favoriteOffers.map((offer) => offer.city.name));
-  const cityNamesSorted = [...cityNames].sort();
+  const cityNamesSorted = [...cityNames];
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -16,8 +16,8 @@ function Favorites(): JSX.Element {
   }, [dispatch]);
 
   return (
-    <main className="page__main page__main--favorites">
-      <div className="page__favorites-container container">
+    <main className={`page__main page__main--favorites ${favoriteOffers.length === 0 ? 'page__main--favorites-empty' : ''}`}>
+      <div className={`page__favorites-container container ${favoriteOffers.length === 0 ? 'page--favorites-empty' : ''}`}>
         {favoriteOffers.length === 0 ? (
           <section className="favorites favorites--empty">
             <h1 className="visually-hidden">Favorites (empty)</h1>
