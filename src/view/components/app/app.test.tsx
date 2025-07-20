@@ -58,20 +58,21 @@ describe('Application Routing', () => {
     expect(screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
   });
 
-  it('should render Favorites page when user is authorized and navigates to "/favorites"', () => {
+  it('should render Favorites page with offers when user is authorized and has favorite offers', () => {
     fakeState = {
       ...fakeState,
       [NameSpace.User]: {
         ...fakeState[NameSpace.User],
         authorizationStatus: AuthorizationStatus.Auth,
         authInfo: makeFakeAuthInfo(),
-        favorites: [],
+        favorites: makeFakeOffers(), // 👉 НЕ пустой массив
       },
       [NameSpace.Offers]: {
         ...fakeState[NameSpace.Offers],
         isOffersLoading: false,
       },
     };
+
     mockHistory.push(AppRoute.Favorites);
     const { withStoreComponent } = withStore(
       withHistory(<App />, mockHistory),
@@ -81,6 +82,35 @@ describe('Application Routing', () => {
     render(withStoreComponent);
 
     expect(screen.getByText(/Saved listing/i)).toBeInTheDocument();
+  });
+
+  it('should render Favorites empty page when user is authorized but has no favorite offers', () => {
+    fakeState = {
+      ...fakeState,
+      [NameSpace.User]: {
+        ...fakeState[NameSpace.User],
+        authorizationStatus: AuthorizationStatus.Auth,
+        authInfo: makeFakeAuthInfo(),
+        favorites: [], // 👉 ПУСТОЙ массив
+      },
+      [NameSpace.Offers]: {
+        ...fakeState[NameSpace.Offers],
+        isOffersLoading: false,
+      },
+    };
+
+    mockHistory.push(AppRoute.Favorites);
+    const { withStoreComponent } = withStore(
+      withHistory(<App />, mockHistory),
+      fakeState
+    );
+
+    render(withStoreComponent);
+
+    expect(screen.getByText(/Nothing yet saved/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Save properties to narrow down search or plan your future trips/i)
+    ).toBeInTheDocument();
   });
 
   it('should render Offer page when user navigates to "/offer/:id"', () => {

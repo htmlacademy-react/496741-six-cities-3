@@ -14,7 +14,12 @@ const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.NOT_FOUND]: true,
 };
 
-const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
+const shouldDisplayError = (response: AxiosResponse) => {
+  if (!getToken() && response.status as StatusCodes === StatusCodes.UNAUTHORIZED) {
+    return false;
+  }
+  return !!StatusCodeMapping[response.status];
+};
 
 const BACKEND_URL = 'https://15.design.htmlacademy.pro/six-cities';
 const REQUEST_TIMEOUT = 5000;
