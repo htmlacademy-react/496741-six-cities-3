@@ -1,91 +1,156 @@
-// import { screen, render } from '@testing-library/react';
-// import { createMemoryHistory, MemoryHistory } from 'history';
-// import App from './app';
-// import { AppRoute, AuthorizationStatus } from '../../../const';
-// import { withHistory, withStore } from '../../../utils/mock-component';
-// import { makeFakeStore } from '../../../utils/mocks';
+import { screen, render } from '@testing-library/react';
+import { createMemoryHistory, MemoryHistory } from 'history';
+import App from './app';
+import { AppRoute, AuthorizationStatus, NameSpace, TextNotFound } from '../../../const';
+import { withHistory, withStore } from '../../../utils/mock-component';
+import { makeFakeAuthInfo, makeFakeComments, makeFakeFullOffer, makeFakeOffers, makeFakeState } from '../../../utils/mocks';
+import { State } from '../../../types/state';
 
-// describe('Application Routing', () => {
-//   let mockHistory: MemoryHistory;
+describe('Application Routing', () => {
+  let mockHistory: MemoryHistory;
+  let fakeState: State;
 
-//   beforeEach(() => {
-//     mockHistory = createMemoryHistory();
-//   });
+  beforeEach(() => {
+    mockHistory = createMemoryHistory();
+    fakeState = makeFakeState();
+  });
 
-//   it('should render Main page when user navigates to "/"', () => {
-//     mockHistory.push(AppRoute.Root);
-//     const { withStoreComponent } = withStore(
-//       withHistory(<App />, mockHistory),
-//       makeFakeStore()
-//     );
+  it('should render Main page when user navigates to "/"', () => {
+    fakeState = {
+      ...fakeState,
+      [NameSpace.Offers]: {
+        ...fakeState[NameSpace.Offers],
+        isOffersLoading: false,
+        offers: makeFakeOffers(),
+      },
+    };
+    mockHistory.push(AppRoute.Root);
 
-//     render(withStoreComponent);
+    const withHistoryComponent = withHistory(<App />, mockHistory);
+    const { withStoreComponent } = withStore(withHistoryComponent, fakeState);
+    render(withStoreComponent);
 
-//     expect(screen.getByTestId('main-page')).toBeInTheDocument();
-//   });
+    expect(screen.getByTestId('main-page')).toBeInTheDocument();
+  });
 
-//   it('should render Login page when user navigates to "/login"', () => {
-//     mockHistory.push(AppRoute.Login);
-//     const { withStoreComponent } = withStore(
-//       withHistory(<App />, mockHistory),
-//       makeFakeStore({ USER: { authorizationStatus: AuthorizationStatus.NoAuth } })
-//     );
+  it('should render Login page when user navigates to "/login"', () => {
+    fakeState = {
+      ...fakeState,
+      [NameSpace.User]: {
+        ...fakeState[NameSpace.User],
+        authorizationStatus: AuthorizationStatus.NoAuth,
+      },
+      [NameSpace.Offers]: {
+        ...fakeState[NameSpace.Offers],
+        isOffersLoading: false,
+      },
+    };
 
-//     render(withStoreComponent);
+    mockHistory.push(AppRoute.Login);
 
-//     expect(screen.getByLabelText(/E-mail/i)).toBeInTheDocument();
-//     expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
-//   });
+    const { withStoreComponent } = withStore(
+      withHistory(<App />, mockHistory),
+      fakeState
+    );
 
-//   it('should render Favorites page when user is authorized and navigates to "/favorites"', () => {
-//     mockHistory.push(AppRoute.Favorites);
-//     const { withStoreComponent } = withStore(
-//       withHistory(<App />, mockHistory),
-//       makeFakeStore({
-//         USER: {
-//           authorizationStatus: AuthorizationStatus.Auth,
-//           authInfo: makeFakeAuthInfo(),
-//           favorites: [],
-//         }
-//       })
-//     );
+    render(withStoreComponent);
+    expect(screen.getByPlaceholderText(/Email/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
+  });
 
-//     render(withStoreComponent);
+  it('should render Favorites page when user is authorized and navigates to "/favorites"', () => {
+    fakeState = {
+      ...fakeState,
+      [NameSpace.User]: {
+        ...fakeState[NameSpace.User],
+        authorizationStatus: AuthorizationStatus.Auth,
+        authInfo: makeFakeAuthInfo(),
+        favorites: [],
+      },
+      [NameSpace.Offers]: {
+        ...fakeState[NameSpace.Offers],
+        isOffersLoading: false,
+      },
+    };
+    mockHistory.push(AppRoute.Favorites);
+    const { withStoreComponent } = withStore(
+      withHistory(<App />, mockHistory),
+      fakeState
+    );
 
-//     expect(screen.getByText(/Saved listing/i)).toBeInTheDocument();
-//   });
+    render(withStoreComponent);
 
-//   it('should render Offer page when user navigates to "/offer/:id"', () => {
-//     const fakeOffer = makeFakeFullOffer();
-//     const offerId = fakeOffer.id;
-//     mockHistory.push(`${AppRoute.Offer.replace(':id', String(offerId))}`);
+    expect(screen.getByText(/Saved listing/i)).toBeInTheDocument();
+  });
 
-//     const { withStoreComponent } = withStore(
-//       withHistory(<App />, mockHistory),
-//       makeFakeStore({
-//         OFFER: {
-//           offer: fakeOffer,
-//           comments: makeFakeComments(),
-//           nearby: [],
-//         }
-//       })
-//     );
+  it('should render Offer page when user navigates to "/offer/:id"', () => {
+    const fakeOffer = makeFakeFullOffer();
+    const fakeOffers = makeFakeOffers();
+    fakeOffers[0].id = fakeOffer.id;
+    const offerId = fakeOffer.id;
+    fakeState = {
+      ...fakeState,
+      [NameSpace.Offer]: {
+        ...fakeState[NameSpace.Offer],
+        offer: fakeOffer,
+        comments: makeFakeComments(),
+        offersNearby: [],
+        isOfferPageLoading: false,
+      },
+      [NameSpace.Offers]: {
+        ...fakeState[NameSpace.Offers],
+        offers: fakeOffers,
+        isOffersLoading: false,
+      },
+      [NameSpace.User]: {
+        ...fakeState[NameSpace.User],
+        authorizationStatus: AuthorizationStatus.Auth,
+        authInfo: makeFakeAuthInfo(),
+      },
+    };
 
-//     render(withStoreComponent);
+    mockHistory.push(`${AppRoute.Offer.replace(':id', offerId)}`);
 
-//     expect(screen.getByTestId('offer-page')).toBeInTheDocument();
-//   });
+    const { withStoreComponent } = withStore(
+      withHistory(<App />, mockHistory),
+      fakeState
+    );
 
-//   it('should render NotFound page when user navigates to an unknown route', () => {
-//     mockHistory.push('/unknown-route');
-//     const { withStoreComponent } = withStore(
-//       withHistory(<App />, mockHistory),
-//       makeFakeStore()
-//     );
+    render(withStoreComponent);
 
-//     render(withStoreComponent);
+    expect(screen.queryByText(TextNotFound.ID_IS_NOT_CORRECT)).not.toBeInTheDocument();
+    expect(screen.getByTestId('offer-page')).toBeInTheDocument();
+  });
 
-//     expect(screen.getByText('404. Page not found')).toBeInTheDocument();
-//     expect(screen.getByText('Вернуться на главную')).toBeInTheDocument();
-//   });
-// });
+  it('should render NotFound page when user navigates to an unknown route', () => {
+    fakeState = {
+      ...fakeState,
+      [NameSpace.Offers]: {
+        ...fakeState[NameSpace.Offers],
+        isOffersLoading: false,
+      },
+      [NameSpace.Offer]: {
+        ...fakeState[NameSpace.Offer],
+        offer: null,
+        comments: [],
+        offersNearby: [],
+        isOfferPageLoading: false,
+      },
+      [NameSpace.User]: {
+        ...fakeState[NameSpace.User],
+        authorizationStatus: AuthorizationStatus.NoAuth,
+      }
+    };
+    mockHistory.push('/unknown-route');
+    const { withStoreComponent } = withStore(
+      withHistory(<App />, mockHistory),
+      fakeState
+    );
+
+    render(withStoreComponent);
+
+    expect(screen.getByTestId('text-not-found')).toBeInTheDocument();
+    expect(screen.getByAltText('Not-found')).toBeInTheDocument();
+    expect(screen.getByText('Go to main page')).toBeInTheDocument();
+  });
+});
