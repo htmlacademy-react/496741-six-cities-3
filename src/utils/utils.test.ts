@@ -59,7 +59,7 @@ describe('Function: getFormattedDate', () => {
     const inputDate = '2025-06-27T21:00:01.051Z';
     const formatted = getFormattedDate(inputDate);
 
-    expect(formatted).toBe('June 2025'); // результат зависит от локали и времени
+    expect(formatted).toBe('June 2025');
   });
 
   it('should return empty string for invalid date', () => {

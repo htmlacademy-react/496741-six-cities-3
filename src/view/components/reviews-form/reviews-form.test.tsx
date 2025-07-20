@@ -46,7 +46,7 @@ describe('Component: ReviewsForm', () => {
     expect((textarea as HTMLTextAreaElement).value).toBe(
       'This is a test review with more than 50 characters.'
     );
-    expect((ratingInput as HTMLInputElement).checked).toBe(true); // ✅ теперь сработает
+    expect((ratingInput as HTMLInputElement).checked).toBe(true);
   });
 
   it('should dispatch postCommentAction on form submit', async () => {
