@@ -204,6 +204,7 @@ export const makeFakeState = (initialState?: Partial<State>): State => {
       offersNearby: makeFakeOffersNearby(fakeFullOffer.city),
       comments: makeFakeComments(),
       isOfferPageLoading: faker.datatype.boolean(),
+      isCommentPosting: false,
     },
     [NameSpace.Offers]: {
       offers: makeFakeOffers(),

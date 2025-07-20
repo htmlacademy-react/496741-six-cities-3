@@ -32,6 +32,10 @@ describe('Application Routing', () => {
         offers: fakeOffers,
         city: fakeOffer.city,
       },
+      [NameSpace.User]: {
+        ...fakeState[NameSpace.User],
+        authorizationStatus: AuthorizationStatus.NoAuth
+      }
     };
 
     mockHistory.push(AppRoute.Root);

@@ -14,7 +14,6 @@ describe('OfferReducer Slice', () => {
     isCommentPosting: false,
   };
 
-  // Добавляем isCommentPosting в initialState
   const fakeInitialState = {
     offer: null,
     offersNearby: [],
