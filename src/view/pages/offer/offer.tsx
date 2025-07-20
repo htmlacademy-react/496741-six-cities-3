@@ -58,9 +58,7 @@ function Offer(): JSX.Element {
     images,
   } = offer;
 
-  const currentOffer = offers.find((offerItem) => offerItem.id === offer.id);
   const displayedOffersNearby = offersNearby.slice(0, DISPLAYED_NEARBY_OFFERS);
-  const displayedOffers = currentOffer ? [...displayedOffersNearby, currentOffer] : [];
   return (
     <main className="page__main page__main--offer">
       <section className="offer" data-testid="offer-page">
@@ -144,8 +142,8 @@ function Offer(): JSX.Element {
           </div>
         </div>
         <Map
-          offers={displayedOffers}
-          activeOffer = {currentOffer}
+          offers={displayedOffersNearby}
+          activeOffer = {undefined}
           mapName='OFFER'
         />
       </section>
