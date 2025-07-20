@@ -42,6 +42,8 @@ function PlaceCard({
   const handleMouseOff = () => onOfferHover && onOfferHover(undefined);
   const isFavoriteCard = isFavoriteName(cardName);
 
+  const ratingFiveStars = Math.round(offer.rating) * 20;
+
   return (
     <article
       className={`${NamePlaceCard[cardName]}__card place-card`}
@@ -85,7 +87,7 @@ function PlaceCard({
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '80%'}}></span>
+            <span style={{width: `${ratingFiveStars}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
