@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction, postFavoriteAction } from '../../../store/api-actions.ts';
-import { selectOffers } from '../../../store/selectors/offers.ts';
 import { selectOffer, selectOfferPageLoading, selectOffersNearby } from '../../../store/selectors/offer.ts';
 import { resetOfferData } from '../../../store/offer/offer-reducer.ts';
 import LoadingScreen from '../loading-screen/loading-screen.tsx';
@@ -18,7 +17,6 @@ import { OfferType } from '../../../types/offers.ts';
 import { useAuth } from '../../../hooks/auth.ts';
 
 function Offer(): JSX.Element {
-  const offers = useAppSelector(selectOffers);
   const offer = useAppSelector(selectOffer);
   const offersNearby = useAppSelector(selectOffersNearby);
   const offerPageIsLoading = useAppSelector(selectOfferPageLoading);
@@ -62,9 +60,9 @@ function Offer(): JSX.Element {
     images,
   } = offer;
 
-  const currentOffer = offers.find((offerItem) => offerItem.id === offer.id);
   const displayedOffersNearby = offersNearby.slice(0, DISPLAYED_NEARBY_OFFERS);
-  const displayedOffers = currentOffer ? [...displayedOffersNearby, currentOffer] : [];
+  const currentOffer: OfferType = offer as unknown as OfferType;
+  const displayedOffers = [...displayedOffersNearby, currentOffer];
 
   const handleFavoriteClick = () => {
     if (!userIsAuth) {
@@ -166,7 +164,7 @@ function Offer(): JSX.Element {
           mapName='OFFER'
         />
       </section>
-      {offers && <NearPlaces offers={displayedOffersNearby} />}
+      {displayedOffersNearby.length > 0 && <NearPlaces offers={displayedOffersNearby} />}
     </main>
   );
 }
