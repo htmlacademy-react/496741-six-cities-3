@@ -47,7 +47,7 @@ export const offerReducer = createSlice({
         state.isCommentPosting = true;
       })
       .addCase(postCommentAction.fulfilled, (state, action) => {
-        state.comments = [...state.comments, action.payload];
+        state.comments = [ action.payload, ...state.comments ];
         state.isCommentPosting = false;
       })
       .addCase(postCommentAction.rejected, (state) => {

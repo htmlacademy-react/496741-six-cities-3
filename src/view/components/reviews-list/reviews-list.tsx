@@ -3,6 +3,7 @@ import ReviewsForm from '../reviews-form/reviews-form';
 import ReviewsItem from '../reviews-item/reviews-item';
 import { useAuth } from '../../../hooks/auth.ts';
 import { selectComments } from '../../../store/selectors/offer.ts';
+import { MAX_REVIEWS_COUNT } from '../../../const.ts';
 
 type ReviewsListProps = {
   id: string;
@@ -19,7 +20,7 @@ function ReviewsList({ id }: ReviewsListProps) {
         Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
       </h2>
       <ul className="reviews__list" data-testid="reviews-list">
-        {reviews.map((review) => (
+        {reviews.slice(0, MAX_REVIEWS_COUNT).map((review) => (
           <ReviewsItem key={review.id} review={review} />
         ))}
       </ul>

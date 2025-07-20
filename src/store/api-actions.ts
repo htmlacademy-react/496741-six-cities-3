@@ -1,12 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { APIRoute, AppRoute } from '../const';
+import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { redirectToRoute } from './action';
 import { dropToken, saveToken } from '../services/token.ts';
 import { AuthData, AuthInfo, UserFvoritesType, UserReviewType } from '../types/user.ts';
 import { FullOfferType, OfferType, ReviewType } from '../types/offer.ts';
 import { updateOffer } from './offers/offers-reducer.ts';
+import { selectAuthorizationStatus } from './selectors/user.ts';
 
 export const fetchOffersAction = createAsyncThunk<OfferType[], undefined, {
   dispatch: AppDispatch;
@@ -92,7 +93,11 @@ export const fetchFavoritesAction = createAsyncThunk<OfferType[], undefined, {
   extra: AxiosInstance;
 }>(
   'user/fetchFavorites',
-  async (_arg, { extra: api }) => {
+  async (_arg, { getState, extra: api }) => {
+    const state = getState();
+    if (selectAuthorizationStatus(state) !== AuthorizationStatus.Auth) {
+      return [];
+    }
     const { data } = await api.get<OfferType[]>(APIRoute.Favorite);
 
     return data;
