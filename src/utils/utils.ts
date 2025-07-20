@@ -1,5 +1,5 @@
 import { SortTypeOptions } from '../const.ts';
-import { OfferType } from '../types/offer.ts';
+import { OfferType, ReviewType } from '../types/offer.ts';
 import { CityType } from '../types/offers.ts';
 
 const getFilteredCityOffers = (offers: OfferType[], city: CityType): OfferType[] =>
@@ -35,4 +35,10 @@ const getFormattedDate = (dateString: string): string => {
   });
 };
 
-export { getFilteredCityOffers, getSortedOffers, getFormattedDate };
+const getSortedReviews = (reviews: ReviewType[], length: number): ReviewType[] => {
+  const sortedReviews = [...reviews].sort((firstReview, secondReview) =>
+    new Date(secondReview.date).getTime() - new Date(firstReview.date).getTime());
+  return sortedReviews.slice(0, length);
+};
+
+export { getFilteredCityOffers, getSortedOffers, getFormattedDate, getSortedReviews };
