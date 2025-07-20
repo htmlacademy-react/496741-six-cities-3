@@ -4,8 +4,8 @@ import Logo from '../../components/logo/logo.tsx';
 import { AppRoute, PageTitle } from '../../../const.ts';
 import Footer from '../footer/footer.tsx';
 import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
-import { MouseEvent } from 'react';
-import { logoutAction } from '../../../store/api-actions.ts';
+import { MouseEvent, useEffect } from 'react';
+import { fetchFavoritesAction, logoutAction } from '../../../store/api-actions.ts';
 import { selectAuthInfo, selectFavorites } from '../../../store/selectors/user.ts';
 import { useAuth } from '../../../hooks/auth.ts';
 
@@ -42,6 +42,10 @@ function Layout(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const userIsAuth = useAuth();
+
+  useEffect(() => {
+    dispatch(fetchFavoritesAction());
+  }, [dispatch, authInfo]);
 
   const title = PageTitle[pathname as AppRoute];
 
