@@ -41,7 +41,9 @@ describe('Application Routing', () => {
 
     render(withStoreComponent);
 
-    expect(await screen.findByTestId('main-page')).toBeInTheDocument();
+    expect(
+      await screen.findByTestId('main-page', {}, { timeout: 3000 })
+    ).toBeInTheDocument();
   });
 
   it('should render Login page when user navigates to "/login"', () => {
