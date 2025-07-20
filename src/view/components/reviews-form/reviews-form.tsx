@@ -1,8 +1,9 @@
 import { FormEvent, Fragment, useState } from 'react';
 import { stars } from '../../../const';
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { UserReviewType } from '../../../types/user';
 import { postCommentAction } from '../../../store/api-actions';
+import { selectIsCommentPosting } from '../../../store/selectors/offers';
 
 type ReviewsFormProps = {
   offerId: string;
@@ -11,6 +12,7 @@ type ReviewsFormProps = {
 function ReviewsForm({offerId}: ReviewsFormProps): JSX.Element {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+  const isCommentPosting = useAppSelector(selectIsCommentPosting);
 
   const dispatch = useAppDispatch();
 
@@ -52,6 +54,7 @@ function ReviewsForm({offerId}: ReviewsFormProps): JSX.Element {
               id={`${star.value}-stars`}
               type="radio"
               checked={star.value === rating}
+              disabled={isCommentPosting}
             />
             <label
               htmlFor={`${star.value}-stars`}
@@ -73,6 +76,7 @@ function ReviewsForm({offerId}: ReviewsFormProps): JSX.Element {
         onChange={handleCommentChange}
         minLength={50}
         maxLength={300}
+        disabled={isCommentPosting}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -84,7 +88,7 @@ function ReviewsForm({offerId}: ReviewsFormProps): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={(comment.length < 50 || comment.length > 300 || rating === 0)}
+          disabled={(comment.length < 50 || comment.length > 300 || rating === 0 || isCommentPosting)}
         >
           Submit
         </button>

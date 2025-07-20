@@ -21,22 +21,33 @@ describe('Application Routing', () => {
     fakeState = makeFakeState();
   });
 
-  it('should render Main page when user navigates to "/"', () => {
+  it('should render Main page when user navigates to "/"', async () => {
+    const fakeOffer = makeFakeOffer();
+    const fakeOffers = [...makeFakeOffers(), fakeOffer];
     fakeState = {
       ...fakeState,
       [NameSpace.Offers]: {
         ...fakeState[NameSpace.Offers],
         isOffersLoading: false,
-        offers: makeFakeOffers(),
+        offers: fakeOffers,
+        city: fakeOffer.city,
       },
+      [NameSpace.User]: {
+        ...fakeState[NameSpace.User],
+        authorizationStatus: AuthorizationStatus.NoAuth
+      }
     };
+
     mockHistory.push(AppRoute.Root);
 
     const withHistoryComponent = withHistory(<App />, mockHistory);
     const { withStoreComponent } = withStore(withHistoryComponent, fakeState);
+
     render(withStoreComponent);
 
-    expect(screen.getByTestId('main-page')).toBeInTheDocument();
+    expect(
+      await screen.findByTestId('main-page', {}, { timeout: 3000 })
+    ).toBeInTheDocument();
   });
 
   it('should render Login page when user navigates to "/login"', () => {
