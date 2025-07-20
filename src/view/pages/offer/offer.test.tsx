@@ -8,7 +8,7 @@ import * as offerSelectors from '../../../store/selectors/offer';
 import * as offersSelectors from '../../../store/selectors/offers';
 
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+  const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom');
   return {
     ...actual,
     useParams: () => ({ id: '1' }),
