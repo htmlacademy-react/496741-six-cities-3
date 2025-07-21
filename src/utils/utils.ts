@@ -41,11 +41,11 @@ const getSortedReviews = (reviews: ReviewType[], length: number): ReviewType[] =
   return sortedReviews.slice(0, length);
 };
 
-const capitalize = (str: string): string => {
-  if (!str) {
+const capitalize = (textValue: string): string => {
+  if (!textValue) {
     return '';
   }
-  return str[0].toUpperCase() + str.slice(1);
+  return textValue[0].toUpperCase() + textValue.slice(1);
 };
 
 const convertRatingToPercent = (rating: number): number =>
