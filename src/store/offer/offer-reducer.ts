@@ -34,10 +34,6 @@ export const offerReducer = createSlice({
     },
     setReviewComment: (state, action: PayloadAction<string>) => {
       state.reviewComment = action.payload;
-    },
-    resetReviewForm: (state) => {
-      state.reviewRating = 0;
-      state.reviewComment = '';
     }
   },
   extraReducers(builder) {
@@ -73,4 +69,4 @@ export const offerReducer = createSlice({
   }
 });
 
-export const { resetOfferData, setOffer, setReviewRating, setReviewComment, resetReviewForm } = offerReducer.actions;
+export const { resetOfferData, setOffer, setReviewRating, setReviewComment } = offerReducer.actions;

@@ -40,15 +40,6 @@ export const getRandomAuthorizationStatus = (): AuthorizationStatus =>
 export const getRandomSortOption = (): SortTypeOptions =>
   faker.helpers.randomize(Object.values(SortTypeOptions));
 
-export const getRandomCityName = (): CityName =>
-  faker.helpers.randomize(Object.values(CityName));
-
-export const getRandomCityNames = (): CityName[] => {
-  const allNames = Object.values(CityName);
-  const count = faker.datatype.number({ min: 1, max: allNames.length });
-  return faker.helpers.shuffle(allNames).slice(0, count);
-};
-
 export const getRandomOfferType = (): Placement =>
   faker.helpers.randomize(Object.values(Placement));
 
