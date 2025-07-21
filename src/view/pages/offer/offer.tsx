@@ -3,7 +3,7 @@ import NearPlaces from '../../components/near-places/near-places.tsx';
 import NotFound from '../not-found/not-found.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import Map from '../../components/map/map.tsx';
-import { AppRoute, DISPLAYED_NEARBY_OFFERS, MAX_RATING } from '../../../const.ts';
+import { AppRoute, DISPLAYED_NEARBY_OFFERS } from '../../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../../hooks/index.ts';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -15,7 +15,7 @@ import { nanoid } from '@reduxjs/toolkit';
 import { redirectToRoute } from '../../../store/action.ts';
 import { OfferType } from '../../../types/offers.ts';
 import { useAuth } from '../../../hooks/auth.ts';
-import { capitalize } from '../../../utils/utils.ts';
+import { capitalize, convertRatingToPercent } from '../../../utils/utils.ts';
 
 function Offer(): JSX.Element {
   const offer = useAppSelector(selectOffer);
@@ -76,8 +76,6 @@ function Offer(): JSX.Element {
     }
   };
 
-  const offerRating = Math.round(offer.rating) * 100 / MAX_RATING;
-
   return (
     <main className="page__main page__main--offer">
       <section className="offer" data-testid="offer-page">
@@ -105,7 +103,7 @@ function Offer(): JSX.Element {
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
-                <span style={{width: `${offerRating}%`}}></span>
+                <span style={{width: `${convertRatingToPercent(rating)}%`}}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
               <span className="offer__rating-value rating__value">{rating}</span>
