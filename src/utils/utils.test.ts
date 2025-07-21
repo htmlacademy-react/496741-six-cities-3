@@ -2,7 +2,7 @@
 import { CityName, SortTypeOptions } from '../const';
 import { ReviewType } from '../types/offer';
 import { makeFakeCity, makeFakeComment, makeFakeOffer } from '../utils/mocks';
-import { getFilteredCityOffers, getFormattedDate, getSortedOffers, getSortedReviews } from './utils';
+import { capitalize, getFilteredCityOffers, getFormattedDate, getSortedOffers, getSortedReviews } from './utils';
 
 describe('Functions: getFilteredCityOffers & getSortedOffers', () => {
   describe('getFilteredCityOffers', () => {
@@ -103,5 +103,27 @@ describe('Function: getSortedReviews', () => {
     const result = getSortedReviews([], 5);
 
     expect(result).toEqual([]);
+  });
+});
+
+describe('capitalize', () => {
+  it('capitalizes the first letter of a lowercase word', () => {
+    expect(capitalize('apartment')).toBe('Apartment');
+  });
+
+  it('leaves the rest of the string unchanged', () => {
+    expect(capitalize('hOTEL')).toBe('HOTEL');
+  });
+
+  it('returns an empty string if input is empty', () => {
+    expect(capitalize('')).toBe('');
+  });
+
+  it('handles single-character strings', () => {
+    expect(capitalize('a')).toBe('A');
+  });
+
+  it('does not crash on whitespace-only strings', () => {
+    expect(capitalize(' ')).toBe(' ');
   });
 });

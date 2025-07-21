@@ -15,6 +15,7 @@ import { nanoid } from '@reduxjs/toolkit';
 import { redirectToRoute } from '../../../store/action.ts';
 import { OfferType } from '../../../types/offers.ts';
 import { useAuth } from '../../../hooks/auth.ts';
+import { capitalize } from '../../../utils/utils.ts';
 
 function Offer(): JSX.Element {
   const offer = useAppSelector(selectOffer);
@@ -111,7 +112,7 @@ function Offer(): JSX.Element {
             </div>
             <ul className="offer__features">
               <li className="offer__feature offer__feature--entire">
-                {type}
+                {capitalize(type)}
               </li>
               <li className="offer__feature offer__feature--bedrooms">
                 {bedrooms} Bedrooms

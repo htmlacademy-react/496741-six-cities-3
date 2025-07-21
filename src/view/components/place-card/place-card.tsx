@@ -7,6 +7,7 @@ import React from 'react';
 import { postFavoriteAction } from '../../../store/api-actions.ts';
 import { useAppDispatch } from '../../../hooks/index.ts';
 import { useAuth } from '../../../hooks/auth.ts';
+import { capitalize } from '../../../utils/utils.ts';
 
 type PlaceCardProps = {
   offer: OfferType;
@@ -94,7 +95,7 @@ function PlaceCard({
         <h2 className="place-card__name">
           <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{capitalize(type)}</p>
       </div>
     </article>
   );
