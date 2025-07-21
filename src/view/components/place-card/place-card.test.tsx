@@ -7,6 +7,7 @@ import userEvent from '@testing-library/user-event';
 import * as hooks from '../../../hooks';
 import * as authHooks from '../../../hooks/auth';
 import * as actions from '../../../store/api-actions';
+import { capitalize } from '../../../utils/utils';
 
 describe('Component: PlaceCard', () => {
   const offer = makeFakeOffer();
@@ -27,7 +28,7 @@ describe('Component: PlaceCard', () => {
 
     expect(screen.getByText(offer.title)).toBeInTheDocument();
     expect(screen.getByText(/night/i)).toBeInTheDocument();
-    expect(screen.getByText(offer.type)).toBeInTheDocument();
+    expect(screen.getByText(capitalize(offer.type))).toBeInTheDocument();
     expect(screen.getByAltText(/place image/i)).toHaveAttribute('src', offer.previewImage);
   });
 

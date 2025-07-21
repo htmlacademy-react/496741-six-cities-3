@@ -1,8 +1,6 @@
 import { CityType } from './types/offers.ts';
 
 export const DISPLAYED_NEARBY_OFFERS = 3;
-export const MAX_COMMENT_LENGTH = 300;
-export const MIN_COMMENT_LENGTH = 50;
 export const MAX_REVIEWS_COUNT = 10;
 export const MAX_RATING = 5;
 export const MAX_IMAGES = 6;
@@ -46,7 +44,7 @@ export enum SortTypeOptions {
 
 export const PageTitle = {
   [AppRoute.Root]: 'Главная страница',
-  [AppRoute.Favorites]: 'Фавориты',
+  [AppRoute.Favorites]: 'Избранное',
   [AppRoute.Login]: 'Страница регистрации',
   [AppRoute.Offer]: 'Наше предложение',
   [AppRoute.NotFound]: '6 cities',
@@ -114,6 +112,11 @@ export const cities: CityType[] = [
 export const TextNotFound = {
   NOT_FOUND: '404. Page not found',
   ID_IS_NOT_CORRECT: 'There is no offer with this id, try entering another id',
+};
+
+export const CommentLength = {
+  MIN: 50,
+  MAX: 300,
 };
 
 export const NamePlaceCard = {

@@ -6,19 +6,19 @@ import FavoritesList from '../../components/favorites-list/favorites-list';
 
 function Favorites(): JSX.Element {
   const favoriteOffers = useAppSelector(selectFavorites);
-
-  const cityNames = new Set(favoriteOffers.map((offer) => offer.city.name));
-  const cityNamesSorted = [...cityNames];
-
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(fetchFavoritesAction());
   }, [dispatch]);
 
+  const isEmpty = favoriteOffers.length === 0;
+  const cityNamesSorted = [...new Set(favoriteOffers.map((offer) => offer.city.name))];
+
   return (
-    <main className={`page__main page__main--favorites ${favoriteOffers.length === 0 ? 'page__main--favorites-empty' : ''}`}>
-      <div className={`page__favorites-container container ${favoriteOffers.length === 0 ? 'page--favorites-empty' : ''}`}>
-        {favoriteOffers.length === 0 ? (
+    <main className={`page__main page__main--favorites ${isEmpty ? 'page__main--favorites-empty' : ''}`}>
+      <div className="page__favorites-container container">
+        {isEmpty ? (
           <section className="favorites favorites--empty">
             <h1 className="visually-hidden">Favorites (empty)</h1>
             <div className="favorites__status-wrapper">

@@ -1,4 +1,4 @@
-import { SortTypeOptions } from '../const.ts';
+import { MAX_RATING, SortTypeOptions } from '../const.ts';
 import { OfferType, ReviewType } from '../types/offer.ts';
 import { CityType } from '../types/offers.ts';
 
@@ -41,4 +41,14 @@ const getSortedReviews = (reviews: ReviewType[], length: number): ReviewType[] =
   return sortedReviews.slice(0, length);
 };
 
-export { getFilteredCityOffers, getSortedOffers, getFormattedDate, getSortedReviews };
+const capitalize = (str: string): string => {
+  if (!str) {
+    return '';
+  }
+  return str[0].toUpperCase() + str.slice(1);
+};
+
+const convertRatingToPercent = (rating: number): number =>
+  Math.round(rating) * 100 / MAX_RATING;
+
+export { getFilteredCityOffers, getSortedOffers, getFormattedDate, getSortedReviews, capitalize, convertRatingToPercent };

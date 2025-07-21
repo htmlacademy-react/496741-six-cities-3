@@ -7,6 +7,7 @@ import React from 'react';
 import { postFavoriteAction } from '../../../store/api-actions.ts';
 import { useAppDispatch } from '../../../hooks/index.ts';
 import { useAuth } from '../../../hooks/auth.ts';
+import { capitalize, convertRatingToPercent } from '../../../utils/utils.ts';
 
 type PlaceCardProps = {
   offer: OfferType;
@@ -41,8 +42,6 @@ function PlaceCard({
   const handleMouseOn = () => onOfferHover && onOfferHover(offer);
   const handleMouseOff = () => onOfferHover && onOfferHover(undefined);
   const isFavoriteCard = isFavoriteName(cardName);
-
-  const ratingFiveStars = Math.round(offer.rating) * 20;
 
   return (
     <article
@@ -87,14 +86,14 @@ function PlaceCard({
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${ratingFiveStars}%`}}></span>
+            <span style={{width: `${convertRatingToPercent(offer.rating)}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
           <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{capitalize(type)}</p>
       </div>
     </article>
   );

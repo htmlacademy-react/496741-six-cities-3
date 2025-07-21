@@ -2,7 +2,7 @@
 import { CityName, SortTypeOptions } from '../const';
 import { ReviewType } from '../types/offer';
 import { makeFakeCity, makeFakeComment, makeFakeOffer } from '../utils/mocks';
-import { getFilteredCityOffers, getFormattedDate, getSortedOffers, getSortedReviews } from './utils';
+import { capitalize, convertRatingToPercent, getFilteredCityOffers, getFormattedDate, getSortedOffers, getSortedReviews } from './utils';
 
 describe('Functions: getFilteredCityOffers & getSortedOffers', () => {
   describe('getFilteredCityOffers', () => {
@@ -103,5 +103,48 @@ describe('Function: getSortedReviews', () => {
     const result = getSortedReviews([], 5);
 
     expect(result).toEqual([]);
+  });
+});
+
+describe('capitalize', () => {
+  it('capitalizes the first letter of a lowercase word', () => {
+    expect(capitalize('apartment')).toBe('Apartment');
+  });
+
+  it('leaves the rest of the string unchanged', () => {
+    expect(capitalize('hOTEL')).toBe('HOTEL');
+  });
+
+  it('returns an empty string if input is empty', () => {
+    expect(capitalize('')).toBe('');
+  });
+
+  it('handles single-character strings', () => {
+    expect(capitalize('a')).toBe('A');
+  });
+
+  it('does not crash on whitespace-only strings', () => {
+    expect(capitalize(' ')).toBe(' ');
+  });
+});
+
+describe('convertRatingToPercent', () => {
+  it('should return 100% for max rating', () => {
+    expect(convertRatingToPercent(5)).toBe(100);
+  });
+
+  it('should round the rating and return correct percentage', () => {
+    expect(convertRatingToPercent(4.6)).toBe(100);
+    expect(convertRatingToPercent(4.4)).toBe(80);
+    expect(convertRatingToPercent(3.5)).toBe(80);
+    expect(convertRatingToPercent(2.49)).toBe(40);
+  });
+
+  it('should return 0% for 0 rating', () => {
+    expect(convertRatingToPercent(0)).toBe(0);
+  });
+
+  it('should work with negative values', () => {
+    expect(convertRatingToPercent(-1)).toBe(-20);
   });
 });

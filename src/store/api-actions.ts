@@ -140,6 +140,9 @@ export const postFavoriteAction = createAsyncThunk<OfferType, UserFvoritesType, 
     const {data} = await api.post<OfferType>(`${APIRoute.Favorite}/${offer.id}/${newStatus}`);
 
     dispatch(updateOffer(data));
+    if (currentOffer) {
+      dispatch(fetchOffersNearbyAction(currentOffer.id));
+    }
     if (data.id === currentOffer?.id) {
       dispatch(setOffer(data as unknown as FullOfferType));
     }

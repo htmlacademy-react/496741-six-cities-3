@@ -8,17 +8,11 @@ type DetailMessageType = {
   message: string;
 }
 
-const StatusCodeMapping: Record<number, boolean> = {
-  [StatusCodes.BAD_REQUEST]: true,
-  [StatusCodes.UNAUTHORIZED]: true,
-  [StatusCodes.NOT_FOUND]: true,
-};
-
 const shouldDisplayError = (response: AxiosResponse) => {
   if (!getToken() && response.status as StatusCodes === StatusCodes.UNAUTHORIZED) {
     return false;
   }
-  return !!StatusCodeMapping[response.status];
+  return true;
 };
 
 const BACKEND_URL = 'https://16.design.htmlacademy.pro/six-cities';
@@ -45,6 +39,12 @@ export const createAPI = (): AxiosInstance => {
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError<DetailMessageType>) => {
+      if (!error.response) {
+        toast.warn(error.message, {
+          toastId: error.message,
+        });
+      }
+
       if (error.response && shouldDisplayError(error.response)) {
         const detailMessage = error.response.data;
         toast.warn(detailMessage.message, {
