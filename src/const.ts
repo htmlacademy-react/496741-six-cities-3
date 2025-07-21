@@ -44,7 +44,7 @@ export enum SortTypeOptions {
 
 export const PageTitle = {
   [AppRoute.Root]: 'Главная страница',
-  [AppRoute.Favorites]: 'Фавориты',
+  [AppRoute.Favorites]: 'Избранное',
   [AppRoute.Login]: 'Страница регистрации',
   [AppRoute.Offer]: 'Наше предложение',
   [AppRoute.NotFound]: '6 cities',
