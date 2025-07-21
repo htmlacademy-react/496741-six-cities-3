@@ -8,8 +8,9 @@ import { MouseEvent, useEffect } from 'react';
 import { fetchFavoritesAction, logoutAction } from '../../../store/api-actions.ts';
 import { selectAuthInfo, selectFavorites } from '../../../store/selectors/user.ts';
 import { useAuth } from '../../../hooks/auth.ts';
+import { OfferType } from '../../../types/offers.ts';
 
-const getLayoutState = (pathname: AppRoute) => {
+const getLayoutState = (pathname: AppRoute, favorites: OfferType[]) => {
   let layoutClassName = 'page';
   let isMainPage = false;
   let shouldRenderUser = true;
@@ -22,6 +23,9 @@ const getLayoutState = (pathname: AppRoute) => {
     layoutClassName = `${layoutClassName} page--gray page--login`;
     shouldRenderUser = false;
   } else if (pathname === AppRoute.Favorites) {
+    if (favorites.length === 0) {
+      layoutClassName = `${layoutClassName} page--favorites-empty`;
+    }
     shouldRenderFooter = true;
   }
 
@@ -38,7 +42,7 @@ function Layout(): JSX.Element {
     isMainPage,
     shouldRenderUser,
     shouldRenderFooter,
-  } = getLayoutState(pathname as AppRoute);
+  } = getLayoutState(pathname as AppRoute, favorites);
 
   const dispatch = useAppDispatch();
   const userIsAuth = useAuth();
